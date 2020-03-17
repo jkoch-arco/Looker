@@ -11,199 +11,271 @@ view: job_summary_vw {
   }
 
   dimension: job_number {
+    group_label: "Job"
+    label: "Job Number"
     type: string
     sql: ${TABLE}.Job_Number ;;
   }
 
   dimension: company_number {
+    hidden: yes
     type: number
     sql: ${TABLE}.Company_Number ;;
   }
 
   dimension: job_number_orig {
+    group_label: "Job"
+    label: "Original Job Number"
     type: string
     sql: ${TABLE}.Job_Number_Orig ;;
   }
 
   dimension: company_name {
+    hidden: yes
     type: string
     sql: ${TABLE}.Company_Name ;;
   }
 
   dimension: client_name {
+    group_label: "Job"
+    label: "Client Name"
     type: string
     sql: ${TABLE}.Client_Name ;;
   }
 
   dimension: job_name {
+    group_label: "Job"
+    label: "Name"
     type: string
     sql: ${TABLE}.Job_Name ;;
   }
 
   dimension: job_address {
+    group_label: "Job"
+    label: "Address"
     type: string
     sql: ${TABLE}.Job_Address ;;
   }
 
   dimension: job_city {
+    group_label: "Job"
+    label: "City"
     type: string
     sql: ${TABLE}.Job_City ;;
   }
 
   dimension: job_state {
+    group_label: "Job"
+    label: "State"
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.Job_State ;;
   }
 
   dimension: job_zip {
+    group_label: "Job"
+    label: "Zip"
     type: string
+    map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.Job_Zip ;;
   }
 
   dimension: start_year {
-    type: number
+    type: date_year
     sql: ${TABLE}.Start_Year ;;
   }
 
-  dimension: closed_year {
-    type: number
+  dimension: closed_year_int {
+    hidden: yes
+    type: date_year
     sql: ${TABLE}.Closed_Year ;;
   }
 
-  dimension: closed_date {
+  dimension: closed_date_varchar {
+    hidden: yes
     type: string
     sql: ${TABLE}.Closed_Date ;;
   }
 
+  dimension_group: closed {
+    type: time
+    datatype: date
+    timeframes: [
+      raw,
+      date,
+      month,
+      quarter,
+      year
+    ]
+    sql: CONVERT(varchar, nullif(Closed_Date,''), 23) ;;
+  }
+
   dimension: delivery_method {
+    group_label: "Project"
     type: string
     sql: ${TABLE}.Delivery_Method ;;
   }
 
   dimension: contract_type {
+    group_label: "Classification"
     type: string
     sql: ${TABLE}.Contract_Type ;;
   }
 
   dimension: construct_type {
+    group_label: "Classification"
     type: string
     sql: ${TABLE}.Construct_Type ;;
   }
 
   dimension: industry_type {
+    group_label: "Classification"
     type: string
     sql: ${TABLE}.Industry_Type ;;
   }
 
   dimension: executive {
+    group_label: "Project"
+    label: "Executive"
     type: string
     sql: ${TABLE}.Executive ;;
   }
 
   dimension: project_manager {
+    group_label: "Project"
+    label: "Manager"
     type: string
     sql: ${TABLE}.Project_Manager ;;
   }
 
   dimension: project_accountant {
+    group_label: "Project"
+    label: "Accountant"
     type: string
     sql: ${TABLE}.Project_Accountant ;;
   }
 
   dimension: project_admin {
+    group_label: "Project"
+    label: "Admin"
     type: string
     sql: ${TABLE}.Project_Admin ;;
   }
 
   dimension: controller {
+    group_label: "Project"
+    label: "Controller"
     type: string
     sql: ${TABLE}.Controller ;;
   }
 
   dimension: superintendent {
+    group_label: "Project"
+    label: "Superintendent"
     type: string
     sql: ${TABLE}.Superintendent ;;
   }
 
   dimension: job_status {
+    group_label: "Job"
+    label: "Status"
     type: string
     sql: ${TABLE}.Job_Status ;;
   }
 
   dimension: jv_flag {
+    group_label: "Job"
     type: string
     sql: ${TABLE}.JV_Flag ;;
   }
 
   dimension: jv_details {
+    group_label: "Job"
     type: string
     sql: ${TABLE}.JV_Details ;;
   }
 
   dimension: job_desc {
+    group_label: "Job"
+    label: "Description"
     type: string
     sql: ${TABLE}.Job_Desc ;;
   }
 
   dimension: sq_ft_notes {
+    group_label: "Job"
+    label: "Sq Ft Notes"
     type: string
     sql: ${TABLE}.SqFtNotes ;;
   }
 
   dimension: sq_ft {
+    group_label: "Job"
+    label: "Sq Ft"
     type: number
     sql: ${TABLE}.SqFt ;;
   }
 
   dimension: contract_value {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Contract_Value ;;
   }
 
   dimension: estimated_contract_value {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Estimated_Contract_Value ;;
   }
 
   dimension: original_contract_value {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Original_Contract_Value ;;
   }
 
   dimension: projected_cost {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Projected_Cost ;;
   }
 
   dimension: actual_cost {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Actual_Cost ;;
   }
 
   dimension: change_order_cost {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Change_Order_Cost ;;
   }
 
   dimension: revenue {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Revenue ;;
   }
 
   dimension: gross_profit {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Gross_Profit ;;
   }
 
   dimension: percent_complete {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Percent_Complete ;;
   }
 
   dimension: profit_margin {
+    group_label: "Job Valuations"
     type: number
     sql: ${TABLE}.Profit_Margin ;;
   }
+
 #}
 
 # Measures{
