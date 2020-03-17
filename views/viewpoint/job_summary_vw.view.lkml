@@ -2,7 +2,10 @@ view: job_summary_vw {
   sql_table_name: [viewpoint].[JOB_SUMMARY_vw];;
 
 # Dimensions{
+
   dimension: pk {
+    hidden: yes
+    primary_key: yes
     type: string
     sql: concat(${job_number},'-',${company_number}) ;;
   }
@@ -204,12 +207,54 @@ view: job_summary_vw {
 #}
 
 # Measures{
-  measure: count {
+  measure: count_of_jobs {
     type: count
-    drill_fields: [detail*]
+    drill_fields: [job_information*]
   }
+
+  measure: total_sq_ft {
+    type: sum
+    sql: ${sq_ft} ;;
+    value_format_name: decimal_2
+    drill_fields: [job_information*]
+  }
+
+  measure: total_contract_value {
+    type: sum
+    sql: ${contract_value} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: total_estimated_contract_value {
+    type: sum
+    sql: ${estimated_contract_value} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: total_revenue {
+    type: sum
+    sql: ${revenue} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
 #}
-  set: detail {
+
+# Metrics {
+
+  measure: recognized_revenue {
+    type: number
+    sql: 1.0 * ${total_revenue} / nullif(${total_estimated_contract_value},0) ;;
+    value_format_name: percent_1
+    drill_fields: [job_information*]
+  }
+
+#}
+
+# Sets {
+  set: job_information {
     fields: [
       job_number,
       company_number,
@@ -252,4 +297,7 @@ view: job_summary_vw {
       profit_margin
     ]
   }
+
+#}
+
 }
