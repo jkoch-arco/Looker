@@ -7,3 +7,8 @@ explore: b_jcjm {
   description: "Use this explore to do X"
 
 }
+explore: job_summary_vw {
+  label: "Job Summary"
+  description: "Use this explore to do job data"
+
+}
