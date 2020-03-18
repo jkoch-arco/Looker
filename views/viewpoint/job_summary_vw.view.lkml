@@ -12,7 +12,7 @@ view: job_summary_vw {
 
   dimension: job_number {
     group_label: "Job"
-    label: "Job Number"
+    label: "Job #"
     type: string
     sql: ${TABLE}.Job_Number ;;
   }
@@ -328,45 +328,45 @@ view: job_summary_vw {
 # Sets {
   set: job_information {
     fields: [
-      job_number,
-      company_number,
-      job_number_orig,
-      company_name,
-      client_name,
-      job_name,
-      job_address,
-      job_city,
-      job_state,
-      job_zip,
-      start_year,
-      closed_year,
-      closed_date,
-      delivery_method,
-      contract_type,
-      construct_type,
-      industry_type,
-      executive,
-      project_manager,
-      project_accountant,
-      project_admin,
-      controller,
-      superintendent,
-      job_status,
-      jv_flag,
-      jv_details,
-      job_desc,
-      sq_ft_notes,
-      sq_ft,
-      contract_value,
-      estimated_contract_value,
-      original_contract_value,
-      projected_cost,
-      actual_cost,
-      change_order_cost,
-      revenue,
-      gross_profit,
-      percent_complete,
-      profit_margin
+      job_number
+      # company_number,
+      # job_number_orig,
+      # company_name,
+      # client_name,
+      # job_name,
+      # job_address,
+      # job_city,
+      # job_state,
+      # job_zip,
+      # start_year,
+      # closed_year,
+      # closed_date,
+      # delivery_method,
+      # contract_type,
+      # construct_type,
+      # industry_type,
+      # executive,
+      # project_manager,
+      # project_accountant,
+      # project_admin,
+      # controller,
+      # superintendent,
+      # job_status,
+      # jv_flag,
+      # jv_details,
+      # job_desc,
+      # sq_ft_notes,
+      # sq_ft,
+      # contract_value,
+      # estimated_contract_value,
+      # original_contract_value,
+      # projected_cost,
+      # actual_cost,
+      # change_order_cost,
+      # revenue,
+      # gross_profit,
+      # percent_complete,
+      # profit_margin
     ]
   }
 
