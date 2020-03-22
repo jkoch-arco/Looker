@@ -81,7 +81,7 @@ view: job_summary_vw {
   }
 
   dimension: start_year {
-    type: date_year
+    type: number
     sql: ${TABLE}.Start_Year ;;
   }
 
@@ -278,6 +278,15 @@ view: job_summary_vw {
 
 #}
 
+# Derived {
+
+  dimension: has_change_order {
+    type: yesno
+    sql: ${change_order_cost} > 0 ;;
+  }
+
+# }
+
 # Measures{
   measure: count_of_jobs {
     type: count
@@ -305,30 +314,78 @@ view: job_summary_vw {
     drill_fields: [job_information*]
   }
 
+  measure: total_projected_cost {
+    description: "Projected cost was calcualted by doing X"
+    type: sum
+    sql: ${projected_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: total_actual_cost {
+    type: sum
+    sql: ${actual_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: total_change_order_cost {
+    type: sum
+    sql: ${change_order_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
   measure: total_revenue {
     type: sum
     sql: ${revenue} ;;
     value_format_name: usd
     drill_fields: [job_information*]
+    #(Actual_Cost/Projected_Cost)*Estimated_Contract_Value
+  }
+
+  measure: total_gross_profit {
+    type: sum
+    sql: ${gross_profit} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: gross_profit_no_change_orders {
+    type: sum
+    sql: ${gross_profit} + ${change_order_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+    #Gross Profit no Change Orders = Gross_Profit + Change_Order_Cost WHERE Change_Order_Cost >= 0
   }
 
 #}
 
 # Metrics {
 
-  measure: recognized_revenue {
+  measure: profit_margin_no_change_orders {
     type: number
-    sql: 1.0 * ${total_revenue} / nullif(${total_estimated_contract_value},0) ;;
-    value_format_name: percent_1
+    sql: 1.0 * ${gross_profit_no_change_orders} / nullif(${total_revenue},0)  ;;
+    value_format_name: usd
     drill_fields: [job_information*]
+    #Profit Margin no Change Orders = Gross Profit no Change Orders/Revenue
   }
+
+# Demo measure
+#   measure: recognized_revenue {
+#     type: number
+#     sql: 1.0 * ${total_revenue} / nullif(${total_estimated_contract_value},0) ;;
+#     value_format_name: percent_1
+#     drill_fields: [job_information*]
+#   }
 
 #}
 
 # Sets {
   set: job_information {
     fields: [
-      job_number
+      job_number,
+      gross_profit_no_change_orders
       # company_number,
       # job_number_orig,
       # company_name,
