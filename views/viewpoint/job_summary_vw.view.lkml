@@ -122,7 +122,7 @@ view: job_summary_vw {
     sql: ${TABLE}.Contract_Type ;;
   }
 
-  dimension: construct_type {
+  dimension: construction_type {
     group_label: "Classification"
     type: string
     sql: ${TABLE}.Construct_Type ;;
@@ -289,11 +289,13 @@ view: job_summary_vw {
 
 # Measures{
   measure: count_of_jobs {
+    group_label: "Totals"
     type: count
     drill_fields: [job_information*]
   }
 
   measure: total_sq_ft {
+    group_label: "Totals"
     type: sum
     sql: ${sq_ft} ;;
     value_format_name: decimal_2
@@ -301,6 +303,7 @@ view: job_summary_vw {
   }
 
   measure: total_contract_value {
+    group_label: "Totals"
     type: sum
     sql: ${contract_value} ;;
     value_format_name: usd
@@ -308,6 +311,7 @@ view: job_summary_vw {
   }
 
   measure: total_estimated_contract_value {
+    group_label: "Totals"
     type: sum
     sql: ${estimated_contract_value} ;;
     value_format_name: usd
@@ -315,6 +319,7 @@ view: job_summary_vw {
   }
 
   measure: total_projected_cost {
+    group_label: "Totals"
     description: "Projected cost was calcualted by doing X"
     type: sum
     sql: ${projected_cost} ;;
@@ -323,6 +328,7 @@ view: job_summary_vw {
   }
 
   measure: total_actual_cost {
+    group_label: "Totals"
     type: sum
     sql: ${actual_cost} ;;
     value_format_name: usd
@@ -330,6 +336,7 @@ view: job_summary_vw {
   }
 
   measure: total_change_order_cost {
+    group_label: "Totals"
     type: sum
     sql: ${change_order_cost} ;;
     value_format_name: usd
@@ -337,6 +344,7 @@ view: job_summary_vw {
   }
 
   measure: total_revenue {
+    group_label: "Totals"
     type: sum
     sql: ${revenue} ;;
     value_format_name: usd
@@ -345,13 +353,15 @@ view: job_summary_vw {
   }
 
   measure: total_gross_profit {
+    group_label: "Totals"
     type: sum
     sql: ${gross_profit} ;;
     value_format_name: usd
     drill_fields: [job_information*]
   }
 
-  measure: gross_profit_no_change_orders {
+  measure: total_gross_profit_no_change_orders {
+    group_label: "Totals"
     type: sum
     sql: ${gross_profit} + ${change_order_cost} ;;
     value_format_name: usd
@@ -359,13 +369,106 @@ view: job_summary_vw {
     #Gross Profit no Change Orders = Gross_Profit + Change_Order_Cost WHERE Change_Order_Cost >= 0
   }
 
+  measure: average_sq_ft {
+    group_label: "Averages"
+    type: average
+    sql: ${sq_ft} ;;
+    value_format_name: decimal_2
+    drill_fields: [job_information*]
+  }
+
+  measure: average_contract_value {
+    group_label: "Averages"
+    type: average
+    sql: ${contract_value} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: average_estimated_contract_value {
+    group_label: "Averages"
+    type: average
+    sql: ${estimated_contract_value} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: average_projected_cost {
+    group_label: "Averages"
+    description: "Projected cost was calcualted by doing X"
+    type: average
+    sql: ${projected_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: average_actual_cost {
+    group_label: "Averages"
+    type: average
+    sql: ${actual_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: average_change_order_cost {
+    group_label: "Averages"
+    type: average
+    sql: ${change_order_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: average_revenue {
+    group_label: "Averages"
+    type: average
+    sql: ${revenue} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+    #(Actual_Cost/Projected_Cost)*Estimated_Contract_Value
+  }
+
+  measure: average_gross_profit {
+    group_label: "Averages"
+    type: average
+    sql: ${gross_profit} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: average_profit_margin {
+    group_label: "Averages"
+    type: average
+    sql: ${profit_margin} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+  }
+
+  measure: average_gross_profit_no_change_orders {
+    group_label: "Averages"
+    type: average
+    sql: ${gross_profit} + ${change_order_cost} ;;
+    value_format_name: usd
+    drill_fields: [job_information*]
+    #Gross Profit no Change Orders = Gross_Profit + Change_Order_Cost WHERE Change_Order_Cost >= 0
+  }
+
+
 #}
 
 # Metrics {
 
-  measure: profit_margin_no_change_orders {
+  measure: average_profit_per_sqft {
+    group_label: "Metrics"
+    label: "Average Profit per SqFt"
     type: number
-    sql: 1.0 * ${gross_profit_no_change_orders} / nullif(${total_revenue},0)  ;;
+    sql: 1.0 * ${total_gross_profit} / nullif(${total_sq_ft},0) ;;
+    value_format_name: usd
+  }
+
+  measure: profit_margin_no_change_orders {
+    group_label: "Metrics"
+    type: number
+    sql: 1.0 * ${total_gross_profit_no_change_orders} / nullif(${total_revenue},0)  ;;
     value_format_name: usd
     drill_fields: [job_information*]
     #Profit Margin no Change Orders = Gross Profit no Change Orders/Revenue
@@ -384,46 +487,15 @@ view: job_summary_vw {
 # Sets {
   set: job_information {
     fields: [
-      job_number,
-      gross_profit_no_change_orders
-      # company_number,
-      # job_number_orig,
-      # company_name,
-      # client_name,
-      # job_name,
-      # job_address,
-      # job_city,
-      # job_state,
-      # job_zip,
-      # start_year,
-      # closed_year,
-      # closed_date,
-      # delivery_method,
-      # contract_type,
-      # construct_type,
-      # industry_type,
-      # executive,
-      # project_manager,
-      # project_accountant,
-      # project_admin,
-      # controller,
-      # superintendent,
-      # job_status,
-      # jv_flag,
-      # jv_details,
-      # job_desc,
-      # sq_ft_notes,
-      # sq_ft,
-      # contract_value,
-      # estimated_contract_value,
-      # original_contract_value,
-      # projected_cost,
-      # actual_cost,
-      # change_order_cost,
-      # revenue,
-      # gross_profit,
-      # percent_complete,
-      # profit_margin
+      company.company_parent,
+      company.company_name,
+      total_contract_value,
+      average_projected_cost,
+      average_actual_cost,
+      average_change_order_cost,
+      average_revenue,
+      average_gross_profit,
+      average_profit_margin
     ]
   }
 
