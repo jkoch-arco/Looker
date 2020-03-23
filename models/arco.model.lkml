@@ -22,11 +22,12 @@ explore: job_summary_vw {
     sql_on: ${job_summary_vw.company_number} = ${company.company_number} ;;
   }
 
-  join: parent_company {
-    from: company
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${company.company_parent} = ${parent_company.company_name} ;;
-  }
+# Disabling
+#   join: parent_company {
+#     from: company
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${company.company_parent} = ${parent_company.company_name} ;;
+#   }
 
 }
