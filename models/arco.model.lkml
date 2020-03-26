@@ -61,6 +61,12 @@ explore: b_jcjm {
     relationship: many_to_one
     sql_on: ${b_jcjm.jcco} = ${ndt_jcop_job_projected_costs.jcco} and ${b_jcjm.job} = ${ndt_jcop_job_projected_costs.job} ;;
   }
+
+  join: ddup_extended {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${b_jcjm.ud_project_admin} = ${ddup_extended.vpuser_name} ;;
+  }
 }
 
 explore: job_summary_vw {
