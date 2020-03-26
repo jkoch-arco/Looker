@@ -15,12 +15,12 @@ view: accounts {
     required_fields: [id]
     link: {
       label: "Link to Salesforce"
-      url: "https://www.google.com/search?q={{id|encode_url}}"
+      url: "https://www.google.com/search?q={{id | url_encode }}"
       icon_url: "https://www.salesforce.com/etc/designs/sfdc-www/en_us/favicon.ico"
     }
     link: {
       label: "Google {{name}}"
-      url: "https://www.google.com/search?q={{name|encode_url}}"
+      url: "https://www.google.com/search?q={{name._value | url_encode }}"
       icon_url: "http://www.google.com/s2/favicons?domain=www.google.com"
     }
   }
