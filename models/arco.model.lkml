@@ -4,7 +4,6 @@ include: "/views/viewpoint/*.view.lkml"                # include all views in th
 include: "/views/reference/*.view.lkml"
 
 explore: b_jcjm {
-
   group_label: "Prototyping - Do Not Use"
   label: "Jobs"
   description: "Use this explore to do X"
