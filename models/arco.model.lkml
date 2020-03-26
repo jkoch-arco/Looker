@@ -61,7 +61,6 @@ explore: b_jcjm {
     relationship: many_to_one
     sql_on: ${b_jcjm.jcco} = ${ndt_jcop_job_projected_costs.jcco} and ${b_jcjm.job} = ${ndt_jcop_job_projected_costs.job} ;;
   }
-
 }
 
 explore: job_summary_vw {
@@ -75,15 +74,6 @@ explore: job_summary_vw {
     relationship: many_to_one
     sql_on: ${job_summary_vw.company_number} = ${company.company_number} ;;
   }
-
-# Disabling
-#   join: parent_company {
-#     from: company
-#     type: left_outer
-#     relationship: many_to_one
-#     sql_on: ${company.company_parent} = ${parent_company.company_name} ;;
-#   }
-
 }
 
 
