@@ -1,12 +1,12 @@
 view: sites {
   sql_table_name: dbo.sites ;;
 
-  dimension: budget_risk_level__c {
+  dimension: budget_risk_level {
     type: string
     sql: ${TABLE}.BUDGET_RISK_LEVEL__C ;;
   }
 
-  dimension_group: entitlements_approval_date__c {
+  dimension_group: entitlements_approval_date {
     type: time
     timeframes: [
       raw,
@@ -20,12 +20,12 @@ view: sites {
     sql: ${TABLE}.ENTITLEMENTS_APPROVAL_DATE__C ;;
   }
 
-  dimension: gmax__c {
+  dimension: gmax {
     type: number
     sql: ${TABLE}.GMAX__C ;;
   }
 
-  dimension_group: groundbreak_date__c {
+  dimension_group: groundbreak_date {
     type: time
     timeframes: [
       raw,
@@ -39,7 +39,7 @@ view: sites {
     sql: ${TABLE}.GROUNDBREAK_DATE__C ;;
   }
 
-  dimension_group: latest_date_of_budget__c {
+  dimension_group: latest_date_of_budget {
     type: time
     timeframes: [
       raw,
@@ -58,7 +58,7 @@ view: sites {
     sql: ${TABLE}.NAME ;;
   }
 
-  dimension_group: opening_date__c {
+  dimension_group: opening_date {
     type: time
     timeframes: [
       raw,
@@ -72,7 +72,7 @@ view: sites {
     sql: ${TABLE}.OPENING_DATE__C ;;
   }
 
-  dimension_group: permitting_approval_date__c {
+  dimension_group: permitting_approval_date {
     type: time
     timeframes: [
       raw,
@@ -86,7 +86,7 @@ view: sites {
     sql: ${TABLE}.PERMITTING_APPROVAL_DATE__C ;;
   }
 
-  dimension: pom_1__c {
+  dimension: pom_1 {
     type: number
     sql: ${TABLE}.POM_1__C ;;
   }
@@ -96,7 +96,7 @@ view: sites {
     sql: ${TABLE}.POM_2__C ;;
   }
 
-  dimension: prototype__c {
+  dimension: prototype {
     type: string
     sql: ${TABLE}.PROTOTYPE__C ;;
   }
@@ -106,7 +106,7 @@ view: sites {
     sql: ${TABLE}.RECORDTYPEID ;;
   }
 
-  dimension_group: rezoning_approval_date__c {
+  dimension_group: rezoning_approval_date {
     type: time
     timeframes: [
       raw,
@@ -120,12 +120,12 @@ view: sites {
     sql: ${TABLE}.REZONING_APPROVAL_DATE__C ;;
   }
 
-  dimension: schedule_risk_level__c {
+  dimension: schedule_risk_level {
     type: string
     sql: ${TABLE}.SCHEDULE_RISK_LEVEL__C ;;
   }
 
-  dimension_group: substantial_completion_date__c {
+  dimension_group: substantial_completion_date {
     type: time
     timeframes: [
       raw,

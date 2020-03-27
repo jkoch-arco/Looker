@@ -2,48 +2,50 @@ view: contacts {
   sql_table_name: dbo.contacts ;;
 
   dimension: id {
+    hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.Id ;;
   }
 
   dimension: account_id {
+    hidden:  yes
     type: string
     # hidden: yes
     sql: ${TABLE}.AccountId ;;
   }
 
-  dimension: assigned_to__c {
+  dimension: assigned_to {
     type: string
     sql: ${TABLE}.Assigned_to__c ;;
   }
 
-  dimension: bio__c {
+  dimension: bio {
     type: string
     sql: ${TABLE}.Bio__c ;;
   }
 
-  dimension: calendar_list__c {
+  dimension: calendar_list {
     type: string
     sql: ${TABLE}.Calendar_List__c ;;
   }
 
-  dimension: children__c {
+  dimension: children {
     type: string
     sql: ${TABLE}.Children__c ;;
   }
 
-  dimension: christmas_gift__c {
+  dimension: christmas_gift {
     type: string
     sql: ${TABLE}.Christmas_Gift__c ;;
   }
 
-  dimension: client_rating__c {
+  dimension: client_rating {
     type: string
     sql: ${TABLE}.Client_Rating__c ;;
   }
 
-  dimension: client_type__c {
+  dimension: client_type {
     type: string
     sql: ${TABLE}.Client_Type__c ;;
   }
@@ -141,7 +143,7 @@ view: contacts {
     sql: ${TABLE}.Title ;;
   }
 
-  dimension: top_10__c {
+  dimension: top_10 {
     type: string
     sql: ${TABLE}.Top_10__c ;;
   }

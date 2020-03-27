@@ -22,7 +22,7 @@ explore: opportunities {
   join: goals {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${opportunities.company__c} = ${goals.company__c} and ${opportunities.division__c} = ${goals.division__c} ;;
+    sql_on: ${opportunities.company} = ${goals.company} and ${opportunities.division} = ${goals.division} ;;
   }
 
 }
