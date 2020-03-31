@@ -11,11 +11,11 @@ view: l_opportunities_weighting {
       (
       SELECT
         opportunities.ID as opportunity_id,
-        opportunities.COMPANY__C  AS primary_company,
+        coalesce(nullif(ltrim(rtrim(opportunities.COMPANY__C)),''),'~UPDATE Company~')  AS primary_company,
         opportunities.JV_COMPANY__C  AS secondary_company,
         opportunities.Additional_JV_Company__c  AS tertiary_company,
-        opportunities.JV_SPLIT__C/100 AS primary_weighting,
-        1 - (opportunities.JV_SPLIT__C/100) - (opportunities.Additional_JV_Percent__c/100) AS secondary_weighting,
+        coalesce(nullif(opportunities.JV_SPLIT__C/100,0),1) AS primary_weighting,
+        1 - (coalesce(nullif(opportunities.JV_SPLIT__C/100,0),1)) - (opportunities.Additional_JV_Percent__c/100) AS secondary_weighting,
         opportunities.Additional_JV_Percent__c/100 AS tertiary_weighting
       FROM dbo.opportunities  AS opportunities
       )

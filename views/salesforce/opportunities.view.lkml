@@ -468,7 +468,7 @@ view: opportunities {
   }
 
   dimension: stage_name {
-    group_label: "Other"
+    group_label: "1 - Opportunity"
     type: string
     sql: ${TABLE}.STAGENAME ;;
   }
