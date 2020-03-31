@@ -82,6 +82,10 @@ view: l_opportunities_weighting {
     hidden: yes
     type: count_distinct
     sql: ${company} ;;
+    filters: {
+      field: l_opportunities_weighting.company
+      value: "-~UPDATE Company~"
+    }
   }
 
 }
