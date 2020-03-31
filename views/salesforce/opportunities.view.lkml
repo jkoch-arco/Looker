@@ -3,19 +3,20 @@ view: opportunities {
   drill_fields: [id]
 
   dimension: id {
+    group_label: "Opportunity"
     primary_key: yes
     type: string
     sql: ${TABLE}.ID ;;
   }
 
   dimension: account_director {
+
     type: string
     sql: ${TABLE}.ACCOUNT_DIRECTOR__C ;;
   }
 
   dimension: accountid {
     type: string
-    # hidden: yes
     sql: ${TABLE}.ACCOUNTID ;;
   }
 
@@ -35,18 +36,18 @@ view: opportunities {
   }
 
   dimension: additional_jv_company {
+    hidden: yes
+    group_label: "Company"
+    label: "Tertiary Company"
     type: string
     sql: ${TABLE}.Additional_JV_Company__c ;;
   }
 
   dimension: additional_jv_division {
+    group_label: "Company"
+    label: "Tertiary Division"
     type: string
     sql: ${TABLE}.Additional_JV_Division__c ;;
-  }
-
-  dimension: additional_jv_percent {
-    type: number
-    sql: ${TABLE}.Additional_JV_Percent__c ;;
   }
 
   dimension: additional_jv_profit_2_years {
@@ -126,6 +127,9 @@ view: opportunities {
   }
 
   dimension: company {
+    group_label: "Company"
+    label: "Primary Company"
+    hidden: yes
     type: string
     sql: ${TABLE}.COMPANY__C ;;
   }
@@ -165,6 +169,8 @@ view: opportunities {
   }
 
   dimension: division {
+    group_label: "Company"
+    label: "Primary Division"
     type: string
     sql: ${TABLE}.DIVISION__C ;;
   }
@@ -189,11 +195,16 @@ view: opportunities {
   }
 
   dimension: jv_company {
+    hidden: yes
+    group_label: "Company"
+    label: "Secondary Company"
     type: string
     sql: ${TABLE}.JV_COMPANY__C ;;
   }
 
   dimension: jv_division {
+    group_label: "Company"
+    label: "Secondary Division"
     type: string
     sql: ${TABLE}.JV_DIVISION__C ;;
   }
@@ -231,11 +242,6 @@ view: opportunities {
   dimension: jv_revenue_this_year {
     type: number
     sql: ${TABLE}.JV_REVENUE_THIS_YEAR__C ;;
-  }
-
-  dimension: jv_split {
-    type: number
-    sql: ${TABLE}.JV_SPLIT__C ;;
   }
 
   dimension: jv_weighted_amount {
@@ -462,4 +468,55 @@ view: opportunities {
     type: count
     drill_fields: [id, name, stagename, accounts.id, accounts.name]
   }
+
+  measure: total_contract_amount {
+    group_label: "Contract"
+    type: sum
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: total_contract_amount_allocated {
+    group_label: "Company"
+    type: sum
+    sql: ${amount} * ${l_opportunities_weighting.company_weighting} ;;
+    sql_distinct_key: ${l_opportunities_weighting.pk} ;;
+    value_format_name: usd
+  }
+
+  # Determine weighting of company allocated metrics {
+  # Use this logic to drive the l_opportunities_weighting derived table
+  dimension: jv_split {
+    hidden: yes
+    group_label: "Company Weightings"
+    description: "This percentage belongs to the primary company"
+    label: "1 - Primary Split"
+    type: number
+    sql: ${TABLE}.JV_SPLIT__C/100 ;;
+    value_format_name: percent_1
+  }
+
+  dimension: jv_company_percent {
+    hidden: yes
+    group_label: "Company Weightings"
+    description: "This percentage belongs to the second company"
+    label: "2 - Secondary Split"
+    type: number
+    sql: 1 - ${jv_split} - ${additional_jv_percent} ;;
+    value_format_name: percent_1
+  }
+
+  dimension: additional_jv_percent {
+    hidden: yes
+    group_label: "Company Weightings"
+    description: "This percentage belongs to the third company"
+    label: "3 - Tertiary Split"
+    type: number
+    sql: ${TABLE}.Additional_JV_Percent__c/100 ;;
+    value_format_name: percent_1
+  }
+
+# }
+
+
 }

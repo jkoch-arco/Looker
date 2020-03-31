@@ -21,8 +21,20 @@ explore: opportunities {
 
   join: goals {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${opportunities.company} = ${goals.company} and ${opportunities.division} = ${goals.division} ;;
+  }
+
+  join: l_opportunities_weighting {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${opportunities.id} = ${l_opportunities_weighting.opportunity_id} ;;
+  }
+
+  join: l_opportunities_summary {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${opportunities.id} = ${l_opportunities_summary.opportunity_id};;
   }
 
 }
