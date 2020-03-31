@@ -10,7 +10,7 @@ explore: opportunities {
   join: accounts {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${opportunities.accountid} = ${accounts.id} ;;
+    sql_on: ${opportunities.account_id} = ${accounts.id} ;;
   }
 
   join: contacts {

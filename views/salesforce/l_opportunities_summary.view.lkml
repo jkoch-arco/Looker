@@ -14,6 +14,7 @@ view: l_opportunities_summary {
 
   dimension: number_of_companies_involved {
     view_label: "Opportunities"
+    group_label: "Company"
     type: number
     sql: ${TABLE}.count ;;
   }
