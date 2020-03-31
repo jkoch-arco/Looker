@@ -1,10 +1,7 @@
 view: b_jccm {
+  view_label: "Job"
 
   sql_table_name: viewpoint.bJCCM ;;
-
-  measure: count {
-    type: count
-  }
 
   dimension: key_id {
     hidden: yes
@@ -20,6 +17,7 @@ view: b_jccm {
   }
 
   dimension: contract {
+    hidden: yes
     type: string
     sql: LTRIM(TRIM(${TABLE}.Contract)) ;;
   }
@@ -60,6 +58,7 @@ view: b_jccm {
   }
 
   dimension_group: start_month {
+    hidden: yes
     convert_tz: no
     type: time
     datatype: datetime
@@ -201,96 +200,115 @@ view: b_jccm {
   }
 
   dimension: bill_address {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillAddress ;;
   }
 
   dimension: bill_address2 {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillAddress2 ;;
   }
 
   dimension: bill_city {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillCity ;;
   }
 
   dimension: bill_state {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillState ;;
   }
 
   dimension: bill_zip {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillZip ;;
   }
 
   dimension: bill_notes {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillNotes ;;
   }
 
   dimension: bill_on_completion_yn {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillOnCompletionYN ;;
   }
 
   dimension: customer_reference {
+    hidden: yes
     type: string
     sql: ${TABLE}.CustomerReference ;;
   }
 
   dimension: complete_yn {
+    hidden: yes
     type: string
     sql: ${TABLE}.CompleteYN ;;
   }
 
   dimension: round_opt {
+    hidden: yes
     type: string
     sql: ${TABLE}.RoundOpt ;;
   }
 
   dimension: report_retg_item_yn {
+    hidden: yes
     type: string
     sql: ${TABLE}.ReportRetgItemYN ;;
   }
 
   dimension: progress_format {
+    hidden: yes
     type: string
     sql: ${TABLE}.ProgressFormat ;;
   }
 
   dimension: tmformat {
+    hidden: yes
     type: string
     sql: ${TABLE}.TMFormat ;;
   }
 
   dimension: bill_group {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillGroup ;;
   }
 
   dimension: bill_day_of_mth {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillDayOfMth ;;
   }
 
   dimension: architect_name {
+    hidden: yes
     type: string
     sql: ${TABLE}.ArchitectName ;;
   }
 
   dimension: architect_project {
+    hidden: yes
     type: string
     sql: ${TABLE}.ArchitectProject ;;
   }
 
   dimension: contract_for_desc {
+    hidden: yes
     type: string
     sql: ${TABLE}.ContractForDesc ;;
   }
 
   dimension_group: start {
+    hidden: yes
     convert_tz: no
     type: time
     datatype: datetime
@@ -299,166 +317,199 @@ view: b_jccm {
   }
 
   dimension: jbtemplate {
+    hidden: yes
     type: string
     sql: ${TABLE}.JBTemplate ;;
   }
 
   dimension: jbflat_billing_amt {
+    hidden: yes
     type: number
     sql: ${TABLE}.JBFlatBillingAmt ;;
   }
 
   dimension: jblimit_opt {
+    hidden: yes
     type: string
     sql: ${TABLE}.JBLimitOpt ;;
   }
 
   dimension: unique_attch_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.UniqueAttchID ;;
   }
 
   dimension: rec_type {
+    hidden: yes
     type: number
     sql: ${TABLE}.RecType ;;
   }
 
   dimension: over_proj_notes {
+    hidden: yes
     type: string
     sql: ${TABLE}.OverProjNotes ;;
   }
 
   dimension: close_purge_flag {
+    hidden: yes
     type: string
     sql: ${TABLE}.ClosePurgeFlag ;;
   }
 
   dimension: misc_dist_code {
+    hidden: yes
     type: string
     sql: ${TABLE}.MiscDistCode ;;
   }
 
   dimension: security_group {
+    hidden: yes
     type: number
     sql: ${TABLE}.SecurityGroup ;;
   }
 
   dimension: update_jcci {
+    hidden: yes
     type: string
     sql: ${TABLE}.UpdateJCCI ;;
   }
 
   dimension: bill_country {
+    hidden: yes
     type: string
     sql: ${TABLE}.BillCountry ;;
   }
 
   dimension: udcarryforward {
+    hidden: yes
     type: number
     sql: ${TABLE}.udcarryforward ;;
   }
 
   dimension: potential_project {
+    hidden: yes
     type: string
     sql: ${TABLE}.PotentialProject ;;
   }
 
   dimension: max_retg_opt {
+    hidden: yes
     type: string
     sql: ${TABLE}.MaxRetgOpt ;;
   }
 
   dimension: max_retg_pct {
+    hidden: yes
     type: number
     sql: ${TABLE}.MaxRetgPct ;;
   }
 
   dimension: max_retg_amt {
+    hidden: yes
     type: number
     sql: ${TABLE}.MaxRetgAmt ;;
   }
 
   dimension: incl_acoin_max_yn {
+    hidden: yes
     type: string
     sql: ${TABLE}.InclACOinMaxYN ;;
   }
 
   dimension: max_retg_dist_style {
+    hidden: yes
     type: string
     sql: ${TABLE}.MaxRetgDistStyle ;;
   }
 
   dimension: ud_compliance_email_end {
+    hidden: yes
     type: string
     sql: ${TABLE}.udComplianceEmailEnd ;;
   }
 
   dimension: ud_safety_list {
+    hidden: yes
     type: string
     sql: ${TABLE}.udSafetyList ;;
   }
 
   dimension: ud_upjob_unsubscribe {
+    hidden: yes
     type: string
     sql: ${TABLE}.udUPJobUnsubscribe ;;
   }
 
   dimension: auuse_trust_accounts {
+    hidden: yes
     type: string
     sql: ${TABLE}.AUUseTrustAccounts ;;
   }
 
   dimension: auqualification_date {
+    hidden: yes
     type: string
     sql: ${TABLE}.AUQualificationDate ;;
   }
 
   dimension: aucmco {
+    hidden: yes
     type: number
     sql: ${TABLE}.AUCMCo ;;
   }
 
   dimension: aucmgeneral_acct {
+    hidden: yes
     type: number
     sql: ${TABLE}.AUCMGeneralAcct ;;
   }
 
   dimension: aucmretention_acct {
+    hidden: yes
     type: number
     sql: ${TABLE}.AUCMRetentionAcct ;;
   }
 
   dimension: aucmdisputed_acct {
+    hidden: yes
     type: number
     sql: ${TABLE}.AUCMDisputedAcct ;;
   }
 
   dimension: margin_pct {
+    hidden: yes
     type: number
     sql: ${TABLE}.MarginPct ;;
   }
 
   dimension: jbreviewer_group {
+    hidden: yes
     type: string
     sql: ${TABLE}.JBReviewerGroup ;;
   }
 
   dimension: review_level {
+    hidden: yes
     type: string
     sql: ${TABLE}.ReviewLevel ;;
   }
 
   dimension: ud_send_to_procore {
+    hidden: yes
     type: string
     sql: ${TABLE}.udSendToProcore ;;
   }
 
   dimension_group: load_date {
+    hidden: yes
     type: time
     sql: ${TABLE}.LoadDate ;;
   }
 
   dimension: load_id {
+    hidden: yes
     type: number
     sql: ${TABLE}.LoadID ;;
   }

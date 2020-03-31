@@ -1,5 +1,5 @@
 view: ndt_jcop_job_projected_costs {
-  view_label: "Projected Costs"
+  view_label: "Job"
   derived_table: {
     explore_source: ndt_jcop_job_months_prior {
       column: jcco { field: b_jcop.jcco }
@@ -37,11 +37,12 @@ view: ndt_jcop_job_projected_costs {
   }
 
   dimension: projected_cost {
+    group_label: "Financials"
     type: number
     sql: CASE WHEN ${b_jcjm.is_job_open}
             AND NOT(${b_jccm.is_department_c})
             AND NOT(${is_proj_cost_avilable})
-          THEN ${ndt_jccd_job_actual_cost.vp_actual_cost}
+          THEN ${ndt_jccd_job_actual_cost.actual_cost}
           ELSE ${proj_cost} END;;
     value_format_name: usd
   }

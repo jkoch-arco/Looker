@@ -1,4 +1,5 @@
 view: ddup_extended {
+  view_label: "Project Admin"
 
   sql_table_name: viewpoint.DDUPExtended_vw;;
 
@@ -33,10 +34,9 @@ view: ddup_extended {
     sql: ${TABLE}.RestrictedBatches ;;
   }
 
-  dimension: full_name {
-    hidden: yes
+  dimension: project_admin {
     type: string
-    sql: ${TABLE}.FullName ;;
+    sql: ISNULL(CASE WHEN ${TABLE}.FullName IS NULL THEN ${b_jcjm.project_admin} ELSE ${TABLE}.FullName END,'Unknown') ;;
   }
 
   dimension: phone {

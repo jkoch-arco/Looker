@@ -65,7 +65,7 @@ explore: b_jcjm {
   join: ddup_extended {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${b_jcjm.ud_project_admin} = ${ddup_extended.vpuser_name} ;;
+    sql_on: ${b_jcjm.project_admin} = ${ddup_extended.vpuser_name} ;;
   }
 }
 

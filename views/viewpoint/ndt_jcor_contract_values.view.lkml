@@ -1,4 +1,5 @@
 view: ndt_jcor_contract_values {
+  view_label: "Job"
   derived_table: {
     explore_source: ndt_jcor_contract_months_prior {
       column: jcco { field: b_jcor.jcco }
@@ -17,16 +18,19 @@ view: ndt_jcor_contract_values {
     type: number
   }
   dimension: contract {hidden:yes}
-  dimension: rev_cost {
-    hidden: yes
+  dimension: estimated_contract_value {
+    group_label: "Financials"
     type: number
+    sql: ${TABLE}.rev_cost ;;
   }
-  dimension: other_amount {
-    hidden: yes
+  dimension: original_contract_value {
+    group_label: "Financials"
     type: number
+    sql: ${TABLE}.other_amount ;;
   }
-  dimension: vp_change_order_cost {
-    hidden: yes
+  dimension: change_order_cost {
+    group_label: "Financials"
     type: number
+    sql: ${TABLE}.vp_change_order_cost ;;
   }
 }

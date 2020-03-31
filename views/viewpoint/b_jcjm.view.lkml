@@ -252,10 +252,11 @@ view: b_jcjm {
   dimension: address {
     group_label: "Job Address"
     type: string
-    sql: ${TABLE}.MailAddress ;;
+    sql: ISNULL(${TABLE}.MailAddress,'Unknown') ;;
   }
 
   dimension: address_2 {
+    hidden: yes
     group_label: "Job Address"
     type: string
     sql: ${TABLE}.MailAddress2 ;;
@@ -264,25 +265,27 @@ view: b_jcjm {
   dimension: city {
     group_label: "Job Address"
     type: string
-    sql: ${TABLE}.MailCity ;;
+    sql: ISNULL(${TABLE}.MailCity,'Unknown') ;;
   }
 
   dimension: country {
     group_label: "Job Address"
     type: string
-    sql: ${TABLE}.MailCountry ;;
+    sql: ISNULL(${TABLE}.MailCountry,'Unknown') ;;
   }
 
   dimension: state {
     group_label: "Job Address"
     type: string
-    sql: ${TABLE}.MailState ;;
+    map_layer_name: us_states
+    sql: ISNULL(${TABLE}.MailState,'ZZ') ;;
   }
 
   dimension: zip {
     group_label: "Job Address"
     type: string
-    sql: ${TABLE}.MailZip ;;
+    map_layer_name: us_zipcode_tabulation_areas
+    sql: ISNULL(${TABLE}.MailZip,99999) ;;
   }
 
   dimension: mark_up_disc_rate {
@@ -501,10 +504,9 @@ view: b_jcjm {
     sql: ${TABLE}.udAccountantEmail ;;
   }
 
-  dimension: ud_accountant_name {
-    hidden: yes
+  dimension: accountant_name {
     type: string
-    sql: ${TABLE}.udAccountantName ;;
+    sql:  ISNULL(${TABLE}.udAccountantName,'Unknown') ;;
   }
 
   dimension: ud_additional_insured {
@@ -627,10 +629,10 @@ view: b_jcjm {
     sql: ${TABLE}.udGCLicense ;;
   }
 
-  dimension: ud_hqcontroller {
+  dimension: controller {
     hidden: yes
     type: string
-    sql: ${TABLE}.udHQController ;;
+    sql: ISNULL(${TABLE}.udHQController,'Unknown') ;;
   }
 
   dimension: ud_industry_notes {
@@ -651,16 +653,16 @@ view: b_jcjm {
     sql: ${TABLE}.udJobSpecForms ;;
   }
 
-  dimension: ud_jv {
-    hidden: yes
+  dimension: jv_flag {
+    label: "JV Flag"
     type: string
     sql: ${TABLE}.udJV ;;
   }
 
-  dimension: ud_jvdetails {
-    hidden: yes
+  dimension: jv_details {
+    label: "JV Details"
     type: string
-    sql: ${TABLE}.udJVDetails ;;
+    sql: ISNULL(${TABLE}.udJVDetails,'No details provided') ;;
   }
 
   dimension: ud_license {
@@ -735,13 +737,12 @@ view: b_jcjm {
     sql: ${TABLE}.udPJob ;;
   }
 
-  dimension: ud_pmexecutive_no1 {
-    hidden: yes
+  dimension: executive {
     type: string
-    sql: ${TABLE}.udPMExecutiveNo1 ;;
+    sql: ISNULL(${TABLE}.udPMExecutiveNo1,'Unknown');;
   }
 
-  dimension: ud_project_admin {
+  dimension: project_admin {
     hidden: yes
     type: string
     sql: ${TABLE}.udProjectAdmin ;;
@@ -770,16 +771,16 @@ view: b_jcjm {
     sql: ${TABLE}.udSeniorPM ;;
   }
 
-  dimension: ud_sf {
-    hidden: yes
+  dimension: sq_ft {
+    label: "SQ Ft"
     type: number
-    sql: ${TABLE}.udSF ;;
+    sql: ISNULL(${TABLE}.udSF,'0') ;;
   }
 
-  dimension: ud_sfnotes {
-    hidden: yes
+  dimension: sq_ft_notes {
+    label: "SQ Ft Notes"
     type: string
-    sql: ${TABLE}.udSFNotes ;;
+    sql: ISNULL(${TABLE}.udSFNotes,'No notes provided') ;;
   }
 
   dimension: ud_slctins_admin_override {
@@ -794,10 +795,9 @@ view: b_jcjm {
     sql: ${TABLE}.udSuperEmail ;;
   }
 
-  dimension: ud_superintendent {
-    hidden: yes
+  dimension: superintendent {
     type: string
-    sql: ${TABLE}.udSuperintendent ;;
+    sql: ISNULL(${TABLE}.udSuperintendent,'Unknown') ;;
   }
 
   dimension: ud_superintendent_phone {
@@ -824,22 +824,20 @@ view: b_jcjm {
     sql: ${TABLE}.udbuildersrisk ;;
   }
 
-  dimension: udconstructiontype {
-    hidden: yes
+  dimension: construct_type {
     type: string
-    sql: ${TABLE}.udconstructiontype ;;
+    sql: CASE WHEN ${TABLE}.udconstructiontype IS NULL OR ${TABLE}.udconstructiontype='' THEN 'Unknown' ELSE LTRIM(RTRIM(${TABLE}.udconstructiontype)) END   ;;
   }
 
-  dimension: udcontracttype {
-    hidden: yes
+  dimension: contract_type {
     type: string
-    sql: ${TABLE}.udcontracttype ;;
+    sql: CASE WHEN ${TABLE}.udcontracttype IS NULL OR ${TABLE}.udcontracttype='' THEN 'Unknown' ELSE LTRIM(RTRIM(${TABLE}.udcontracttype)) END   ;;
   }
 
-  dimension: uddescription {
-    hidden: yes
+  dimension: job_description {
     type: string
-    sql: ${TABLE}.uddescription ;;
+    sql: ISNULL(REPLACE(REPLACE(${TABLE}.uddescription,CHAR(10),''),CHAR(13),''),'No description provided');;
+
   }
 
   dimension: udletterofintent {
@@ -854,10 +852,9 @@ view: b_jcjm {
     sql: ${TABLE}.udnewjobinfo ;;
   }
 
-  dimension: udtypeofindustry {
-    hidden: yes
+  dimension: type_of_industry {
     type: string
-    sql: ${TABLE}.udtypeofindustry ;;
+    sql: CASE WHEN ${TABLE}.udtypeofindustry IS NULL OR LTRIM(RTRIM(${TABLE}.udtypeofindustry))='Other' THEN 'Unknown' ELSE LTRIM(RTRIM(${TABLE}.udtypeofindustry)) END   ;;
   }
 
   dimension: unique_attch_id {
@@ -935,6 +932,12 @@ view: b_jcjm {
     type: time
     timeframes: [raw,date,month,year]
     sql: coalesce(${ud_contract_date},${b_jccm.start_month_date}) ;;
+  }
+
+  dimension: revenue {
+    group_label: "Financials"
+    type: number
+    sql: CONVERT(DECIMAL(16,2),ISNULL((${ndt_jccd_job_actual_cost.actual_cost}/NULLIF(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost} ELSE ${ndt_jcop_job_projected_costs.proj_cost} END,0))*${ndt_jcor_contract_values.estimated_contract_value},'0')) ;;
   }
 
 # }

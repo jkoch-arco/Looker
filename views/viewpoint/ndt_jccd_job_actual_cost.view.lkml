@@ -1,4 +1,5 @@
 view: ndt_jccd_job_actual_cost {
+  view_label: "Job"
   derived_table: {
     explore_source: b_jccd {
       column: jcco {}
@@ -27,8 +28,8 @@ view: ndt_jccd_job_actual_cost {
     sql: ${TABLE}.job ;;
   }
 
-  dimension: vp_actual_cost {
-    hidden: yes
+  dimension: actual_cost {
+    group_label: "Financials"
     type: number
     sql: ${TABLE}.vp_actual_cost ;;
   }
