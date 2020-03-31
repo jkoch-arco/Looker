@@ -947,6 +947,10 @@ view: b_jcjm {
     type: count
   }
 
+  measure: total_revenue {
+    type: sum
+    sql: ${revenue} ;;
+  }
 #}
 
 }
