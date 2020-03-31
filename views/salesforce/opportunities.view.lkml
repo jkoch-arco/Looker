@@ -135,7 +135,7 @@ view: opportunities {
     sql: ${TABLE}.CloseDate ;;
   }
 
-  dimension: closeoutduration {
+  dimension: closeout_duration {
     group_label: "Other"
     type: number
     sql: ${TABLE}.CLOSEOUTDURATION__C ;;
@@ -153,7 +153,7 @@ view: opportunities {
     sql: ${TABLE}.Competition_Type__c ;;
   }
 
-  dimension_group: completion_date {
+  dimension_group: completion {
     type: time
     timeframes: [
       raw,
