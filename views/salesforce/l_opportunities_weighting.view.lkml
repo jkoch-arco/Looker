@@ -49,7 +49,7 @@ view: l_opportunities_weighting {
     group_label: "Company"
     description: "Listing of companies that are part of an opportunity"
     type: string
-    sql: ${TABLE}.company ;;
+    sql: CASE WHEN ${TABLE}.company IS NULL THEN '~UPDATE Company~' ELSE ${TABLE}.company END;;
   }
 
   dimension: company_weighting {
