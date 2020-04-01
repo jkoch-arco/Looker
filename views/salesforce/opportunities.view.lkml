@@ -536,7 +536,7 @@ view: opportunities {
   dimension: closed_won {
     group_label: "Other"
     type:  number
-    sql: ${TABLE}.${amount} WHERE ${stage_name}='Completed Jobs' OR 'Completed, Closeout Remaining' OR 'Work in Progress';;
+    sql: ${TABLE}.${amount} WHERE ${stage_name}='Completed Jobs';;
     value_format: "usd"
   }
 
