@@ -533,6 +533,13 @@ view: opportunities {
     sql: ${TABLE}.WEIGHTED_VALUE__C ;;
   }
 
+  dimension: closed_won {
+    group_label: "Other"
+    type:  number
+    sql: ${TABLE}.${amount} WHERE ${stage_name}='Completed Jobs' OR 'Completed, Closeout Remaining' OR 'Work in Progress';;
+    value_format: "usd"
+  }
+
   measure: count_of_opportunities {
     type: count
     drill_fields: [opportunity_information*]
@@ -580,22 +587,6 @@ view: opportunities {
     sql_distinct_key: ${l_opportunities_weighting.pk} ;;
     value_format_name: usd
     drill_fields: [opportunity_company_information*]
-  }
-
-  measure: closed_won {
-  group_label: "Win Percentage"
-  type:  sum
-  sql: ${amount} WHERE ${stage_name} = "Work in Progress" OR "Completed Job" OR "Completed, Closeour Remaining" ;;
-  value_format: "usd"
-  drill_fields: [opportunity_information*]
-  }
-
-  measure: closed_lost {
-    group_label: "Win Percentage"
-    type:  sum
-    sql: ${amount} WHERE ${stage_name} = "Closed Lost" OR "Dead" OR "Prospecting Dead" ;;
-    value_format: "usd"
-    drill_fields: [opportunity_information*]
   }
 
   set: opportunity_information {
