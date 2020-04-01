@@ -1,4 +1,5 @@
 view: ndt_jcci_contract_amount {
+  view_label: "Job"
   derived_table: {
     explore_source: b_jcci {
       column: jcco {}
@@ -15,8 +16,9 @@ view: ndt_jcci_contract_amount {
     type: number
   }
   dimension: contract {hidden:yes}
-  dimension: vp_contract_value {
-    hidden: yes
+  dimension: contract_value {
+    group_label: "Financials"
     type: number
+    sql: ${TABLE}.vp_contract_value ;;
   }
 }
