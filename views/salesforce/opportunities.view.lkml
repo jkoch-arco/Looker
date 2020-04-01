@@ -589,6 +589,13 @@ view: opportunities {
     drill_fields: [opportunity_company_information*]
   }
 
+  measure: measure_close_date {
+    group_label: "Other"
+    type: date
+    sql: ${close_date} ;;
+    drill_fields: [opportunity_information*]
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
