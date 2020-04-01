@@ -1,6 +1,6 @@
 view: opportunities {
   sql_table_name: dbo.opportunities ;;
-
+#woohoo!
   dimension: id {
     group_label: "1 - Opportunity"
     primary_key: yes
@@ -570,6 +570,32 @@ view: opportunities {
     sql_distinct_key: ${l_opportunities_weighting.pk} ;;
     value_format_name: usd
     drill_fields: [opportunity_company_information*]
+  }
+
+  measure: total_revenue_2_plus_years {
+    group_label: "Company Allocated"
+    label: "Total Revenue 2+ Years"
+    type: sum
+    sql: ${total_revenue_2_years} * ${l_opportunities_weighting.company_weighting};;
+    sql_distinct_key: ${l_opportunities_weighting.pk} ;;
+    value_format_name: usd
+    drill_fields: [opportunity_company_information*]
+  }
+
+  measure: closed_won {
+  group_label: "Win Percentage"
+  type:  sum
+  sql: ${amount} WHERE ${stage_name} = "Work in Progress" OR "Completed Job" OR "Completed, Closeour Remaining" ;;
+  value_format: "usd"
+  drill_fields: [opportunity_information*]
+  }
+
+  measure: closed_lost {
+    group_label: "Win Percentage"
+    type:  sum
+    sql: ${amount} WHERE ${stage_name} = "Closed Lost" OR "Dead" OR "Prospecting Dead" ;;
+    value_format: "usd"
+    drill_fields: [opportunity_information*]
   }
 
   set: opportunity_information {
