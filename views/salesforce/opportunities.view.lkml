@@ -626,6 +626,12 @@ view: opportunities {
     value_format_name: percent_2
   }
 
+  measure: opportunity_close_date {
+    group_label: "Other"
+    type: date
+    sql: max(${close_date}) ;;
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
