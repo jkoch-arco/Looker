@@ -589,10 +589,11 @@ view: opportunities {
     drill_fields: [opportunity_company_information*]
   }
 
-  measure: measure_close_date {
-    group_label: "Other"
-    type: date
-    sql: ${close_date} ;;
+  measure: gross_profit_margin {
+    group_label: "Bonus Calculator"
+    type: sum
+    sql: ${overall_project_margin} ;;
+    value_format_name: percent_2
     drill_fields: [opportunity_information*]
   }
 
@@ -635,7 +636,4 @@ view: opportunities {
     sql: ${TABLE}.Additional_JV_Percent__c/100 ;;
     value_format_name: percent_1
   }
-
-# }
-
 }
