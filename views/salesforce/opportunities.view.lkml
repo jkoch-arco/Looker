@@ -592,9 +592,44 @@ view: opportunities {
   measure: gross_profit_margin {
     group_label: "Bonus Calculator"
     type: sum
-    sql: ${overall_project_margin} ;;
+    sql: (${overall_project_margin}/100) ;;
     value_format_name: percent_2
     drill_fields: [opportunity_information*]
+  }
+
+  measure: overhead_percentage {
+    group_label: "Bonus Calculator"
+    type: sum
+    sql: ${overhead} ;;
+    value_format_name: percent_0
+  }
+
+  measure: pm_bonus {
+    group_label: "Bonus Calculator"
+    type:  sum
+    sql: $PM ${pm_bonus_percentage} ;;
+    value_format_name: percent_0
+  }
+
+  measure: percent_of_revenue_past_years {
+    group_label: "Bonus Calculator"
+    type:  sum
+    sql: ${total_revenue_last_year} / nullif(${amount},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: percent_of_revenue_this_year {
+    group_label: "Bonus Calculator"
+    type: sum
+    sql: ${total_revenue_this_year} / nullif(${amount},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: percent_of_revenue_future_years {
+    group_label: "Bonus Calculator"
+    type:  sum
+    sql: (${total_revenue_next_year} + ${total_revenue_2_years}) / nullif(${amount},0) ;;
+    value_format_name: percent_2
   }
 
   set: opportunity_information {
