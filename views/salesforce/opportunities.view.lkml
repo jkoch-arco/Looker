@@ -533,12 +533,6 @@ view: opportunities {
     sql: ${TABLE}.WEIGHTED_VALUE__C ;;
   }
 
-  dimension: closed_won {
-    group_label: "Other"
-    type:  number
-    sql: ${TABLE}.${amount} WHERE ${stage_name}='Completed Jobs';;
-    value_format: "usd"
-  }
 
   measure: count_of_opportunities {
     type: count
@@ -601,14 +595,14 @@ view: opportunities {
     group_label: "Bonus Calculator"
     type: sum
     sql: ${overhead} ;;
-    value_format_name: percent_0
+    value_format_name: percent_2
   }
 
   measure: pm_bonus {
     group_label: "Bonus Calculator"
     type:  sum
     sql: ${pm_bonus_percentage} ;;
-    value_format_name: percent_0
+    value_format_name: percent_2
   }
 
   measure: percent_of_revenue_past_years {
