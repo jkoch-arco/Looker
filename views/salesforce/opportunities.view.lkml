@@ -632,6 +632,48 @@ view: opportunities {
     sql: max(${close_date}) ;;
   }
 
+  measure: count_all_deals {
+    group_label: "Win Percentage"
+    type: count
+    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress, Closed Lost, Dead, Prospecting Dead"]
+  }
+
+  measure: count_won_deals {
+    group_label: "Win Percentage"
+    type: count
+    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress"]
+  }
+
+  measure: percentage_of_deals_won {
+    group_label: "Win Percentage"
+    type: number
+    sql: 1.0 * ${count_won_deals} / nullif(${count_all_deals},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: sum_all_deals {
+    group_label: "Win Percentage"
+    type: sum
+    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress, Closed Lost, Dead, Prospecting Dead"]
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: sum_won_deals {
+    group_label: "Win Percentage"
+    type:  sum
+    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress"]
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: percentage_of_dollars_won {
+    group_label: "Win Percentage"
+    type: number
+    sql:  1.0 * ${sum_won_deals} / nullif(${sum_all_deals},0) ;;
+    value_format_name: percent_2
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
