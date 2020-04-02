@@ -607,7 +607,7 @@ view: opportunities {
   measure: pm_bonus {
     group_label: "Bonus Calculator"
     type:  sum
-    sql: $PM ${pm_bonus_percentage} ;;
+    sql: ${pm_bonus_percentage} ;;
     value_format_name: percent_0
   }
 
