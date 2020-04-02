@@ -287,6 +287,7 @@ view: opportunities {
   }
 
   dimension: name {
+    label: "Opportunity Name"
     group_label: "1 - Opportunity"
     type: string
     sql: ${TABLE}.NAME ;;
@@ -549,6 +550,7 @@ view: opportunities {
 
   measure: total_contract_amount_with_probability {
     group_label: "Opportunity Total"
+    label: "Total Contract Amount w/ Probability"
     type: sum
     sql: ${amount} * ${probability} ;;
     value_format_name: usd
@@ -557,6 +559,7 @@ view: opportunities {
 
   measure: total_contract_amount_allocated {
     group_label: "Company Allocated"
+    label: "Amount w/ JV"
     type: sum
     sql: ${amount} * ${l_opportunities_weighting.company_weighting} ;;
     sql_distinct_key: ${l_opportunities_weighting.pk} ;;
@@ -565,6 +568,7 @@ view: opportunities {
   }
 
   measure: total_contract_amount_allocated_with_probability {
+    label: "Amount w/ JV and Probability"
     group_label: "Company Allocated"
     type: sum
     sql: ${amount} * ${l_opportunities_weighting.company_weighting} * ${probability} ;;
