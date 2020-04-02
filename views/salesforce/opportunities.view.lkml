@@ -585,8 +585,7 @@ view: opportunities {
 
   measure: gross_profit_margin {
     group_label: "Bonus Calculator"
-    type:  sum_distinct
-    sql_distinct_key:${name}  ;;
+    type:  sum
     sql: (${overall_project_margin}/100) ;;
     value_format_name: percent_2
     drill_fields: [opportunity_information*]
@@ -594,40 +593,35 @@ view: opportunities {
 
   measure: overhead_percentage {
     group_label: "Bonus Calculator"
-    type:  sum_distinct
-    sql_distinct_key:${name}  ;;
+    type:  sum
     sql: ${overhead} ;;
     value_format_name: percent_2
   }
 
   measure: pm_bonus {
     group_label: "Bonus Calculator"
-    type: sum_distinct
-    sql_distinct_key: ${name} ;;
+    type: sum
     sql: ${pm_bonus_percentage} ;;
     value_format_name: percent_2
   }
 
   measure: percent_of_revenue_past_years {
     group_label: "Bonus Calculator"
-    type:  sum_distinct
-    sql_distinct_key:${name}  ;;
+    type:  sum
     sql: ${total_revenue_last_year} / nullif(${amount},0) ;;
     value_format_name: percent_2
   }
 
   measure: percent_of_revenue_this_year {
     group_label: "Bonus Calculator"
-    type:  sum_distinct
-    sql_distinct_key:${name}  ;;
+    type:  sum
     sql: ${total_revenue_this_year} / nullif(${amount},0) ;;
     value_format_name: percent_2
   }
 
   measure: percent_of_revenue_future_years {
     group_label: "Bonus Calculator"
-    type:  sum_distinct
-    sql_distinct_key:${name}  ;;
+    type:  sum
     sql: (${total_revenue_next_year} + ${total_revenue_2_years}) / nullif(${amount},0) ;;
     value_format_name: percent_2
   }
