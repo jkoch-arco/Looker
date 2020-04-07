@@ -23,7 +23,7 @@ explore: b_jcjm {
   join: b_arcm {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${b_jccm.customer} = ${b_arcm.customer} and ${b_jcjm.vendor_group} = ${b_arcm.cust_group} ;;
+    sql_on: ${b_jccm.customer} = ${b_arcm.customer} and ${b_jcjm.vendor_group} = ${b_arcm.cust_group} and ${b_arcm.load_raw} = (Select MAX(LoadDate) FROM viewpoint.bARCM  );;
   }
 
   join: b_hqco {
