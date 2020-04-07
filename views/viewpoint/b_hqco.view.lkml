@@ -1,5 +1,5 @@
 view: b_hqco {
-  view_label: "Company"
+  view_label: "HQ Company"
 
   sql_table_name: viewpoint.bHQCO ;;
 

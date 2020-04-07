@@ -29,7 +29,13 @@ explore: b_jcjm {
   join: b_hqco {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${b_hqco.hqco} = ${b_jcjm.jcco} ;;
+    sql_on: ${b_jcjm.jcco} = ${b_hqco.hqco} ;;
+  }
+
+  join: company {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${b_jcjm.jcco} = ${company.company_number} ;;
   }
 
   join: b_jcmp {
@@ -67,6 +73,7 @@ explore: b_jcjm {
     relationship: one_to_one
     sql_on: ${b_jcjm.project_admin} = ${ddup_extended.vpuser_name} ;;
   }
+
 }
 
 explore: job_summary_vw {
