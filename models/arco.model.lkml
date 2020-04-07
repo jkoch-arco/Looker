@@ -3,7 +3,12 @@ connection: "preprod_arco_bidw_read_access"
 include: "/views/viewpoint/*.view.lkml"                # include all views in the views/ folder in this project
 include: "/views/reference/*.view.lkml"
 
+datagroup: viewpoint_refresh {
+  sql_trigger: Select COUNT(*) FROM viewpoint.bJCJM ;;
+}
+
 explore: b_jcjm {
+  persist_with: viewpoint_refresh
   group_label: "Prototyping - Do Not Use"
   label: "Jobs"
   description: "Use this explore to do X"
@@ -77,6 +82,7 @@ explore: b_jcjm {
 }
 
 explore: job_summary_vw {
+  persist_with: viewpoint_refresh
   group_label: "Projects"
   label: "Job Summary"
   view_label: "Job Summary"
