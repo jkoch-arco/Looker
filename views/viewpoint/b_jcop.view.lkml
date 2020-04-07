@@ -48,6 +48,7 @@ view: b_jcop {
   }
 
   dimension: load_id {
+    primary_key: yes
     type: number
     sql: ${TABLE}.LoadID ;;
   }

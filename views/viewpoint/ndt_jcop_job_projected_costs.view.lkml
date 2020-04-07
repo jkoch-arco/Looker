@@ -12,6 +12,13 @@ view: ndt_jcop_job_projected_costs {
     }
   }
 
+  dimension: pk {
+    hidden: yes
+    primary_key: yes
+    type: string
+    sql: concat(${jcco},${job}) ;;
+  }
+
   dimension: jcco {
     hidden: yes
     type: number
@@ -48,8 +55,10 @@ view: ndt_jcop_job_projected_costs {
   }
 
   measure: total_projected_cost {
+    group_label: "Totals"
     type: sum
     sql: ${projected_cost} ;;
+    value_format_name: usd
   }
 
 }

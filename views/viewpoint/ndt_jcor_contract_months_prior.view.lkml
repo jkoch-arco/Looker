@@ -10,6 +10,14 @@ view: ndt_jcor_contract_months_prior {
       }
     }
   }
+
+  dimension: pk {
+    hidden: yes
+    primary_key: yes
+    type: string
+    sql: concat(${jcco},${contract}) ;;
+  }
+
   dimension: jcco {
     hidden: yes
     type: number

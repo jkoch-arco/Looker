@@ -16,6 +16,13 @@ view: ndt_jccd_job_actual_cost {
     }
   }
 
+  dimension: pk {
+    hidden: yes
+    primary_key: yes
+    type: string
+    sql: concat(${jcco},${job}) ;;
+  }
+
   dimension: jcco {
     hidden: yes
     type: number
@@ -32,6 +39,14 @@ view: ndt_jccd_job_actual_cost {
     group_label: "Financials"
     type: number
     sql: ${TABLE}.vp_actual_cost ;;
+    value_format_name: usd
+  }
+
+  measure: total_actual_cost {
+    group_label: "Totals"
+    type: sum
+    sql: ${actual_cost} ;;
+    value_format_name: usd
   }
 
 }

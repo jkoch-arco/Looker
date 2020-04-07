@@ -938,6 +938,35 @@ view: b_jcjm {
     group_label: "Financials"
     type: number
     sql: CONVERT(DECIMAL(16,2),ISNULL((${ndt_jccd_job_actual_cost.actual_cost}/NULLIF(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost} ELSE ${ndt_jcop_job_projected_costs.proj_cost} END,0))*${ndt_jcor_contract_values.estimated_contract_value},'0')) ;;
+    value_format_name: usd
+  }
+
+  dimension: gross_profit {
+    group_label: "Financials"
+    type: number
+    sql: CASE
+    WHEN ${ndt_jccd_job_actual_cost.actual_cost} = 0 OR ISNULL(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost} ELSE ${ndt_jcop_job_projected_costs.proj_cost} END,0) = 0 OR ${ndt_jccd_job_actual_cost.actual_cost} = 0 THEN 0
+    ELSE CONVERT(DECIMAL(16,2),ISNULL(CONVERT(DECIMAL(16,2),ISNULL((${ndt_jccd_job_actual_cost.actual_cost}/NULLIF(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost}  ELSE ${ndt_jcop_job_projected_costs.proj_cost} END, 0)) * ${ndt_jcor_contract_values.estimated_contract_value},'0')) - ${ndt_jccd_job_actual_cost.actual_cost},'0'))
+    END ;;
+    value_format_name: usd
+  }
+
+  dimension: percent_complete {
+    group_label: "Financials"
+    type: number
+    value_format_name: percent_2
+    sql: CONVERT(DECIMAL(16,2),ISNULL((${ndt_jccd_job_actual_cost.actual_cost}/NULLIF(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost} ELSE ${ndt_jcop_job_projected_costs.proj_cost} END,0)),0))  ;;
+  }
+
+  dimension: profit_margin {
+    group_label: "Financials"
+    type: number
+    value_format_name: percent_2
+    sql: CASE
+    WHEN ${ndt_jccd_job_actual_cost.actual_cost} = 0 OR ISNULL(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost} ELSE ${ndt_jcop_job_projected_costs.proj_cost} END, 0) = 0 OR ${ndt_jccd_job_actual_cost.actual_cost} = 0 THEN 0
+    ELSE CONVERT(DECIMAL(16,2),ISNULL(ISNULL(CONVERT(DECIMAL(16,2),ISNULL((${ndt_jccd_job_actual_cost.actual_cost}/NULLIF(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost} ELSE ${ndt_jcop_job_projected_costs.proj_cost}  END,0)) * ${ndt_jcor_contract_values.estimated_contract_value},'0'))-${ndt_jccd_job_actual_cost.actual_cost},'0')/NULLIF(CONVERT(DECIMAL(16,2),ISNULL((${ndt_jccd_job_actual_cost.actual_cost}/
+      NULLIF(CASE WHEN ${is_job_open} AND (NOT ${b_jccm.is_department_c}) AND ${ndt_jcop_job_projected_costs.proj_cost} = 0 THEN ${ndt_jccd_job_actual_cost.actual_cost} ELSE ${ndt_jcop_job_projected_costs.proj_cost} END,0)) * ${ndt_jcor_contract_values.estimated_contract_value},'0')),'0'),'0'))
+    END ;;
   }
 
 # }
@@ -948,9 +977,33 @@ view: b_jcjm {
   }
 
   measure: total_revenue {
+    group_label: "Totals"
     type: sum
     sql: ${revenue} ;;
+    value_format_name: usd
   }
+
+  measure: total_gross_profit {
+    group_label: "Totals"
+    type: sum
+    sql: ${gross_profit} ;;
+    value_format_name: usd
+  }
+
+  measure: average_percent_complete {
+    group_label: "Average"
+    type: average
+    sql: ${percent_complete} ;;
+    value_format_name: percent_2
+  }
+
+  measure: average_profit_margin {
+    group_label: "Average"
+    type: average
+    sql: ${profit_margin} ;;
+    value_format_name: percent_2
+  }
+
 #}
 
 }

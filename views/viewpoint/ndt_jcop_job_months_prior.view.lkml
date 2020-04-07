@@ -10,6 +10,14 @@ view: ndt_jcop_job_months_prior {
       }
     }
   }
+
+  dimension: pk {
+    hidden: yes
+    primary_key: yes
+    type: string
+    sql: concat(${jcco},${job}) ;;
+  }
+
   dimension: jcco {
     hidden: yes
     type: number
