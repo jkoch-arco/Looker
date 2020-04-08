@@ -639,7 +639,7 @@ view: opportunities {
   measure: count_all_deals {
     group_label: "Win Percentage"
     type: count
-    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress, Closed Lost, Dead, Prospecting Dead"]
+    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress, Closed Lost"]
   }
 
   measure: count_won_deals {
@@ -658,7 +658,7 @@ view: opportunities {
   measure: sum_all_deals {
     group_label: "Win Percentage"
     type: sum
-    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress, Closed Lost, Dead, Prospecting Dead"]
+    filters: [stage_name: "Completed Jobs, Completed^, Closeout Remaining, Work in Progress, Closed Lost"]
     sql: ${amount} ;;
     value_format_name: usd
   }
