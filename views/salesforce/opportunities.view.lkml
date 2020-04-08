@@ -678,6 +678,26 @@ view: opportunities {
     value_format_name: percent_2
   }
 
+  measure: sum_dead_deals {
+    group_label: "Win Percentage"
+    type: sum
+    filters: [ stage_name: "Dead, Prospecting Dead"]
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: count_dead_deals {
+    group_label: "Win Percentage"
+    type: count
+    filters: [stage_name: "Dead, Prospecting Dead"]
+  }
+
+  measure: percentage_of_deals_died{
+    group_label: "Win Percentage"
+    type: number
+    sql: 1.0 * ${sum_dead_deals} / nullif(${sum_all_deals},0) ;;
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
