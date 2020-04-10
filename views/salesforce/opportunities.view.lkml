@@ -534,6 +534,27 @@ view: opportunities {
     sql: ${TABLE}.WEIGHTED_VALUE__C ;;
   }
 
+  dimension: loss_reason {
+    group_label: "1 - Opportunity"
+    type: string
+    sql: ${TABLE}.LOSS_REASON__C ;;
+  }
+
+  dimension_group: creation {
+    group_label: "1 - Opportunity"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.CREATEDDATE ;;
+  }
+
 
   measure: count_of_opportunities {
     type: count
