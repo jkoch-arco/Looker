@@ -651,6 +651,12 @@ view: opportunities {
     value_format_name: percent_2
   }
 
+  measure: opportunity_creation_date {
+    group_label: "Other"
+    type: date
+    sql: max(${creation_date}) ;;
+  }
+
   measure: opportunity_close_date {
     group_label: "Other"
     type: date
