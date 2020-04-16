@@ -1,5 +1,6 @@
 connection: "preprod_arco_bidw_read_access"
 #This is my edit
+#This is my edit now too
 include: "/views/viewpoint/*.view.lkml"                # include all views in the views/ folder in this project
 include: "/views/reference/*.view.lkml"
 
