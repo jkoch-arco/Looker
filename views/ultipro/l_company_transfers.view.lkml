@@ -1,7 +1,7 @@
 view: l_company_transfers {
 
   derived_table: {
-    sql_trigger_value: SELECT getdate() ;;
+    datagroup_trigger: daily
     indexes: ["employeeid"]
     sql:
     SELECT

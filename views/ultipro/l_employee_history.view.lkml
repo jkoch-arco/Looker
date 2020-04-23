@@ -4,7 +4,7 @@
 view: l_employee_history {
 
   derived_table: {
-    sql_trigger_value: SELECT getdate() ;;
+    datagroup_trigger: daily
     indexes: ["employeeid"]
     sql:
 Select

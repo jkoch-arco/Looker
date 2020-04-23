@@ -3,7 +3,7 @@
 
 view: l_calendar_month_by_company {
   derived_table: {
-    sql_trigger_value: SELECT getdate() ;;
+    datagroup_trigger: daily
     indexes: ["date_month"]
     explore_source: calendar {
       column: date_month {}

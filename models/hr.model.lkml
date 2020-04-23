@@ -2,6 +2,10 @@ connection: "preprod_arco_bidw_pii_read_access"
 
 include: "/views/ultipro/*.view.lkml"   #This includes all of the utlipro view files for these explores
 
+datagroup: daily {
+  sql_trigger: Select getdate() ;;
+}
+
 explore: employment {
   sql_always_where: ${load_ts_raw} = (Select MAX(LOAD_TS) FROM ultipro.Employment)
   AND (${termination_reason_code} <> 'TRO' or ${termination_reason_code} is null);;
