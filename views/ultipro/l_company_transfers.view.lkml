@@ -13,7 +13,7 @@ view: l_company_transfers {
     FROM ${l_transfer_ordering.SQL_TABLE_NAME} AS transfer_ordering
     LEFT OUTER JOIN ${l_transfer_ordering.SQL_TABLE_NAME} AS previous_company
       ON transfer_ordering.company_transfer_ordering = previous_company.company_transfer_ordering + 1
-    WHERE 1=1
+    WHERE 1=1 and 1=1
     ;;
   }
 

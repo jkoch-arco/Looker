@@ -11,7 +11,7 @@ view: l_calendar_month_by_company {
       derived_column: calendar_month {
         sql: format( date_month , 'yyyyMM' ) ;;
       }
-      filters: [calendar.date_month: "100 months"]
+      filters: [calendar.date_month: "120 months"]
       #filters: [company.company_number_padded: "009,003,010"]
     }
   }

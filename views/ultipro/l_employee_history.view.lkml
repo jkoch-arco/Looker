@@ -43,7 +43,7 @@ FROM (SELECT
                 (SELECT * FROM ${l_transfer_ordering.SQL_TABLE_NAME} AS transfer_ordering WHERE  most_recent_record = 1) AS terminated
                   ON calendar_dates.calendar_month = Format(terminated.terminationdate, 'yyyyMM') AND terminated.companycode = calendar_dates.company_code
       ) AS cleaned_up_records
-  WHERE 1=1
+  WHERE 1=1 and 1=1
 GROUP  BY company_code,calendar_month, EmployeeId
 --ORDER  BY company_code,calendar_month ASC
     ;;
