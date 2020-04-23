@@ -9,7 +9,7 @@ view: l_calendar_month_by_company {
       column: date_month {}
       column: company_code { field: company.company_number_padded }
       derived_column: calendar_month {
-        sql: format(date_month,'yyyyMM') ;;
+        sql: format( date_month , 'yyyyMM' ) ;;
       }
       filters: [calendar.date_month: "100 months"]
       #filters: [company.company_number_padded: "009,003,010"]
