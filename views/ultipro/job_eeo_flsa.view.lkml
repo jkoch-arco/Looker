@@ -1,5 +1,5 @@
 view: job_eeo_flsa {
-  sql_table_name: ultipro.Job_EEO_FLSA ;;
+  sql_table_name: ARCO_BIDW_PII.ultipro.Job_EEO_FLSA ;;
 
   dimension: job_code {
     primary_key: yes

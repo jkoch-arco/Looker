@@ -1,5 +1,5 @@
 view: employee_sal_term {
-  sql_table_name: ultipro.Employee_Sal_Term ;;
+  sql_table_name: ARCO_BIDW_PII.ultipro.Employee_Sal_Term ;;
 
   dimension: primary_key {
     primary_key: yes

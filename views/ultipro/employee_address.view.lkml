@@ -1,5 +1,5 @@
 view: employee_address {
-  sql_table_name: ultipro.Employee_Address ;;
+  sql_table_name: ARCO_BIDW_PII.ultipro.Employee_Address ;;
 
   dimension: city {
     type: string

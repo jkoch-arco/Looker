@@ -1,10 +1,17 @@
 view: employment {
-  sql_table_name: ultipro.Employment ;;
+  sql_table_name: ARCO_BIDW_PII.ultipro.Employment ;;
+
+#   dimension: primary_key {
+#    This is the natural primary key on the table, but due to SQL always where clause it elminates the CDC on the table and the transfer records which were moved to l_company_transfers
+#     primary_key: yes
+#     hidden: yes
+#     sql: CONCAT(${load_ts_raw} ,${employee_id},  ${termination_raw} , ${termination_reason_code}) ;;
+#   }
 
   dimension: primary_key {
     primary_key: yes
     hidden: yes
-    sql: CONCAT(${load_ts_raw} ,${employee_id},  ${termination_raw} , ${termination_reason_code}) ;;
+    sql: ${employee_id} ;;
   }
 
   dimension_group: bene_seniority {
