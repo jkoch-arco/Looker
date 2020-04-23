@@ -3,7 +3,7 @@ connection: "preprod_arco_bidw_pii_read_access"
 include: "/views/ultipro/*.view.lkml"   #This includes all of the utlipro view files for these explores
 
 datagroup: daily {
-  sql_trigger: SELECT DATEADD(day,2,CONVERT(VARCHAR(10), getdate(), 111)) ;;
+  sql_trigger: SELECT DATEADD(day,1,CONVERT(VARCHAR(10), getdate(), 111)) ;;
 }
 
 persist_with: daily
