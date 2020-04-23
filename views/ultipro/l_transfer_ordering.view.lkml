@@ -1,4 +1,4 @@
-view: l_transfer_ordering {
+view: l_transfer_ordering_1 {
   derived_table: {
     datagroup_trigger: daily
     indexes: ["employeeid"]

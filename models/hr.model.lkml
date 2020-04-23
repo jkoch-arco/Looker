@@ -36,10 +36,10 @@ explore: employment {
     sql_on: ${employment.employee_id} = ${person.employee_id} ;;
   }
 
-  join: l_employee_history {
+  join: l_employee_history_1 {
     type: inner
     relationship: one_to_many
-    sql_on: ${employment.employee_id} = ${l_employee_history.employee_id} ;;
+    sql_on: ${employment.employee_id} = ${l_employee_history_1.employee_id} ;;
   }
 
 }

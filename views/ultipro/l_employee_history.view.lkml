@@ -1,7 +1,7 @@
 #Cleaner version with CTEs https://arcobi.looker.com/sql/k3sjhpgx5jkwkj?toggle=sql,vis
 #But out of date with the latest below
 
-view: l_employee_history {
+view: l_employee_history_1 {
 
   derived_table: {
     datagroup_trigger: daily
@@ -28,19 +28,19 @@ FROM (SELECT
           --WHEN active.EmployeeID is not null THEN 'Existing Headcount'
           ELSE NULL END as status
         , l_company_transfers.employeeid
-        FROM ${l_calendar_month_by_company.SQL_TABLE_NAME} AS calendar_dates
-               LEFT OUTER JOIN ${l_company_transfers.SQL_TABLE_NAME} AS l_company_transfers
+        FROM ${l_calendar_month_by_company_1.SQL_TABLE_NAME} AS calendar_dates
+               LEFT OUTER JOIN ${l_company_transfers_1.SQL_TABLE_NAME} AS l_company_transfers
                     ON calendar_dates.calendar_month >= Format(l_company_transfers.companystartdate, 'yyyyMM')
                       AND calendar_dates.calendar_month <= COALESCE(Format(l_company_transfers.companyenddate, 'yyyyMM'),Format(Getdate(), 'yyyyMM'))
                       AND calendar_dates.company_code = l_company_transfers.companycode
-               LEFT OUTER JOIN ${l_company_transfers.SQL_TABLE_NAME} AS left_company
+               LEFT OUTER JOIN ${l_company_transfers_1.SQL_TABLE_NAME} AS left_company
                   ON calendar_dates.calendar_month = Format(l_company_transfers.companyenddate, 'yyyyMM')
                     AND calendar_dates.company_code = left_company.companycode
                LEFT OUTER JOIN
-                (SELECT * FROM ${l_transfer_ordering.SQL_TABLE_NAME} AS transfer_ordering WHERE  company_transfer_ordering = 1) AS hired
+                (SELECT * FROM ${l_transfer_ordering_1.SQL_TABLE_NAME} AS transfer_ordering WHERE  company_transfer_ordering = 1) AS hired
                   ON calendar_dates.calendar_month = Format(hired.originalhire, 'yyyyMM') AND hired.companycode = calendar_dates.company_code
                LEFT OUTER JOIN
-                (SELECT * FROM ${l_transfer_ordering.SQL_TABLE_NAME} AS transfer_ordering WHERE  most_recent_record = 1) AS terminated
+                (SELECT * FROM ${l_transfer_ordering_1.SQL_TABLE_NAME} AS transfer_ordering WHERE  most_recent_record = 1) AS terminated
                   ON calendar_dates.calendar_month = Format(terminated.terminationdate, 'yyyyMM') AND terminated.companycode = calendar_dates.company_code
        ) AS cleaned_up_records
   WHERE 1=1
