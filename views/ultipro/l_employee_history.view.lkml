@@ -1,6 +1,6 @@
 #Cleaner version with CTEs https://arcobi.looker.com/sql/k3sjhpgx5jkwkj?toggle=sql,vis
 #But out of date with the latest below
-
+#l_calendar_month_company_transfers
 view: l_employee_history {
 
   derived_table: {
@@ -17,33 +17,33 @@ Select
   , sum(CASE WHEN status = 'Transferred Out' then -1 else 0 end) as number_transferred_out
   , sum(CASE WHEN status = 'Existing Headcount' then 1 else 0 end) as number_existing_headcount
 FROM (SELECT
-        calendar_dates.company_code
-        , calendar_dates.calendar_month
+        l_company_transfers.company_code
+        , l_company_transfers.calendar_month
         , hired.originalhire
-        , CASE WHEN format(hired.OriginalHire,'yyyyMM') = calendar_dates.calendar_month  THEN 'Hired'
-          WHEN format(terminated.TerminationDate,'yyyyMM') = calendar_dates.calendar_month  THEN 'Terminated'
-          WHEN format(l_company_transfers.CompanyStartDate,'yyyyMM') = calendar_dates.calendar_month THEN 'Transferred In'
-          WHEN format(left_company.CompanyEndDate,'yyyyMM') = calendar_dates.calendar_month THEN 'Transferred Out'
-          WHEN format(l_company_transfers.CompanyStartDate,'yyyyMM') <> calendar_dates.calendar_month THEN 'Existing Headcount'
+        , CASE WHEN format(hired.OriginalHire,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Hired'
+          WHEN format(terminated.TerminationDate,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Terminated'
+          WHEN format(l_company_transfers.CompanyStartDate,'yyyyMM') = l_company_transfers.calendar_month THEN 'Transferred In'
+          WHEN format(left_company.CompanyEndDate,'yyyyMM') = l_company_transfers.calendar_month THEN 'Transferred Out'
+          WHEN format(l_company_transfers.CompanyStartDate,'yyyyMM') <> l_company_transfers.calendar_month THEN 'Existing Headcount'
           --WHEN active.EmployeeID is not null THEN 'Existing Headcount'
           ELSE NULL END as status
         , l_company_transfers.employeeid
-        FROM ${l_calendar_month_by_company.SQL_TABLE_NAME} AS calendar_dates
-              LEFT OUTER JOIN ${l_company_transfers.SQL_TABLE_NAME} AS l_company_transfers
-                    ON calendar_dates.calendar_month >= Format(l_company_transfers.companystartdate, 'yyyyMM')
-                      AND calendar_dates.calendar_month <= COALESCE(Format(l_company_transfers.companyenddate, 'yyyyMM'),Format(Getdate(), 'yyyyMM'))
-                      AND calendar_dates.company_code = l_company_transfers.companycode
+        FROM ${l_calendar_month_company_transfers.SQL_TABLE_NAME} as l_company_transfers --calendar_dates
               LEFT OUTER JOIN ${l_company_transfers.SQL_TABLE_NAME} AS left_company
-                  ON calendar_dates.calendar_month = Format(l_company_transfers.companyenddate, 'yyyyMM')
-                    AND calendar_dates.company_code = left_company.companycode
+                  ON l_company_transfers.calendar_month = Format(l_company_transfers.companyenddate, 'yyyyMM')
+                    AND l_company_transfers.company_code = left_company.companycode
+                    AND l_company_transfers.employeeid = left_company.employeeid
               LEFT OUTER JOIN
                 (SELECT * FROM ${l_transfer_ordering.SQL_TABLE_NAME} AS transfer_ordering WHERE  company_transfer_ordering = 1) AS hired
-                  ON calendar_dates.calendar_month = Format(hired.originalhire, 'yyyyMM') AND hired.companycode = calendar_dates.company_code
+                  ON l_company_transfers.calendar_month = Format(hired.originalhire, 'yyyyMM')
+                    AND hired.companycode = l_company_transfers.company_code
+                    AND hired.employeeid = l_company_transfers.employeeid
               LEFT OUTER JOIN
                 (SELECT * FROM ${l_transfer_ordering.SQL_TABLE_NAME} AS transfer_ordering WHERE  most_recent_record = 1) AS terminated
-                  ON calendar_dates.calendar_month = Format(terminated.terminationdate, 'yyyyMM') AND terminated.companycode = calendar_dates.company_code
+                  ON l_company_transfers.calendar_month = Format(terminated.terminationdate, 'yyyyMM')
+                    AND terminated.companycode = l_company_transfers.company_code
+                    AND terminated.employeeid = l_company_transfers.employeeid
       ) AS cleaned_up_records
-  WHERE 1=1 and 1=1
 GROUP  BY company_code,calendar_month, EmployeeId
 --ORDER  BY company_code,calendar_month ASC
     ;;
