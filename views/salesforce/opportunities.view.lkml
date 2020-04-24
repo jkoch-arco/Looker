@@ -562,7 +562,7 @@ view: opportunities {
   }
 
   measure: total_contract_amount {
-    group_label: "Opportunity Total"
+    group_label: "Total Amount"
     type: sum
     sql: ${amount} ;;
     value_format_name: usd
@@ -580,7 +580,7 @@ view: opportunities {
 
   measure: total_contract_amount_allocated {
     group_label: "Company Allocated"
-    label: "Amount w/ JV"
+    label: "JV Amount"
     type: sum
     sql: ${amount} * ${l_opportunities_weighting.company_weighting} ;;
     sql_distinct_key: ${l_opportunities_weighting.pk} ;;
@@ -590,7 +590,7 @@ view: opportunities {
 
   measure: total_contract_amount_allocated_with_probability {
     group_label: "Company Allocated"
-    label: "Amount w/ JV and Probability"
+    label: "Weighted Amount"
     type: sum
     sql: ${amount} * ${l_opportunities_weighting.company_weighting} * ${probability} ;;
     sql_distinct_key: ${l_opportunities_weighting.pk} ;;
