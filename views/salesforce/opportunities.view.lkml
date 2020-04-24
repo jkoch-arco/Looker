@@ -541,6 +541,7 @@ view: opportunities {
   }
 
   dimension_group: creation {
+    label: "Created Date"
     group_label: "1 - Opportunity"
     type: time
     timeframes: [
@@ -563,6 +564,7 @@ view: opportunities {
 
   measure: total_contract_amount {
     group_label: "Total Amount"
+    label: "Total Amount"
     type: sum
     sql: ${amount} ;;
     value_format_name: usd
@@ -652,12 +654,14 @@ view: opportunities {
   }
 
   measure: opportunity_creation_date {
+    label: "Created Date"
     group_label: "Other"
     type: date
     sql: max(${creation_date}) ;;
   }
 
   measure: opportunity_close_date {
+    label: "Close Date"
     group_label: "Other"
     type: date
     sql: max(${close_date}) ;;
