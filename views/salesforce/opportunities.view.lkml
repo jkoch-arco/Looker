@@ -469,6 +469,7 @@ view: opportunities {
   }
 
   dimension: stage_name {
+    label: "Stage"
     group_label: "1 - Opportunity"
     type: string
     sql: ${TABLE}.STAGENAME ;;
@@ -541,7 +542,7 @@ view: opportunities {
   }
 
   dimension_group: creation {
-    label: "Created Date"
+    label: "Created"
     group_label: "1 - Opportunity"
     type: time
     timeframes: [
