@@ -557,6 +557,39 @@ view: opportunities {
     sql: ${TABLE}.CREATEDDATE ;;
   }
 
+  dimension: stage_ordered {
+    case: {
+      when: {
+        sql:  ${stage_name} = 'Potential Work - 95%';;
+        label: "Potential Work - 95%"
+      }
+      when: {
+        sql: ${stage_name} = 'Potential Work - 75%' ;;
+        label: "Potential Work - 75%"
+      }
+      when: {
+        sql: ${stage_name} = 'Potential Work - 50%' ;;
+        label: "Potential Work - 50%"
+      }
+      when: {
+        sql: ${stage_name} = 'Potential Work - 10%' ;;
+        label: "Potential Work - 10%"
+      }
+      when: {
+        sql: ${stage_name} = 'Proposing' ;;
+        label: "Proposing"
+      }
+      when: {
+        sql: ${stage_name} = 'Prospecting' ;;
+        label: "Prospecting"
+      }
+      when: {
+        sql: ${stage_name} = 'Targeting' ;;
+        label: "Targeting"
+      }
+    }
+  }
+
 
   measure: count_of_opportunities {
     type: count
