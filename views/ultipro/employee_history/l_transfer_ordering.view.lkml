@@ -5,7 +5,8 @@ view: l_transfer_ordering {
     indexes: ["employeeid"]
     sql: SELECT
           employeeid,
-          OrgLevel3 as companycode,
+          --OrgLevel3 as companycode,
+          CompanyCode as companycode,
           employment.LastHire as originalhire,
           terminationdate,
           statusstartdate,

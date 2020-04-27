@@ -2,6 +2,7 @@
 #But out of date with the latest below
 #l_calendar_month_company_transfers
 view: l_employee_history {
+  view_label: "Employment History"
 
   derived_table: {
     datagroup_trigger: daily
@@ -11,8 +12,8 @@ view: l_employee_history {
         company_code
       , calendar_month
       , EmployeeId
-      , sum(CASE WHEN status = 'Hired' then 1 else 0 end) as number_hired
-      , sum(CASE WHEN status = 'Terminated' then -1 else 0 end) as number_terminated
+      , sum(CASE WHEN status in ('Hired','Same Month') then 1 else 0 end) as number_hired
+      , sum(CASE WHEN status in ('Terminated','Same Month') then -1 else 0 end) as number_terminated
       , sum(CASE WHEN status = 'Transferred In' then 1 else 0 end) as number_transferred_in
       , sum(CASE WHEN status = 'Transferred Out' then -1 else 0 end) as number_transferred_out
       , sum(CASE WHEN status = 'Existing Headcount' then 1 else 0 end) as number_existing_headcount
@@ -20,16 +21,22 @@ view: l_employee_history {
             l_company_transfers.company_code
             , l_company_transfers.calendar_month
             , hired.originalhire
-            , CASE WHEN format(hired.OriginalHire,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Hired'
+            , CASE
+              WHEN format(hired.OriginalHire,'yyyyMM') = format(terminated.TerminationDate,'yyyyMM') THEN 'Same Month'
+              WHEN format(hired.OriginalHire,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Hired'
               WHEN format(terminated.TerminationDate,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Terminated'
-              WHEN format(l_company_transfers.CompanyStartDate,'yyyyMM') = l_company_transfers.calendar_month THEN 'Transferred In'
+              WHEN format(joined_company.CompanyStartDate,'yyyyMM') = l_company_transfers.calendar_month THEN 'Transferred In'
               WHEN format(left_company.CompanyEndDate,'yyyyMM') = l_company_transfers.calendar_month THEN 'Transferred Out'
               WHEN format(l_company_transfers.CompanyStartDate,'yyyyMM') <> l_company_transfers.calendar_month THEN 'Existing Headcount'
               ELSE NULL END as status
             , l_company_transfers.employeeid
             FROM ${l_calendar_month_company_transfers.SQL_TABLE_NAME} as l_company_transfers --calendar_dates
+                  LEFT OUTER JOIN ${l_company_transfers.SQL_TABLE_NAME} AS joined_company
+                      ON l_company_transfers.calendar_month = Format(joined_company.companystartdate, 'yyyyMM')
+                        AND l_company_transfers.company_code = joined_company.companycode
+                        AND l_company_transfers.employeeid = joined_company.employeeid
                   LEFT OUTER JOIN ${l_company_transfers.SQL_TABLE_NAME} AS left_company
-                      ON l_company_transfers.calendar_month = Format(l_company_transfers.companyenddate, 'yyyyMM')
+                      ON l_company_transfers.calendar_month = Format(left_company.companyenddate, 'yyyyMM')
                         AND l_company_transfers.company_code = left_company.companycode
                         AND l_company_transfers.employeeid = left_company.employeeid
                   LEFT OUTER JOIN
@@ -56,6 +63,7 @@ view: l_employee_history {
     type: time
     timeframes: [raw,month,quarter,year]
     sql: CONVERT(DATETIME2,CONCAT(${TABLE}.calendar_month,'01'),112)  ;;
+    convert_tz: no
   }
 
   dimension: employee_id {
@@ -97,7 +105,13 @@ view: l_employee_history {
   dimension: number_active_employee {
     hidden: yes
     type: number
-    sql: ${number_hired} + ${number_terminated} + ${number_existing_headcount}  ;;
+    sql: ${number_hired} + ${number_transferred_in} + ${number_existing_headcount}  ;;
+  }
+
+  dimension: starting_headcount {
+    hidden: yes
+    type: number
+    sql: ${number_existing_headcount} + ABS(${number_terminated}) ;;
   }
 
   measure: total_employees_hired {
@@ -133,7 +147,7 @@ view: l_employee_history {
   }
 
   measure: total_number_existing_headcount {
-    type: sum
+   type: sum
     sql: ${number_existing_headcount} ;;
     filters: [number_existing_headcount: "NOT 0"]
     drill_fields: [employee_id]
@@ -146,5 +160,11 @@ view: l_employee_history {
     drill_fields: [employee_id]
   }
 
+  measure: total_starting_headcount {
+    type: sum
+    sql: ${starting_headcount} ;;
+    filters: [starting_headcount: "NOT 0"]
+    drill_fields: [employee_id]
+  }
 
 }
