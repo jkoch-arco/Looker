@@ -97,7 +97,7 @@ view: l_employee_history {
   dimension: number_active_employee {
     hidden: yes
     type: number
-    sql: ${number_hired} + ${number_terminated} + ${number_existing_headcount} + ${number_transferred_in} ;;
+    sql: ${number_hired} + ${number_terminated} + ${number_existing_headcount}  ;;
   }
 
   measure: total_employees_hired {

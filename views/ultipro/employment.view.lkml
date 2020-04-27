@@ -14,9 +14,7 @@ view: employment {
     sql: ${employee_id} ;;
   }
 
-  dimension_group: bene_seniority {
-    label: "Benefit Seniority"
-    description: "This is the date when benefits are something"
+  dimension_group: benefit_seniority {
     type: time
     timeframes: [
       raw,
@@ -31,18 +29,20 @@ view: employment {
     sql: ${TABLE}.BeneSeniority ;;
   }
 
-  dimension: company_code {
+  dimension: parent_company_code {
+    group_label: "Organization"
     type: string
     sql: ${TABLE}.CompanyCode ;;
   }
 
-  dimension: company_cohort {
-    group_label: "This is grouped together"
+  dimension: cohort_company_code {
+    group_label: "Organization"
     type: string
     sql: ${TABLE}.CompanyCohort ;;
   }
 
-  dimension_group: date_in_job {
+  dimension_group: job_start {
+    description: "Start date of current job"
     type: time
     timeframes: [
       raw,
@@ -58,6 +58,7 @@ view: employment {
   }
 
   dimension: employee_id {
+    description: "Ultipro Unique Employee ID"
     type: string
     sql: ${TABLE}.EmployeeId ;;
   }
@@ -65,14 +66,17 @@ view: employment {
   dimension: employee_number {
     type: string
     sql: ${TABLE}.EmployeeNumber ;;
+    required_fields: [employee_id]
   }
 
   dimension: employee_type {
+    description: "Determines if regular or temporary employee"
     type: string
     sql: ${TABLE}.EmployeeType ;;
   }
 
   dimension: employment_status {
+    description: "Determines if employee is active or terminated"
     type: string
     sql: ${TABLE}.EmploymentStatus ;;
   }
@@ -112,12 +116,31 @@ view: employment {
     sql: ${TABLE}.LastHire ;;
   }
 
-  dimension: length_of_service {
+  dimension: length_of_service_days {
+    hidden: yes
+    group_label: "Length of Service"
     type: number
     sql: ${TABLE}.LengthOfService ;;
   }
 
+  dimension: length_of_service_months {
+    group_label: "Length of Service"
+    description: "Based on last hire date to today"
+    type: duration_month
+    sql_start: ${last_hire_raw} ;;
+    sql_end: getdate() ;;
+  }
+
+  dimension: length_of_service_years {
+    group_label: "Length of Service"
+    description: "Based on last hire date to today"
+    type: duration_year
+    sql_start: ${last_hire_raw} ;;
+    sql_end: getdate() ;;
+  }
+
   dimension_group: load_ts {
+    hidden: yes
     type: time
     timeframes: [
       raw,
@@ -132,6 +155,7 @@ view: employment {
   }
 
   dimension: local_union {
+    hidden: yes
     type: string
     sql: ${TABLE}.LocalUnion ;;
   }
@@ -147,36 +171,45 @@ view: employment {
   }
 
   dimension: national_union {
+    hidden: yes
     type: string
     sql: ${TABLE}.NationalUnion ;;
   }
 
-  dimension: org_level1 {
+  dimension: department_code {
+    group_label: "Organization"
     type: string
     sql: ${TABLE}.OrgLevel1 ;;
   }
 
-  dimension: org_level1_description {
+  dimension: department_description {
+    group_label: "Organization"
     type: string
     sql: ${TABLE}.OrgLevel1Description ;;
   }
 
-  dimension: org_level2 {
+  dimension: division_code {
+    group_label: "Organization"
     type: string
     sql: ${TABLE}.OrgLevel2 ;;
   }
 
-  dimension: org_level2_description {
+  dimension: division_description {
+    group_label: "Organization"
     type: string
     sql: ${TABLE}.OrgLevel2Description ;;
   }
 
-  dimension: org_level3 {
+  dimension: global_company_code {
+    group_label: "Organization"
+    label: "GL Company Code"
     type: string
     sql: ${TABLE}.OrgLevel3 ;;
   }
 
-  dimension: org_level3_description {
+  dimension: global_company_description {
+    group_label: "Organization"
+    label: "GL Company Description"
     type: string
     sql: ${TABLE}.OrgLevel3Description ;;
   }
@@ -202,11 +235,13 @@ view: employment {
   }
 
   dimension: pay_group {
+    hidden: yes
     type: string
     sql: ${TABLE}.PayGroup ;;
   }
 
   dimension: reason_code {
+    hidden: yes
     type: string
     sql: ${TABLE}.ReasonCode ;;
   }
@@ -227,6 +262,7 @@ view: employment {
   }
 
   dimension_group: status_start {
+    hidden: yes
     type: time
     timeframes: [
       raw,
@@ -241,22 +277,28 @@ view: employment {
     sql: ${TABLE}.StatusStartDate ;;
   }
 
+  #supervisor's group turnover, demographics, engagement
+  #IC or Supervisor
+  dimension: supervisor_id {
+    group_label: "Supervisor"
+    type: string
+    sql: ${TABLE}.SupervisorId ;;
+  }
+
   dimension: supervisor_employee_number {
+    group_label: "Supervisor"
     type: string
     sql: ${TABLE}.SupervisorEmployeeNumber ;;
   }
 
   dimension: supervisor_first_name {
+    group_label: "Supervisor"
     type: string
     sql: ${TABLE}.SupervisorFirstName ;;
   }
 
-  dimension: supervisor_id {
-    type: string
-    sql: ${TABLE}.SupervisorId ;;
-  }
-
   dimension: supervisor_last_name {
+    group_label: "Supervisor"
     type: string
     sql: ${TABLE}.SupervisorLastName ;;
   }
