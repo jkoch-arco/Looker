@@ -469,6 +469,7 @@ view: opportunities {
   }
 
   dimension: stage_name {
+    label: "Stage"
     group_label: "1 - Opportunity"
     type: string
     sql: ${TABLE}.STAGENAME ;;
@@ -541,6 +542,7 @@ view: opportunities {
   }
 
   dimension_group: creation {
+    label: "Created"
     group_label: "1 - Opportunity"
     type: time
     timeframes: [
@@ -555,6 +557,39 @@ view: opportunities {
     sql: ${TABLE}.CREATEDDATE ;;
   }
 
+  dimension: stage_ordered {
+    case: {
+      when: {
+        sql:  ${stage_name} = 'Potential Work - 95%';;
+        label: "Potential Work - 95%"
+      }
+      when: {
+        sql: ${stage_name} = 'Potential Work - 75%' ;;
+        label: "Potential Work - 75%"
+      }
+      when: {
+        sql: ${stage_name} = 'Potential Work - 50%' ;;
+        label: "Potential Work - 50%"
+      }
+      when: {
+        sql: ${stage_name} = 'Potential Work - 10%' ;;
+        label: "Potential Work - 10%"
+      }
+      when: {
+        sql: ${stage_name} = 'Proposing' ;;
+        label: "Proposing"
+      }
+      when: {
+        sql: ${stage_name} = 'Prospecting' ;;
+        label: "Prospecting"
+      }
+      when: {
+        sql: ${stage_name} = 'Targeting' ;;
+        label: "Targeting"
+      }
+    }
+  }
+
 
   measure: count_of_opportunities {
     type: count
@@ -562,7 +597,8 @@ view: opportunities {
   }
 
   measure: total_contract_amount {
-    group_label: "Opportunity Total"
+    group_label: "Total Amount"
+    label: "Total Amount"
     type: sum
     sql: ${amount} ;;
     value_format_name: usd
@@ -580,7 +616,7 @@ view: opportunities {
 
   measure: total_contract_amount_allocated {
     group_label: "Company Allocated"
-    label: "Amount w/ JV"
+    label: "JV Amount"
     type: sum
     sql: ${amount} * ${l_opportunities_weighting.company_weighting} ;;
     sql_distinct_key: ${l_opportunities_weighting.pk} ;;
@@ -590,7 +626,7 @@ view: opportunities {
 
   measure: total_contract_amount_allocated_with_probability {
     group_label: "Company Allocated"
-    label: "Amount w/ JV and Probability"
+    label: "Weighted Amount"
     type: sum
     sql: ${amount} * ${l_opportunities_weighting.company_weighting} * ${probability} ;;
     sql_distinct_key: ${l_opportunities_weighting.pk} ;;
@@ -652,12 +688,14 @@ view: opportunities {
   }
 
   measure: opportunity_creation_date {
+    label: "Created Date"
     group_label: "Other"
     type: date
     sql: max(${creation_date}) ;;
   }
 
   measure: opportunity_close_date {
+    label: "Close Date"
     group_label: "Other"
     type: date
     sql: max(${close_date}) ;;
