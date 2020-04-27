@@ -52,73 +52,99 @@ view: l_employee_history {
     sql: ${TABLE}.company_code ;;
   }
 
-  dimension: calendar_month {
-    type: string
-    sql: ${TABLE}.calendar_month ;;
+  dimension_group: calendar {
+    type: time
+    timeframes: [raw,month,quarter,year]
+    sql: CONVERT(DATETIME2,CONCAT(${TABLE}.calendar_month,'01'),112)  ;;
   }
 
   dimension: employee_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.EmployeeId ;;
   }
 
   dimension: number_hired {
+    hidden: yes
     type: number
     sql: ${TABLE}.number_hired ;;
   }
 
   dimension: number_terminated {
+    hidden: yes
     type: number
     sql: ${TABLE}.number_terminated ;;
   }
 
   dimension: number_transferred_in {
+    hidden: yes
     type: number
     sql: ${TABLE}.number_transferred_in ;;
   }
 
   dimension: number_transferred_out {
+    hidden: yes
     type: number
     sql: ${TABLE}.number_transferred_out ;;
   }
 
   dimension: number_existing_headcount {
+    hidden: yes
     type: number
     sql: ${TABLE}.number_existing_headcount ;;
   }
 
   dimension: number_active_employee {
+    hidden: yes
     type: number
-    sql: ${number_hired} + ${number_terminated} + ${number_existing_headcount} + ${number_transferred_in} + ABS(${number_transferred_out});;
+    sql: ${number_hired} + ${number_terminated} + ${number_existing_headcount} + ${number_transferred_in} ;;
   }
 
   measure: total_employees_hired {
+    description: "By each month, will show the number of new employees hired into ARCO"
     type: sum
     sql: ${number_hired} ;;
+    filters: [number_hired: "NOT 0"]
+    drill_fields: [employee_id]
   }
 
   measure: total_number_terminated {
+    description: "By each month, will show the number of terminated employees hired into ARCO"
     type: sum
     sql: ${number_terminated} ;;
+    filters: [number_terminated: "NOT 0"]
+    drill_fields: [employee_id]
   }
 
   measure: total_number_transferred_in {
+    description: "By each month, will show the number of employees moved into of a company code"
     type: sum
     sql: ${number_transferred_in} ;;
+    filters: [number_transferred_in: "NOT 0"]
+    drill_fields: [employee_id]
   }
 
   measure: total_number_transferred_out {
+    description: "By each month, will show the number of employees moved out of a company code"
     type: sum
     sql: ${number_transferred_out} ;;
-  }
-
-  measure: total_number_active_employee {
-    type: sum
-    sql: ${number_active_employee} ;;
+    filters: [number_transferred_out: "NOT 0"]
+    drill_fields: [employee_id]
   }
 
   measure: total_number_existing_headcount {
     type: sum
     sql: ${number_existing_headcount} ;;
+    filters: [number_existing_headcount: "NOT 0"]
+    drill_fields: [employee_id]
   }
+
+  measure: total_number_active_employee {
+    type: sum
+    sql: ${number_active_employee} ;;
+    filters: [number_active_employee: "NOT 0"]
+    drill_fields: [employee_id]
+  }
+
+
 }
