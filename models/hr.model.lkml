@@ -1,6 +1,7 @@
 connection: "preprod_arco_bidw_pii_read_access"
 
 include: "/views/ultipro/*.view.lkml"   #This includes all of the utlipro view files for these explores
+include: "/views/ultipro/employee_history/*.view.lkml"   #This includes all of the utlipro view files for these explores
 
 datagroup: daily {
   sql_trigger: SELECT CONVERT(VARCHAR(10), getdate(), 111) ;;

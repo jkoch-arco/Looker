@@ -1,5 +1,5 @@
+#Creates a table placing each major event (hired, transferred, terminated) from the employee record into the calendar table by company
 view: l_calendar_month_company_transfers {
-
   derived_table: {
     datagroup_trigger: daily
     indexes: ["employeeid"]
@@ -11,7 +11,5 @@ view: l_calendar_month_company_transfers {
           AND calendar_dates.calendar_month <= COALESCE(Format(l_company_transfers.companyenddate, 'yyyyMM'),Format(Getdate(), 'yyyyMM'))
           AND calendar_dates.company_code = l_company_transfers.companycode
           ;;
-
   }
-
-  }
+}

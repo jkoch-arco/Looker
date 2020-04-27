@@ -1,5 +1,5 @@
+#Creates a table aligning when an employee transferred in and out of a company within ARCO
 view: l_company_transfers {
-
   derived_table: {
     datagroup_trigger: daily
     indexes: ["employeeid"]
@@ -16,5 +16,4 @@ view: l_company_transfers {
       and transfer_ordering.employeeid = previous_company.employeeid
     ;;
   }
-
 }

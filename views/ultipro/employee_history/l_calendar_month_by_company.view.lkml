@@ -1,6 +1,4 @@
-# If necessary, uncomment the line below to include explore_source.
-# include: "hr.model.lkml"
-
+#Creates a table containing by month, every company code
 view: l_calendar_month_by_company {
   derived_table: {
     datagroup_trigger: daily
