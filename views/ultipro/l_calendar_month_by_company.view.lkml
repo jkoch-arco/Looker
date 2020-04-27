@@ -12,7 +12,6 @@ view: l_calendar_month_by_company {
         sql: format( date_month , 'yyyyMM' ) ;;
       }
       filters: [calendar.date_month: "120 months"]
-      #filters: [company.company_number_padded: "009,003,010"]
     }
   }
   dimension: date_month {
