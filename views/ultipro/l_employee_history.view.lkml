@@ -176,4 +176,10 @@ view: l_employee_history {
     drill_fields: [employee_id]
   }
 
+  measure: turnover {
+    type: number
+    value_format_name: percent_1
+    sql: 1.0 * ${total_number_terminated} / NULLIF( (${total_starting_headcount}+${total_number_active_employee})/2 ,0)  ;;
+  }
+
 }
