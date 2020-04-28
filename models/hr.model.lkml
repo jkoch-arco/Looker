@@ -25,12 +25,6 @@ explore: employment {
     sql_on: ${employment.employee_id} = ${employment_salary_term.employee_id} and ${employment.parent_company_code} = ${employment_salary_term.company_code} ;;
   }
 
-#   join: job_eeo_flsa {
-#     type: left_outer
-#     relationship: many_to_one
-#     sql_on: ${employment.job_code} = ${job_eeo_flsa.job_code} ;;
-#   }
-
   join: person {
     type: left_outer
     relationship: one_to_one
@@ -42,6 +36,41 @@ explore: employment {
     relationship: one_to_many
     sql_on: ${employment.employee_id} = ${l_employee_history.employee_id} ;;
   }
+
+#table disappeared from schema
+#   join: job_eeo_flsa {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${employment.job_code} = ${job_eeo_flsa.job_code} ;;
+#   }
+
+#Permission issue
+#   join: cohort_company {
+#     view_label: "Employment"
+#     fields: [cohort_company.company_name]
+#     from: company
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${employment.cohort_company_code} = ${cohort_company.company_number_padded} ;;
+#   }
+#
+#   join: gl_company {
+#     view_label: "Employment"
+#     fields: [gl_company.company_name]
+#     from: company
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${employment.global_company_code} = ${gl_company.company_number_padded} ;;
+#   }
+#
+#   join: parent_company {
+#     view_label: "Employment"
+#     fields: [parent_company.company_name]
+#     from: company
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${employment.parent_company_code} = ${parent_company.company_number_padded} ;;
+#   }
 
 }
 

@@ -17,6 +17,8 @@ view: company {
   }
 
   dimension: company_name {
+    group_label: "Organization"
+    label: "{{_view._name | capitalize | replace:'_',' '}} Name"
     type: string
     sql: ${TABLE}.Company_Name ;;
   }
