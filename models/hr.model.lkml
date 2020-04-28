@@ -76,7 +76,7 @@ explore: employment {
 
 explore: calendar {
   hidden: yes
-  join: company {
+  join: l_hr_company_codes {
     type: cross
     relationship: one_to_many
   }
