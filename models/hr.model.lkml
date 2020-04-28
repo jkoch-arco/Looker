@@ -14,31 +14,31 @@ explore: employment {
   AND (${termination_reason_code} <> 'TRO' or ${termination_reason_code} is null);;
 
   join: employee_address {
-    type: inner
+    type: left_outer
     relationship: one_to_one
     sql_on: ${employment.employee_id} = ${employee_address.employee_id} ;;
   }
 
-  join: employee_sal_term {
-    type: inner
-    relationship: one_to_many
-    sql_on: ${employment.employee_id} = ${employee_sal_term.employee_id} ;;
+  join: employment_salary_term {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${employment.employee_id} = ${employment_salary_term.employee_id} and ${employment.parent_company_code} = ${employment_salary_term.company_code} ;;
   }
 
-  join: job_eeo_flsa {
-    type: inner
-    relationship: many_to_one
-    sql_on: ${employment.job_code} = ${job_eeo_flsa.job_code} ;;
-  }
+#   join: job_eeo_flsa {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${employment.job_code} = ${job_eeo_flsa.job_code} ;;
+#   }
 
   join: person {
-    type: inner
+    type: left_outer
     relationship: one_to_one
     sql_on: ${employment.employee_id} = ${person.employee_id} ;;
   }
 
   join: l_employee_history {
-    type: inner
+    type: left_outer
     relationship: one_to_many
     sql_on: ${employment.employee_id} = ${l_employee_history.employee_id} ;;
   }

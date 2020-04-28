@@ -1,34 +1,63 @@
 view: employee_address {
+  view_label: "Employment"
   sql_table_name: ARCO_BIDW_PII.ultipro.Employee_Address ;;
 
-  dimension: city {
-    type: string
-    sql: ${TABLE}.City ;;
-  }
-
-
-  dimension: country_code {
-    type: string
-    sql: ${TABLE}.CountryCode ;;
-  }
-
-  dimension: country_name {
-    type: string
-    sql: ${TABLE}.CountryName ;;
-  }
-
-  dimension: county {
-    type: string
-    sql: ${TABLE}.County ;;
-  }
+  # Dimensions
 
   dimension: employee_id {
+    hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.EmployeeId ;;
   }
 
+  dimension: postal_code {
+    group_label: "Address"
+    type: string
+    map_layer_name: us_zipcode_tabulation_areas
+    sql: ${TABLE}.PostalCode ;;
+  }
+
+  dimension: city {
+    group_label: "Address"
+    type: string
+    sql: ${TABLE}.City ;;
+  }
+
+  dimension: county {
+    group_label: "Address"
+    type: string
+    sql: ${TABLE}.County ;;
+  }
+
+  dimension: state_or_province {
+    group_label: "Address"
+    type: string
+    map_layer_name: us_states
+    sql: ${TABLE}.StateOrProvince ;;
+  }
+
+  dimension: country_code {
+    hidden: yes
+    group_label: "Address"
+    type: string
+    map_layer_name: countries
+    sql: ${TABLE}.CountryCode ;;
+  }
+
+  dimension: country_name {
+    group_label: "Address"
+    type: string
+    map_layer_name: countries
+    sql: ${TABLE}.CountryName ;;
+  }
+
+  #}
+
+  # ETL / Loading Fields {
+
   dimension_group: load_ts {
+    hidden: yes
     type: time
     timeframes: [
       raw,
@@ -42,19 +71,6 @@ view: employee_address {
     sql: ${TABLE}.LOAD_TS ;;
   }
 
-  dimension: postal_code {
-    type: string
-    map_layer_name: us_zipcode_tabulation_areas
-    sql: ${TABLE}.PostalCode ;;
-  }
+  #}
 
-  dimension: state_or_province {
-    type: string
-    sql: ${TABLE}.StateOrProvince ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [country_name]
-  }
 }
