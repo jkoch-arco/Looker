@@ -9,7 +9,7 @@ view: l_calendar_month_by_company {
       derived_column: calendar_month {
         sql: format( date_month , 'yyyyMM' ) ;;
       }
-      filters: [calendar.date_month: "120 months"]
+      #filters: [calendar.date_month: "120 months"]
     }
   }
   dimension: date_month {
