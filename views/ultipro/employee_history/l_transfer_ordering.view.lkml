@@ -5,14 +5,14 @@ view: l_transfer_ordering {
     indexes: ["employeeid"]
     sql: SELECT
           employeeid,
-          OrgLevel3 as companycode,
-          --CompanyCode as companycode,
+          --OrgLevel3 as companycode,
+          CompanyCode as companycode,
           employment.LastHire as originalhire,
           terminationdate,
           statusstartdate,
           terminationreasoncode,
-          Row_number() OVER(partition BY employeeid ORDER BY statusstartdate ASC) AS company_transfer_ordering,
-          Row_number() OVER(partition BY employeeid ORDER BY statusstartdate DESC) AS most_recent_record
+          Row_number() OVER(partition BY employeeid ORDER BY statusstartdate ASC, terminationdate DESC) AS company_transfer_ordering, --fixes issue where statusstartdate was the same between 2 records
+          Row_number() OVER(partition BY employeeid ORDER BY statusstartdate DESC, terminationdate ASC) AS most_recent_record --fixes issue where statusstartdate was the same between 2 records
         FROM ARCO_BIDW_PII.ultipro.employment AS employment
         WHERE employment.load_ts = (SELECT Max(load_ts) FROM ARCO_BIDW_PII.ultipro.employment)
           --AND employeeid = 'BRE06P00P0K0'

@@ -49,6 +49,7 @@ view: l_employee_history {
                       ON l_company_transfers.calendar_month = Format(terminated.terminationdate, 'yyyyMM')
                         AND terminated.companycode = l_company_transfers.company_code
                         AND terminated.employeeid = l_company_transfers.employeeid
+            WHERE l_company_transfers.calendar_month is not null
           ) AS cleaned_up_records
     GROUP  BY company_code,calendar_month, EmployeeId
         ;;
@@ -111,58 +112,58 @@ view: l_employee_history {
   dimension: starting_headcount {
     hidden: yes
     type: number
-    sql: ${number_existing_headcount} + ABS(${number_terminated}) ;;
+    sql: ${number_existing_headcount} + ABS(${number_terminated}) + ${number_transferred_in} ;;
   }
 
   measure: total_employees_hired {
     description: "By each month, will show the number of new employees hired into ARCO"
-    type: sum
-    sql: ${number_hired} ;;
+    type: count_distinct
+    sql: ${employee_id} ;;
     filters: [number_hired: "NOT 0"]
     drill_fields: [employee_id]
   }
 
   measure: total_number_terminated {
     description: "By each month, will show the number of terminated employees hired into ARCO"
-    type: sum
-    sql: ${number_terminated} ;;
+    type: count_distinct
+    sql: ${employee_id} ;;
     filters: [number_terminated: "NOT 0"]
-    drill_fields: [employee_id]
+    drill_fields: [employee_id,total_number_terminated,employment.employment_status]
   }
 
   measure: total_number_transferred_in {
     description: "By each month, will show the number of employees moved into of a company code"
-    type: sum
-    sql: ${number_transferred_in} ;;
+    type: count_distinct
+    sql: ${employee_id} ;;
     filters: [number_transferred_in: "NOT 0"]
     drill_fields: [employee_id]
   }
 
   measure: total_number_transferred_out {
     description: "By each month, will show the number of employees moved out of a company code"
-    type: sum
-    sql: ${number_transferred_out} ;;
+    type: count_distinct
+    sql: ${employee_id} ;;
     filters: [number_transferred_out: "NOT 0"]
     drill_fields: [employee_id]
   }
 
   measure: total_number_existing_headcount {
-   type: sum
-    sql: ${number_existing_headcount} ;;
+    type: count_distinct
+    sql: ${employee_id} ;;
     filters: [number_existing_headcount: "NOT 0"]
     drill_fields: [employee_id]
   }
 
   measure: total_number_active_employee {
-    type: sum
-    sql: ${number_active_employee} ;;
+    type: count_distinct
+    sql: ${employee_id} ;;
     filters: [number_active_employee: "NOT 0"]
     drill_fields: [employee_id]
   }
 
   measure: total_starting_headcount {
-    type: sum
-    sql: ${starting_headcount} ;;
+    type: count_distinct
+    sql: ${employee_id} ;;
     filters: [starting_headcount: "NOT 0"]
     drill_fields: [employee_id]
   }
