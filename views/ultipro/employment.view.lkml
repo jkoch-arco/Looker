@@ -342,6 +342,12 @@ view: employment {
     type: count
   }
 
+  measure: average_tenure {
+    type: average
+    sql: 1.0*${length_of_service_years} ;;
+    value_format_name: decimal_1
+  }
+
   measure: count_of_employees {
     type: count_distinct
     sql: ${employee_id} ;;

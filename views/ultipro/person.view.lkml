@@ -41,6 +41,12 @@ view: person {
     sql: ${TABLE}.Gender ;;
   }
 
+  measure: average_age {
+    type: average
+    sql: 1.0*${age} ;;
+    value_format_name: decimal_1
+  }
+
   dimension_group: load_ts {
     hidden: yes
     type: time
