@@ -5,12 +5,13 @@ view: l_transfer_ordering {
     indexes: ["employeeid"]
     sql: SELECT
           employeeid,
-          --OrgLevel3 as companycode,
-          CompanyCode as companycode,
-          employment.LastHire as originalhire,
+          OrgLevel3 as companycode,
+          --CompanyCode as companycode,
+          employment.LastHire as hire,
           terminationdate,
           statusstartdate,
           terminationreasoncode,
+          OrgLevel1Description as department_description,
           Row_number() OVER(partition BY employeeid ORDER BY statusstartdate ASC, terminationdate DESC) AS company_transfer_ordering, --fixes issue where statusstartdate was the same between 2 records
           Row_number() OVER(partition BY employeeid ORDER BY statusstartdate DESC, terminationdate ASC) AS most_recent_record --fixes issue where statusstartdate was the same between 2 records
         FROM ARCO_BIDW_PII.ultipro.employment AS employment

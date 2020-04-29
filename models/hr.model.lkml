@@ -10,8 +10,8 @@ datagroup: daily {
 persist_with: daily
 
 explore: employment {
-  sql_always_where: ${load_ts_raw} = (Select MAX(LOAD_TS) FROM ultipro.Employment)
-  AND (${termination_reason_code} <> 'TRO' or ${termination_reason_code} is null);;
+  #sql_always_where: ${load_ts_raw} = (Select MAX(LOAD_TS) FROM ultipro.Employment) AND (${termination_reason_code} <> 'TRO' or ${termination_reason_code} is null);;
+  sql_always_where: ${most_recent_employee_record} = 1 ;; #This will exclude transfers and former re-hire records
 
   join: employee_address {
     type: left_outer

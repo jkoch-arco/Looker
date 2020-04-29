@@ -5,7 +5,7 @@ view: l_calendar_month_by_company {
     indexes: ["date_month"]
     explore_source: calendar {
       column: date_month {}
-      column: company_code { field: l_hr_company_codes.parent_company_code }
+      column: company_code { field: l_hr_company_codes.global_company_code }
       derived_column: calendar_month {
         sql: format( date_month , 'yyyyMM' ) ;;
       }

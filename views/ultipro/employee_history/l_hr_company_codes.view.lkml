@@ -2,8 +2,8 @@
 view: l_hr_company_codes {
   derived_table: {
     explore_source: employment {
-      column: parent_company_code {}
+      column: global_company_code {}
     }
   }
-  dimension: parent_company_code {}
+  dimension: global_company_code {}
 }

@@ -5,13 +5,14 @@ view: l_employee_history {
   view_label: "Employment History"
 
   derived_table: {
-    datagroup_trigger: daily
-    indexes: ["employeeid"]
+    #datagroup_trigger: daily
+    #indexes: ["employeeid"]
     sql:
     Select
         company_code
       , calendar_month
       , EmployeeId
+      , department_description
       , sum(CASE WHEN status in ('Hired','Same Month') then 1 else 0 end) as number_hired
       , sum(CASE WHEN status in ('Terminated','Same Month') then -1 else 0 end) as number_terminated
       , sum(CASE WHEN status = 'Transferred In' then 1 else 0 end) as number_transferred_in
@@ -20,16 +21,17 @@ view: l_employee_history {
     FROM (SELECT
             l_company_transfers.company_code
             , l_company_transfers.calendar_month
-            , hired.originalhire
+            , hired.hire
             , CASE
-              WHEN format(hired.OriginalHire,'yyyyMM') = format(terminated.TerminationDate,'yyyyMM') THEN 'Same Month'
-              WHEN format(hired.OriginalHire,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Hired'
+              WHEN format(hired.hire,'yyyyMM') = format(terminated.TerminationDate,'yyyyMM') THEN 'Same Month'
+              WHEN format(hired.hire,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Hired'
               WHEN format(terminated.TerminationDate,'yyyyMM') = l_company_transfers.calendar_month  THEN 'Terminated'
               WHEN format(joined_company.CompanyStartDate,'yyyyMM') = l_company_transfers.calendar_month THEN 'Transferred In'
               WHEN format(left_company.CompanyEndDate,'yyyyMM') = l_company_transfers.calendar_month THEN 'Transferred Out'
               WHEN format(l_company_transfers.CompanyStartDate,'yyyyMM') <> l_company_transfers.calendar_month THEN 'Existing Headcount'
               ELSE NULL END as status
             , l_company_transfers.employeeid
+            , l_company_transfers.department_description
             FROM
                 (
                 Select calendar_dates.*, l_company_transfers.*
@@ -38,7 +40,7 @@ view: l_employee_history {
                     ON calendar_dates.calendar_month >= Format(l_company_transfers.companystartdate, 'yyyyMM')
                       AND calendar_dates.calendar_month <= COALESCE(Format(l_company_transfers.companyenddate, 'yyyyMM'),Format(Getdate(), 'yyyyMM'))
                       AND calendar_dates.company_code = l_company_transfers.companycode
-                ) as l_company_transfers --calendar_dates
+                ) as l_company_transfers
                 LEFT OUTER JOIN ${l_company_transfers.SQL_TABLE_NAME} AS joined_company
                     ON l_company_transfers.calendar_month = Format(joined_company.companystartdate, 'yyyyMM')
                       AND l_company_transfers.company_code = joined_company.companycode
@@ -49,7 +51,7 @@ view: l_employee_history {
                       AND l_company_transfers.employeeid = left_company.employeeid
                 LEFT OUTER JOIN
                   (SELECT * FROM ${l_transfer_ordering.SQL_TABLE_NAME} AS transfer_ordering WHERE  company_transfer_ordering = 1) AS hired
-                    ON l_company_transfers.calendar_month = Format(hired.originalhire, 'yyyyMM')
+                    ON l_company_transfers.calendar_month = Format(hired.hire, 'yyyyMM')
                       AND hired.companycode = l_company_transfers.company_code
                       AND hired.employeeid = l_company_transfers.employeeid
                 LEFT OUTER JOIN
@@ -59,7 +61,8 @@ view: l_employee_history {
                       AND terminated.employeeid = l_company_transfers.employeeid
             WHERE l_company_transfers.calendar_month is not null
           ) AS cleaned_up_records
-    GROUP  BY company_code,calendar_month, EmployeeId
+    WHERE {% condition employment.department_description %} department_description {% endcondition %}
+    GROUP  BY company_code,calendar_month, EmployeeId,department_description
         ;;
   }
 
@@ -79,6 +82,12 @@ view: l_employee_history {
     hidden: yes
     type: string
     sql: ${TABLE}.EmployeeId ;;
+  }
+
+  dimension: department_description {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.department_description ;;
   }
 
   dimension: number_hired {

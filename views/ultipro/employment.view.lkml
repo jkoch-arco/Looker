@@ -1,5 +1,6 @@
 view: employment {
-  sql_table_name: ARCO_BIDW_PII.ultipro.Employment ;;
+  #sql_table_name: ARCO_BIDW_PII.ultipro.Employment ;;
+  sql_table_name: (SELECT Row_number() OVER(partition BY employeeid ORDER BY statusstartdate DESC, terminationdate ASC) as most_recent_employee_record, Employment.* FROM ultipro.Employment WHERE LOAD_TS = (Select MAX(LOAD_TS) FROM ultipro.Employment)) ;;
 
   # Primary Key {
 
@@ -14,6 +15,12 @@ view: employment {
     primary_key: yes
     hidden: yes
     sql: ${employee_id} ;;
+  }
+
+  dimension: most_recent_employee_record {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.most_recent_employee_record ;;
   }
 
   #}
