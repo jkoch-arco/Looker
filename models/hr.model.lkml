@@ -81,3 +81,7 @@ explore: calendar {
     relationship: one_to_many
   }
 }
+
+explore: l_employee_hierarchy {
+
+}
