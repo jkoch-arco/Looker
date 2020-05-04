@@ -38,6 +38,13 @@ explore: employment {
     sql_on: ${employment.employee_id} = ${l_employee_history.employee_id} ;;
   }
 
+  join: l_employee_role_type {
+    view_label: "Employment"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${employment.employee_id} = ${l_employee_role_type.employee_id} ;;
+  }
+
 #table disappeared from schema
 #   join: job_eeo_flsa {
 #     type: left_outer
@@ -83,6 +90,6 @@ explore: calendar {
   }
 }
 
-explore: l_employee_hierarchy {
+explore: l_employee_role_type {
 
 }
