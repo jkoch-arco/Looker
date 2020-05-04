@@ -1,5 +1,6 @@
 view: company {
-  sql_table_name: ARCO_BIDW_PII.arco.Company ;;
+  #sql_table_name: ARCO_BIDW_PII.arco.Company ;; --Main reference table didn't contain all GL Company Codes
+  sql_table_name: ${l_mdm_hr_company_codes.SQL_TABLE_NAME} ;;
 
   dimension: city {
     type: string
@@ -20,7 +21,7 @@ view: company {
     group_label: "Organization"
     label: "{{_view._name | capitalize | replace:'_',' '}} Name"
     type: string
-    sql: ${TABLE}.Company_Name ;;
+    sql: COALESCE(${TABLE}.Company_Name,'Unavilable') ;;
   }
 
   dimension: company_number {
@@ -30,7 +31,7 @@ view: company {
 
   dimension: company_number_padded {
     type: string
-    sql: right(replicate('0',3)+cast(${company_number} as varchar(3)),3)  ;;
+    sql: ${TABLE}.company_number_padded  ;;
   }
 
   dimension: company_parent {

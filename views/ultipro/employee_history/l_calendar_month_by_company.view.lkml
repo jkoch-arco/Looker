@@ -1,4 +1,4 @@
-#Creates a table containing by month, every company code
+#Creates a table containing by month, every global company code
 view: l_calendar_month_by_company {
   derived_table: {
     datagroup_trigger: daily
@@ -9,7 +9,6 @@ view: l_calendar_month_by_company {
       derived_column: calendar_month {
         sql: format( date_month , 'yyyyMM' ) ;;
       }
-      #filters: [calendar.date_month: "120 months"]
     }
   }
   dimension: date_month {

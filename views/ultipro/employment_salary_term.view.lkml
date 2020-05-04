@@ -33,6 +33,14 @@ view: employment_salary_term {
     sql: ${TABLE}.AnnualSalary ;;
   }
 
+  dimension: salary_tier {
+    group_label: "Salary"
+    type: tier
+    tiers: [0,18,30,40,50,60]
+    style: integer
+    sql: ${annual_salary} ;;
+  }
+
   dimension: salary_or_hourly_code {
     group_label: "Salary"
     type: string

@@ -2,6 +2,7 @@ connection: "preprod_arco_bidw_pii_read_access"
 
 include: "/views/ultipro/*.view.lkml"   #This includes all of the utlipro view files for these explores
 include: "/views/ultipro/employee_history/*.view.lkml"   #This includes all of the utlipro view files for these explores
+include: "/views/ultipro/company/*.view.lkml"
 
 datagroup: daily {
   sql_trigger: SELECT CONVERT(VARCHAR(10), getdate(), 111) ;;
@@ -10,7 +11,7 @@ datagroup: daily {
 persist_with: daily
 
 explore: employment {
-  #sql_always_where: ${load_ts_raw} = (Select MAX(LOAD_TS) FROM ultipro.Employment) AND (${termination_reason_code} <> 'TRO' or ${termination_reason_code} is null);;
+
   sql_always_where: ${most_recent_employee_record} = 1 ;; #This will exclude transfers and former re-hire records
 
   join: employee_address {
