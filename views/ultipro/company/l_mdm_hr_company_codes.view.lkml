@@ -1,4 +1,5 @@
 #Cleans up additional company names if they were unavailable in the main table, used in company
+#Added 001 manually as it doesn't naturally occur in GL Company Codes
 view: l_mdm_hr_company_codes {
   derived_table: {
     datagroup_trigger: daily
