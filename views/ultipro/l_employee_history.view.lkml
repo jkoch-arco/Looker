@@ -145,7 +145,7 @@ view: l_employee_history {
     type: count_distinct
     sql: ${employee_id} ;;
     filters: [number_terminated: "NOT 0"]
-    drill_fields: [employee_id,total_number_terminated,employment.employment_status]
+    drill_fields: [employee_id,total_number_terminated,employment.employment_status,company_code]
   }
 
   measure: total_number_transferred_in {

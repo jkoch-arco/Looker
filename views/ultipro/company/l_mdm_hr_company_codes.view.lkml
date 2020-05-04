@@ -13,6 +13,7 @@ view: l_mdm_hr_company_codes {
         company.company_parent,
         CASE WHEN coalesce(cast(l_hr_company_codes.global_company_code as int), company.company_number) = 11 THEN 'AMNC'
         WHEN coalesce(cast(l_hr_company_codes.global_company_code as int), company.company_number) = 46 THEN 'AMNC'
+        WHEN coalesce(cast(l_hr_company_codes.global_company_code as int), company.company_number) = 1 THEN '001 - The Murray Company'
         ELSE company.company_name end as company_name,
         company.company_full_name,
         company.city,
