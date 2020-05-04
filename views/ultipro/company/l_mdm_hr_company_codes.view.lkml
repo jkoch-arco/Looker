@@ -22,6 +22,6 @@ view: l_mdm_hr_company_codes {
         company.other_state_code,
         company.year_est
       FROM ARCO_BIDW_PII.arco.Company as company
-        FULL OUTER JOIN ${l_hr_company_codes.SQL_TABLE_NAME} as l_hr_company_codes ON right(replicate('0',3)+cast(company.company_number as varchar(3)),3)  = l_hr_company_codes.global_company_code;;
+        FULL OUTER JOIN ( Select global_company_code FROM ${l_hr_company_codes.SQL_TABLE_NAME} as l_hr_company_codes UNION Select '001') as l_hr_company_codes ON right(replicate('0',3)+cast(company.company_number as varchar(3)),3)  = l_hr_company_codes.global_company_code;;
   }
 }
