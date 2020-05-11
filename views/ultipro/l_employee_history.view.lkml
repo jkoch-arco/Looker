@@ -129,8 +129,7 @@ view: l_employee_history {
   dimension: number_active_employee {
     hidden: yes
     type: number
-    #sql: ${number_hired} + ${number_transferred_in} + ${number_existing_headcount}  ;;
-    sql: ${number_existing_headcount} + ${number_hired} + ${number_transferred_in} + ${number_terminated} + ${number_transferred_out} ;;
+    sql: ${number_existing_headcount} + ${number_hired} + ${number_transferred_in} ;;
   }
 
   measure: total_employees_hired {
@@ -166,16 +165,10 @@ view: l_employee_history {
   }
 
   measure: total_number_existing_headcount {
+    description: "By each month, will show the number of employees who had no HR events of hired, transferred, or terminated"
     type: count_distinct
     sql: ${employee_id} ;;
     filters: [number_existing_headcount: "NOT 0"]
-    drill_fields: [employee_id]
-  }
-
-  measure: total_number_active_employee {
-    type: count_distinct
-    sql: ${employee_id} ;;
-    filters: [number_active_employee: "NOT 0"]
     drill_fields: [employee_id]
   }
 
@@ -186,10 +179,17 @@ view: l_employee_history {
     drill_fields: [employee_id]
   }
 
+  measure: total_number_active_employee {
+    type: count_distinct
+    sql: ${employee_id} ;;
+    filters: [number_active_employee: "NOT 0"]
+    drill_fields: [employee_id]
+  }
+
   measure: turnover {
     type: number
     value_format_name: percent_1
-    sql: (1.0 * (${total_number_terminated} + ${total_number_transferred_out})) / NULLIF( (${total_starting_headcount}+${total_number_active_employee})/2 ,0)  ;;
+    sql: (1.0 * (coalesce(${total_number_terminated},0) + coalesce(${total_number_transferred_out},0))) / NULLIF( 1.0 * (coalesce(${total_starting_headcount},0)+coalesce(${total_number_active_employee},0))/2 ,0)  ;;
     required_fields: [calendar_month]
   }
 
