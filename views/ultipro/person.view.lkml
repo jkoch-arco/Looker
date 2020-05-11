@@ -1,6 +1,6 @@
 view: person {
   view_label: "Employment"
-  sql_table_name: ARCO_BIDW_PII.ultipro.Person ;;
+  sql_table_name: ultipro.Person ;;
 
   dimension: employee_id {
     hidden: yes

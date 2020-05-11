@@ -1,5 +1,5 @@
 view: calendar {
-  sql_table_name: ARCO_BIDW_PII.arco.Calendar ;;
+  sql_table_name: arco.Calendar ;;
 
   dimension_group: date {
     type: time

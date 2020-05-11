@@ -1,6 +1,6 @@
 view: employment_salary_term {
   view_label: "Employment"
-  sql_table_name: ARCO_BIDW_PII.ultipro.Employee_Sal_Term ;;
+  sql_table_name: ultipro.Employee_Sal_Term ;;
 
   dimension: primary_key {
     hidden: yes

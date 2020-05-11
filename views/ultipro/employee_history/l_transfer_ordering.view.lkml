@@ -14,8 +14,8 @@ view: l_transfer_ordering {
           OrgLevel1Description as department_description,
           Row_number() OVER(partition BY employeeid ORDER BY statusstartdate ASC, terminationdate DESC) AS company_transfer_ordering, --fixes issue where statusstartdate was the same between 2 records
           Row_number() OVER(partition BY employeeid ORDER BY statusstartdate DESC, terminationdate ASC) AS most_recent_record --fixes issue where statusstartdate was the same between 2 records
-        FROM ARCO_BIDW_PII.ultipro.employment AS employment
-        WHERE employment.load_ts = (SELECT Max(load_ts) FROM ARCO_BIDW_PII.ultipro.employment)
+        FROM ultipro.employment AS employment
+        WHERE employment.load_ts = (SELECT Max(load_ts) FROM ultipro.employment)
           --AND employeeid = 'BRE06P00P0K0'
           ;;
   }
