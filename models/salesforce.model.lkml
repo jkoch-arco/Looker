@@ -37,4 +37,10 @@ explore: opportunities {
     sql_on: ${opportunities.id} = ${l_opportunities_summary.opportunity_id};;
   }
 
+  join: l_pm_bonus_list {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${opportunities.id} = ${l_pm_bonus_list.opportunity_id} ;;
+  }
+
 }
