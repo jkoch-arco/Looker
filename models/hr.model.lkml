@@ -80,6 +80,15 @@ explore: employment {
     sql_on: ${employment.parent_company_code} = ${parent_company.company_number_padded} ;;
   }
 
+  join: transfer_company {
+    view_label: "Employment History"
+    fields: [transfer_company.company_name]
+    from: company
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${l_employee_history.company_code} = ${transfer_company.company_number_padded} ;;
+  }
+
 }
 
 explore: calendar {

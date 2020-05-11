@@ -67,6 +67,7 @@ view: l_employee_history {
   }
 
   dimension: company_code {
+    group_label: "Organization"
     type: string
     sql: ${TABLE}.company_code ;;
   }
@@ -173,6 +174,7 @@ view: l_employee_history {
   }
 
   measure: total_starting_headcount {
+    description: "By each month, the number of employees part of a company prior to transfer out or terminations (i.e. the start of the month)"
     type: count_distinct
     sql: ${employee_id} ;;
     filters: [starting_headcount: "NOT 0"]
@@ -180,6 +182,7 @@ view: l_employee_history {
   }
 
   measure: total_number_active_employee {
+    description: "By each month, the number of employees part of a company after accounting for hires and transfer in (i.e. the end of the month)"
     type: count_distinct
     sql: ${employee_id} ;;
     filters: [number_active_employee: "NOT 0"]
@@ -191,6 +194,7 @@ view: l_employee_history {
     value_format_name: percent_1
     sql: (1.0 * (coalesce(${total_number_terminated},0) + coalesce(${total_number_transferred_out},0))) / NULLIF( 1.0 * (coalesce(${total_starting_headcount},0)+coalesce(${total_number_active_employee},0))/2 ,0)  ;;
     required_fields: [calendar_month]
+    drill_fields: [calendar_month, turnover, total_starting_headcount, total_number_active_employee, total_number_transferred_in, total_number_transferred_out, total_employees_hired, total_number_terminated]
   }
 
 }
