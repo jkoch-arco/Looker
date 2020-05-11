@@ -120,16 +120,17 @@ view: l_employee_history {
     sql: ${TABLE}.number_existing_headcount ;;
   }
 
-  dimension: number_active_employee {
-    hidden: yes
-    type: number
-    sql: ${number_hired} + ${number_transferred_in} + ${number_existing_headcount}  ;;
-  }
-
   dimension: starting_headcount {
     hidden: yes
     type: number
-    sql: ${number_existing_headcount} + ABS(${number_terminated}) + ${number_transferred_in} ;;
+    sql: ${number_existing_headcount} + ABS(${number_terminated}) + ABS(${number_transferred_out}) ;;
+  }
+
+  dimension: number_active_employee {
+    hidden: yes
+    type: number
+    #sql: ${number_hired} + ${number_transferred_in} + ${number_existing_headcount}  ;;
+    sql: ${number_existing_headcount} + ${number_hired} + ${number_transferred_in} + ${number_terminated} + ${number_transferred_out} ;;
   }
 
   measure: total_employees_hired {
@@ -188,7 +189,7 @@ view: l_employee_history {
   measure: turnover {
     type: number
     value_format_name: percent_1
-    sql: 1.0 * ${total_number_terminated} / NULLIF( (${total_starting_headcount}+${total_number_active_employee})/2 ,0)  ;;
+    sql: (1.0 * (${total_number_terminated} + ${total_number_transferred_out})) / NULLIF( (${total_starting_headcount}+${total_number_active_employee})/2 ,0)  ;;
     required_fields: [calendar_month]
   }
 
