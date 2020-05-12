@@ -91,31 +91,31 @@ view: l_employee_history {
     sql: ${TABLE}.department_description ;;
   }
 
-  dimension: number_hired {
+  dimension: hired {
     hidden: yes
     type: yesno
     sql: ${TABLE}.number_hired = 1 ;;
   }
 
-  dimension: number_terminated {
+  dimension: terminated {
     hidden: yes
     type: yesno
     sql: ${TABLE}.number_terminated = -1 ;;
   }
 
-  dimension: number_transferred_in {
+  dimension: transferred_in {
     hidden: yes
     type: yesno
     sql: ${TABLE}.number_transferred_in = 1 ;;
   }
 
-  dimension: number_transferred_out {
+  dimension: transferred_out {
     hidden: yes
     type: yesno
     sql: ${TABLE}.number_transferred_out = -1 ;;
   }
 
-  dimension: number_existing_headcount {
+  dimension: existing_headcount {
     hidden: yes
     type: yesno
     sql: ${TABLE}.number_existing_headcount = 1 ;;
@@ -124,23 +124,20 @@ view: l_employee_history {
   dimension: starting_headcount {
     hidden: yes
     type: yesno
-    #sql: ${number_existing_headcount} + ABS(${number_terminated}) + ABS(${number_transferred_out}) ;;
-    sql: ${number_existing_headcount} OR ${number_terminated} OR ${number_transferred_out} ;;
+    sql: ${existing_headcount} OR ${terminated} OR ${transferred_out} ;;
   }
 
-  dimension: number_active_employee {
+  dimension: active_employee {
     hidden: yes
     type: yesno
-    #sql: ${number_existing_headcount} + ${number_hired} + ${number_transferred_in} ;;
-    sql: ${number_existing_headcount} or ${number_hired} or ${number_transferred_out} ;;
+    sql: ${existing_headcount} or ${hired} or ${transferred_out} ;;
   }
 
   measure: total_employees_hired {
     description: "By each month, will show the number of new employees hired into ARCO"
     type: count_distinct
     sql: ${employee_id} ;;
-    #filters: [number_hired: "NOT 0"]
-    filters: [number_hired: "Yes"]
+    filters: [hired: "Yes"]
     drill_fields: [employee_id]
   }
 
@@ -148,8 +145,7 @@ view: l_employee_history {
     description: "By each month, will show the number of terminated employees hired into ARCO"
     type: count_distinct
     sql: ${employee_id} ;;
-    #filters: [number_terminated: "NOT 0"]
-    filters: [number_terminated: "Yes"]
+    filters: [terminated: "Yes"]
     drill_fields: [employee_id,total_number_terminated,employment.employment_status,company_code]
   }
 
@@ -157,8 +153,7 @@ view: l_employee_history {
     description: "By each month, will show the number of employees moved into of a company code"
     type: count_distinct
     sql: ${employee_id} ;;
-    #filters: [number_transferred_in: "NOT 0"]
-    filters: [number_transferred_in: "Yes"]
+    filters: [transferred_in: "Yes"]
     drill_fields: [employee_id]
   }
 
@@ -166,8 +161,7 @@ view: l_employee_history {
     description: "By each month, will show the number of employees moved out of a company code"
     type: count_distinct
     sql: ${employee_id} ;;
-    #filters: [number_transferred_out: "NOT 0"]
-    filters: [number_transferred_out: "Yes"]
+    filters: [transferred_out: "Yes"]
     drill_fields: [employee_id]
   }
 
@@ -175,8 +169,7 @@ view: l_employee_history {
     description: "By each month, will show the number of employees who had no HR events of hired, transferred, or terminated"
     type: count_distinct
     sql: ${employee_id} ;;
-    #filters: [number_existing_headcount: "NOT 0"]
-    filters: [number_existing_headcount: "Yes"]
+    filters: [existing_headcount: "Yes"]
     drill_fields: [employee_id]
   }
 
@@ -184,7 +177,6 @@ view: l_employee_history {
     description: "By each month, the number of employees part of a company prior to transfer out or terminations (i.e. the start of the month)"
     type: count_distinct
     sql: ${employee_id} ;;
-    #filters: [starting_headcount: "NOT 0"]
     filters: [starting_headcount: "Yes"]
     drill_fields: [employee_id]
   }
@@ -193,8 +185,7 @@ view: l_employee_history {
     description: "By each month, the number of employees part of a company after accounting for hires and transfer in (i.e. the end of the month)"
     type: count_distinct
     sql: ${employee_id} ;;
-    #filters: [number_active_employee: "NOT 0"]
-    filters: [number_active_employee: "Yes"]
+    filters: [active_employee: "Yes"]
     drill_fields: [employee_id]
   }
 
