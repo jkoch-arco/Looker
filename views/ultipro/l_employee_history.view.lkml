@@ -92,43 +92,43 @@ view: l_employee_history {
   }
 
   dimension: hired {
-    hidden: yes
+    group_label: "Status"
     type: yesno
     sql: ${TABLE}.number_hired = 1 ;;
   }
 
   dimension: terminated {
-    hidden: yes
+    group_label: "Status"
     type: yesno
     sql: ${TABLE}.number_terminated = -1 ;;
   }
 
   dimension: transferred_in {
-    hidden: yes
+    group_label: "Status"
     type: yesno
     sql: ${TABLE}.number_transferred_in = 1 ;;
   }
 
   dimension: transferred_out {
-    hidden: yes
+    group_label: "Status"
     type: yesno
     sql: ${TABLE}.number_transferred_out = -1 ;;
   }
 
   dimension: existing_headcount {
-    hidden: yes
+    group_label: "Status"
     type: yesno
     sql: ${TABLE}.number_existing_headcount = 1 ;;
   }
 
   dimension: starting_headcount {
-    hidden: yes
+    group_label: "Status"
     type: yesno
     sql: ${existing_headcount} OR ${terminated} OR ${transferred_out} ;;
   }
 
-  dimension: active_employee {
-    hidden: yes
+  dimension: active {
+    group_label: "Status"
     type: yesno
     sql: ${existing_headcount} or ${hired} or ${transferred_out} ;;
   }
@@ -185,7 +185,7 @@ view: l_employee_history {
     description: "By each month, the number of employees part of a company after accounting for hires and transfer in (i.e. the end of the month)"
     type: count_distinct
     sql: ${employee_id} ;;
-    filters: [active_employee: "Yes"]
+    filters: [active: "Yes"]
     drill_fields: [employee_id]
   }
 
