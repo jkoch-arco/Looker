@@ -74,7 +74,7 @@ view: l_employee_history {
 
   dimension_group: calendar {
     type: time
-    timeframes: [raw,month,quarter,quarter_of_year,year]
+    timeframes: [raw,month,month_name,quarter,quarter_of_year,year]
     sql: CONVERT(DATETIME2,NULLIF(CONCAT(${TABLE}.calendar_month,'01'),'01'),112)  ;;
     convert_tz: no
   }
@@ -193,7 +193,7 @@ view: l_employee_history {
     type: number
     value_format_name: percent_1
     sql: (1.0 * (coalesce(${total_number_terminated},0) + coalesce(${total_number_transferred_out},0))) / NULLIF( 1.0 * (coalesce(${total_starting_headcount},0)+coalesce(${total_number_active_employee},0))/2 ,0)  ;;
-    required_fields: [calendar_month]
+    #required_fields: [calendar_month]
     drill_fields: [calendar_month, turnover, total_starting_headcount, total_number_active_employee, total_number_transferred_in, total_number_transferred_out, total_employees_hired, total_number_terminated]
   }
 
