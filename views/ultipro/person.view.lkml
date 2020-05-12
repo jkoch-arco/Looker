@@ -24,7 +24,7 @@ view: person {
   dimension: age_tier {
     group_label: "Person Information"
     type: tier
-    tiers: [0,18,30,40,50,60]
+    tiers: [0,18,25,31,36,41,46,51,56,61,65]
     style: integer
     sql: ${age} ;;
   }

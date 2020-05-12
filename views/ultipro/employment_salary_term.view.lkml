@@ -31,14 +31,16 @@ view: employment_salary_term {
     group_label: "Salary"
     type: number
     sql: ${TABLE}.AnnualSalary ;;
+    value_format_name: usd_0
   }
 
   dimension: salary_tier {
     group_label: "Salary"
     type: tier
-    tiers: [0,18,30,40,50,60]
+    tiers: [20000,36000,51000,66000,81000,96000,111000,126000,141000,156000,171000,186000,201000]
     style: integer
     sql: ${annual_salary} ;;
+    value_format_name: usd_0
   }
 
   dimension: salary_or_hourly_code {

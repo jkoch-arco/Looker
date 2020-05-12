@@ -127,7 +127,6 @@ view: employment {
     sql: ${TABLE}.LengthOfService ;;
   }
 
-
   dimension: location_code {
     type: string
     sql: ${TABLE}.LocationCode ;;
@@ -333,6 +332,14 @@ view: employment {
     sql_end: getdate() ;;
   }
 
+  dimension: length_of_service_tier {
+    group_label: "Length of Service"
+    description: "Based on last hire date to today"
+    type: tier
+    tiers: [0,2,5,8,11,16,21]
+    style: integer
+    sql: ${length_of_service_years} ;;
+  }
 
   #}
 
@@ -351,6 +358,11 @@ view: employment {
   measure: count_of_employees {
     type: count_distinct
     sql: ${employee_id} ;;
+  }
+
+  measure: percent_of_all_employees {
+    type: percent_of_total
+    sql: ${count_of_employees} ;;
   }
 
   measure: count_of_active_employees {
