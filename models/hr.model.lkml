@@ -89,7 +89,15 @@ explore: employment {
     sql_on: ${l_employee_history.company_code} = ${transfer_company.company_number_padded} ;;
   }
 
+#   join: l_summary_turnover_analysis {
+#     type: left_outer
+#     relationship: many_to_one
+#     sql_on: ${l_summary_turnover_analysis.calendar_month} = ${l_employee_history.calendar_month} ;;
+#   }
+
 }
+
+#explore: l_summary_turnover_analysis {}
 
 explore: calendar {
   hidden: yes
@@ -100,5 +108,5 @@ explore: calendar {
 }
 
 explore: l_employee_role_type {
-
+  hidden: yes
 }

@@ -197,6 +197,8 @@ view: employment {
     sql: ${TABLE}.TerminationReasonCode ;;
   }
 
+  #}
+
   # Dates {
 
   dimension_group: benefit_seniority {
@@ -322,7 +324,7 @@ view: employment {
     description: "Based on last hire date to today"
     type: duration_month
     sql_start: ${last_hire_raw} ;;
-    sql_end: getdate() ;;
+    sql_end: COALESCE(${termination_raw},getdate()) ;;
   }
 
   dimension: length_of_service_years {
@@ -330,7 +332,7 @@ view: employment {
     description: "Based on last hire date to today"
     type: duration_year
     sql_start: ${last_hire_raw} ;;
-    sql_end: getdate() ;;
+    sql_end: COALESCE(${termination_raw},getdate()) ;;
   }
 
   dimension: length_of_service_tier {
@@ -345,10 +347,6 @@ view: employment {
   #}
 
   # Measures {
-
-  measure: count_of_employment_records {
-    type: count
-  }
 
   measure: average_tenure {
     type: average
@@ -370,6 +368,35 @@ view: employment {
     type: count_distinct
     sql: ${employee_id};;
     filters: [is_employee_active: "Yes"]
+  }
+
+  measure: longest_tenure {
+    type: number
+    sql: MAX(${length_of_service_years}) ;;
+  }
+
+  measure: count_of_employees_less_than_1_year_service {
+    type: count_distinct
+    sql: ${employee_id} ;;
+    filters: [length_of_service_years: "<1"]
+  }
+
+  measure: count_of_employees_less_than_2_year_service {
+    type: count_distinct
+    sql: ${employee_id} ;;
+    filters: [length_of_service_years: "<2"]
+  }
+
+  measure: percent_of_employees_less_than_1_year_service {
+    type: number
+    sql: 1.0 * ${count_of_employees_less_than_1_year_service} / nullif(${count_of_employees},0) ;;
+    value_format_name: percent_1
+  }
+
+  measure: percent_of_employees_less_than_2_year_service {
+    type: number
+    sql: 1.0 * ${count_of_employees_less_than_2_year_service} / nullif(${count_of_employees},0) ;;
+    value_format_name: percent_1
   }
 
   #}
