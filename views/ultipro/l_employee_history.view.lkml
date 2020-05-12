@@ -74,7 +74,7 @@ view: l_employee_history {
 
   dimension_group: calendar {
     type: time
-    timeframes: [raw,month,quarter,year]
+    timeframes: [raw,month,quarter,quarter_of_year,year]
     sql: CONVERT(DATETIME2,NULLIF(CONCAT(${TABLE}.calendar_month,'01'),'01'),112)  ;;
     convert_tz: no
   }
