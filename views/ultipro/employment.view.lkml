@@ -256,6 +256,7 @@ view: employment {
       week,
       month,
       quarter,
+      quarter_of_year,
       year
     ]
     convert_tz: no
