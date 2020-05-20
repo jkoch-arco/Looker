@@ -88,4 +88,11 @@ view: l_opportunities_weighting {
     }
   }
 
+  measure: max_company {
+    label: "Company"
+    group_label: "Other"
+    type: string
+    sql: max(${company} ;;
+  }
+
 }
