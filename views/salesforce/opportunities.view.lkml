@@ -767,7 +767,7 @@ view: opportunities {
     label: "Division"
     group_label: "Other"
     type: string
-    sql: max(${division} ;;
+    sql: max(${division}) ;;
   }
 
   set: opportunity_information {

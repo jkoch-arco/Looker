@@ -92,7 +92,7 @@ view: l_opportunities_weighting {
     label: "Company"
     group_label: "Other"
     type: string
-    sql: max(${company} ;;
+    sql: max(${company}) ;;
   }
 
 }
