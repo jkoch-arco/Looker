@@ -796,7 +796,7 @@ view: opportunities {
     group_label: "Other"
     label: "Average Profit Margin"
     type: average
-    sql: average((${overall_project_margin}/100)) ;;
+    sql: ${overall_project_margin} ;;
     value_format_name: percent_2
   }
 
