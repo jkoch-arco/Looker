@@ -763,6 +763,13 @@ view: opportunities {
     sql: 1.0 * ${sum_dead_deals} / nullif(${sum_all_deals},0) ;;
   }
 
+  measure: max_division {
+    label: "Division"
+    group_label: "Other"
+    type: string
+    sql: max(${division}) ;;
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
