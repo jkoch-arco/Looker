@@ -353,6 +353,7 @@ view: employment {
     type: average
     sql: 1.0*${length_of_service_years} ;;
     value_format_name: decimal_1
+    drill_fields: [basic_employee_information*]
   }
 
   measure: count_of_employees {
@@ -399,6 +400,14 @@ view: employment {
     sql: 1.0 * ${count_of_employees_less_than_2_year_service} / nullif(${count_of_employees},0) ;;
     value_format_name: percent_1
   }
+
+  #}
+
+  # Sets {
+
+    set: basic_employee_information {
+      fields: [employee_id,person.gender]
+    }
 
   #}
 
