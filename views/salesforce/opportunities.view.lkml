@@ -789,7 +789,7 @@ view: opportunities {
     label: "Ratio of WIP + 95% over Prospecting + Proposing"
     type: number
     sql: 1.0 * ${count_of_opportunities_work_in_progress_or_95}/nullif(${count_of_opportunities_prospecting_proposing},0) ;;
-    value_format_name: percent_2
+    value_format_name: decimal_2
   }
 
   set: opportunity_information {
