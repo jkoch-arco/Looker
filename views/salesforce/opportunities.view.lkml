@@ -770,6 +770,28 @@ view: opportunities {
     sql: max(${division}) ;;
   }
 
+  measure: count_of_opportunities_work_in_progress_or_95 {
+    group_label: "Other"
+    label: "Count of Opportunities Work in Progress or Potential Work - 95%"
+    type: count
+    filters: [stage_name: "Work in Progress, Potential Work - 95%"]
+  }
+
+  measure: count_of_opportunities_prospecting_proposing{
+    group_label: "Other"
+    label: "Count of Opportunities Proposing or Prospecting"
+    type: count
+    filters: [stage_name: "Prospecting, Proposing"]
+  }
+
+  measure: ratio {
+    group_label: "Other"
+    label: "Ratio of WIP + 95% over Prospecting + Proposing"
+    type: number
+    sql: 1.0 * ${count_of_opportunities_work_in_progress_or_95}/nullif(${count_of_opportunities_prospecting_proposing},0) ;;
+    value_format_name: percent_2
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
