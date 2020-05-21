@@ -88,11 +88,10 @@ explore: employment {
 
   join: transfer_company {
     view_label: "Employment History"
-    fields: [transfer_company.company_name]
-    from: company
+    from: hr_company
     type: left_outer
     relationship: many_to_one
-    sql_on: ${l_employee_history.company_code} = ${transfer_company.company_number_padded} ;;
+    sql_on: ${l_employee_history.company_code} = ${transfer_company.company_code} ;;
   }
 
 #   join: l_summary_turnover_analysis {
