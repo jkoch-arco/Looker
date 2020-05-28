@@ -792,6 +792,15 @@ view: opportunities {
     value_format_name: decimal_2
   }
 
+  measure: average_profit_margin {
+    group_label: "Other"
+    label: "Average Profit Margin"
+    type: average
+    sql: ${overall_project_margin}/100 ;;
+    filters: [overall_project_margin: "NOT NULL"]
+    value_format_name: percent_2
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
