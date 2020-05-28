@@ -5,8 +5,8 @@ view: l_transfer_ordering {
     datagroup_trigger: daily
     indexes: ["employeeid"]
     sql: SELECT *,
-    Row_number() OVER(partition BY employeeid ORDER BY statusstartdate ASC, terminationdate DESC) AS company_transfer_ordering, --fixes issue where statusstartdate was the same between 2 records
-    Row_number() OVER(partition BY employeeid ORDER BY statusstartdate DESC, terminationdate ASC) AS most_recent_record --fixes issue where statusstartdate was the same between 2 records
+    Row_number() OVER(partition BY employeeid ORDER BY EmploymentStatus ASC, statusstartdate ASC, terminationdate DESC) AS company_transfer_ordering, --fixes issue where statusstartdate was the same between 2 records
+    Row_number() OVER(partition BY employeeid ORDER BY EmploymentStatus ASC, statusstartdate DESC, terminationdate ASC) AS most_recent_record --fixes issue where statusstartdate was the same between 2 records
 FROM (
 SELECT
   employeeid,
@@ -16,7 +16,8 @@ SELECT
   statusstartdate,
   terminationreasoncode,
   OrgLevel1Description as department_description,
-  Row_number() OVER (partition BY employeeid, OrgLevel3 ORDER BY statusstartdate DESC, terminationdate ASC) as moved_company_codes
+  EmploymentStatus,
+  Row_number() OVER (partition BY employeeid, OrgLevel3 ORDER BY EmploymentStatus ASC, statusstartdate DESC, terminationdate ASC) as moved_company_codes
 FROM ultipro.employment AS employment
 WHERE employment.load_ts = (SELECT Max(load_ts) FROM ultipro.employment)
   --AND employeeid = 'BRE06H0310K0'
