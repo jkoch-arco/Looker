@@ -142,12 +142,29 @@ view: l_employee_history {
   }
 
   measure: total_number_terminated {
-    description: "By each month, will show the number of terminated employees hired into ARCO"
+    description: "By each month, will show the number of terminated employees"
     type: count_distinct
     sql: ${employee_id} ;;
     filters: [terminated: "Yes"]
     drill_fields: [employee_id,total_number_terminated,employment.employment_status,company_code]
   }
+
+  measure: total_number_terminated_voluntary {
+    description: "By each month, will show the number of voluntary terminated employees"
+    type: count_distinct
+    sql: ${employee_id} ;;
+    filters: [terminated: "Yes",employment_salary_term.termination_type: "Voluntary"]
+    drill_fields: [employee_id,total_number_terminated,employment.employment_status,company_code]
+  }
+
+  measure: total_number_terminated_involuntary {
+    description: "By each month, will show the number of involuntary terminated employees"
+    type: count_distinct
+    sql: ${employee_id} ;;
+    filters: [terminated: "Yes",employment_salary_term.termination_type: "Involuntary"]
+    drill_fields: [employee_id,total_number_terminated,employment.employment_status,company_code]
+  }
+
 
   measure: total_number_transferred_in {
     description: "By each month, will show the number of employees moved into of a company code"
@@ -193,8 +210,21 @@ view: l_employee_history {
     type: number
     value_format_name: percent_1
     sql: (1.0 * (coalesce(${total_number_terminated},0) + coalesce(${total_number_transferred_out},0))) / NULLIF( 1.0 * (coalesce(${total_starting_headcount},0)+coalesce(${total_number_active_employee},0))/2 ,0)  ;;
-    #required_fields: [calendar_month]
     drill_fields: [calendar_month, turnover, total_starting_headcount, total_number_active_employee, total_number_transferred_in, total_number_transferred_out, total_employees_hired, total_number_terminated]
+  }
+
+  measure: turnover_voluntary {
+    type: number
+    value_format_name: percent_1
+    sql: (1.0 * (coalesce(${total_number_terminated_voluntary},0) + coalesce(${total_number_transferred_out},0))) / NULLIF( 1.0 * (coalesce(${total_starting_headcount},0)+coalesce(${total_number_active_employee},0))/2 ,0)  ;;
+    drill_fields: [calendar_month, turnover, total_starting_headcount, total_number_active_employee, total_number_transferred_in, total_number_transferred_out, total_employees_hired, total_number_terminated_voluntary]
+  }
+
+  measure: turnover_involuntary {
+    type: number
+    value_format_name: percent_1
+    sql: (1.0 * (coalesce(${total_number_terminated_involuntary},0) + coalesce(${total_number_transferred_out},0))) / NULLIF( 1.0 * (coalesce(${total_starting_headcount},0)+coalesce(${total_number_active_employee},0))/2 ,0)  ;;
+    drill_fields: [calendar_month, turnover, total_starting_headcount, total_number_active_employee, total_number_transferred_in, total_number_transferred_out, total_employees_hired, total_number_terminated_involuntary]
   }
 
 }
