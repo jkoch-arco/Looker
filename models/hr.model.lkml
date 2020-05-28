@@ -52,16 +52,6 @@ explore: employment {
 #     sql_on: ${employment.job_code} = ${job_eeo_flsa.job_code} ;;
 #   }
 
-
-  # join: cohort_company {
-  #   view_label: "Employment"
-  #   fields: [cohort_company.company_name]
-  #   from: company
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${employment.cohort_company_code} = ${cohort_company.company_number_padded} ;;
-  # }
-
   join: cohort_company {
     view_label: "Employment"
     type: left_outer
@@ -94,15 +84,7 @@ explore: employment {
     sql_on: ${l_employee_history.company_code} = ${transfer_company.company_code} ;;
   }
 
-#   join: l_summary_turnover_analysis {
-#     type: left_outer
-#     relationship: many_to_one
-#     sql_on: ${l_summary_turnover_analysis.calendar_month} = ${l_employee_history.calendar_month} ;;
-#   }
-
 }
-
-#explore: l_summary_turnover_analysis {}
 
 explore: calendar {
   hidden: yes
