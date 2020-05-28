@@ -390,6 +390,12 @@ view: employment {
     filters: [length_of_service_years: "<2"]
   }
 
+  measure: count_of_employees_2_or_more_service_years {
+    type: count_distinct
+    sql: ${employee_id} ;;
+    filters: [length_of_service_years: "<=2"]
+  }
+
   measure: percent_of_employees_less_than_1_year_service {
     type: number
     sql: 1.0 * ${count_of_employees_less_than_1_year_service} / nullif(${count_of_employees},0) ;;
@@ -399,6 +405,12 @@ view: employment {
   measure: percent_of_employees_less_than_2_year_service {
     type: number
     sql: 1.0 * ${count_of_employees_less_than_2_year_service} / nullif(${count_of_employees},0) ;;
+    value_format_name: percent_1
+  }
+
+  measure: percent_of_employees_with_at_least_2_year_service {
+    type: number
+    sql: 1.0 * ${count_of_employees_2_or_more_service_years} / nullif(${count_of_employees},0) ;;
     value_format_name: percent_1
   }
 
