@@ -1,4 +1,5 @@
 connection: "preprod_arco_bidw_pii_read_access"
+label: "HR Reporting"
 
 include: "/views/ultipro/*.view.lkml"   #This includes all of the utlipro view files for these explores
 include: "/views/ultipro/employee_history/*.view.lkml"   #This includes all of the utlipro view files for these explores
@@ -11,7 +12,7 @@ persist_with: daily
 
 explore: employment {
 
-  sql_always_where: ${most_recent_employee_record} = 1 ;; #This will exclude transfers and former re-hire records
+  sql_always_where: ${most_recent_employee_record} = 1 AND ${employee_type} IN ('INT', 'REG', 'STU', 'SUM') ;; #This will exclude transfers and former re-hire records
 
   join: employee_address {
     type: left_outer
