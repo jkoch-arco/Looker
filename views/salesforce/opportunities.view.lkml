@@ -808,6 +808,13 @@ view: opportunities {
     value_format_name: percent_2
   }
 
+  measure: time_to_close {
+    label: "Time to Close"
+    group_label: "Other"
+    type: average
+    sql: DATEDIFF( day, ${creation_date},${close_date}) ;;
+  }
+
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
   }
