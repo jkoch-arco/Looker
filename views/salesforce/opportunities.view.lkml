@@ -804,7 +804,7 @@ view: opportunities {
     label: "Average Profit Margin"
     type: average
     sql: ${overall_project_margin}/100 ;;
-    filters: [overall_project_margin: "NOT NULL"]
+    filters: [cost_status_profit: "NOT 0"]
     value_format_name: percent_2
   }
 
