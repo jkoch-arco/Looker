@@ -590,6 +590,13 @@ view: opportunities {
     }
   }
 
+  dimension: sales_lead {
+    label: "Sales Lead"
+    group_label: "Other"
+    type: string
+    sql: ${TABLE}.LEAD_GENERATOR__C ;;
+  }
+
 
   measure: count_of_opportunities {
     type: count
