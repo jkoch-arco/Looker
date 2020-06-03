@@ -294,7 +294,7 @@ view: opportunities {
     }
     link: {
       label: "Link to Procore"
-      url: "https://app.procore.com/{{procore_priority}}/project/home"
+      url: "https://app.procore.com/{{procore_priority._rendered_value}}/project/home"
       icon_url: "https://logo.clearbit.com/procore.com"
     }
     type: string
@@ -438,8 +438,9 @@ view: opportunities {
 
   dimension: procore_priority {
     group_label: "Other"
-    type: string
+    type: number
     sql: ${TABLE}.Procore_Priority__c ;;
+    value_format: "0"
   }
 
   dimension: project_type {
@@ -622,7 +623,7 @@ view: opportunities {
     html: <img src="https://logo.clearbit.com/procore.com?size=10" /> ;;
     link: {
       label: "Link to Procore"
-      url: "https://app.procore.com/{{procore_priority}}/project/home"
+      url: "https://app.procore.com/{{procore_priority._rendered_value}}/project/home"
       icon_url: "https://logo.clearbit.com/procore.com"
     }
   }
