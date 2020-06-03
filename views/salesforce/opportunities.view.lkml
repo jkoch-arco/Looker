@@ -1000,7 +1000,7 @@ view: opportunities {
     group_label: "Confidentiality Reports"
     type: number
     sql: max(${overall_project_margin}/100) ;;
-    value_format_name: usd
+    value_format_name: percent_2
   }
 
   set: opportunity_information {
