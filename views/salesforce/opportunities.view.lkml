@@ -39,7 +39,6 @@ view: opportunities {
   }
 
   dimension: additional_jv_company {
-    hidden: yes
     group_label: "Tertiary Company"
     label: "Tertiary Company"
     type: string
@@ -142,7 +141,7 @@ view: opportunities {
   }
 
   dimension: company {
-    hidden: yes
+    label: "Primary Company"
     type: string
     sql: ${TABLE}.COMPANY__C ;;
   }
@@ -212,9 +211,8 @@ view: opportunities {
   }
 
   dimension: jv_company {
-    hidden: yes
     group_label: "Secondary Company"
-    label: "Secondary Company"
+    label: "JV Company"
     type: string
     sql: ${TABLE}.JV_COMPANY__C ;;
   }
@@ -289,6 +287,10 @@ view: opportunities {
   dimension: name {
     label: "Opportunity Name"
     group_label: "1 - Opportunity"
+    link: {
+      label: "Salesforce record"
+      url: "https://arcomurray.lightning.force.com/lightning/r/Opportunity/{{id}}/view"
+    }
     type: string
     sql: ${TABLE}.NAME ;;
   }
@@ -302,7 +304,7 @@ view: opportunities {
   dimension: off_the_books_closed_profit {
     group_label: "Other"
     type: number
-    sql: ${TABLE}.Off_the_Books_Closed_Profit ;;
+    sql: ${TABLE}.Off_the_Books_Closed_Profit__c ;;
   }
 
   dimension: off_the_books_closed_value {
@@ -320,6 +322,7 @@ view: opportunities {
   dimension: overall_project_margin {
     group_label: "Other"
     type: number
+
     sql: ${TABLE}.Overall_Project_Margin__c ;;
   }
 
@@ -348,6 +351,7 @@ view: opportunities {
   }
 
   dimension: pm_bonus_list {
+    label: "Additional PMs"
     group_label: "Other"
     type: string
     sql: ${TABLE}.PM_Bonus_List__c ;;
@@ -428,7 +432,7 @@ view: opportunities {
 
   dimension: procore_priority {
     group_label: "Other"
-    type: number
+    type: string
     sql: ${TABLE}.Procore_Priority__c ;;
   }
 
@@ -597,6 +601,49 @@ view: opportunities {
     sql: ${TABLE}.LEAD_GENERATOR__C ;;
   }
 
+  dimension:division_and_stage {
+    label: "Division and Stage"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: CONCAT(${division},' : ', ${stage_name}) ;;
+  }
+
+  measure: link_to_procore {
+    label: "Link to Procore Project"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: CASE WHEN ${procore_priority} > 0 THEN ${procore_priority} ELSE NULL END ;;
+    html: <img src="https://logo.clearbit.com/procore.com?size=10" /> ;;
+    link: {
+      label: "Link to Procore"
+      url: "https://app.procore.com/{{procore_priority}}/project/home"
+      icon_url: "https://logo.clearbit.com/procore.com"
+    }
+  }
+
+  measure: profit_this_year {
+    label: "Total Profit - 2020"
+    group_label: "Confidentiality Reports"
+    type: sum
+    sql: ${primary_profit_this_year} + ${jv_profit_this_year} + ${additional_jv_profit_this_year} ;;
+    value_format_name: usd
+  }
+
+  measure: profit_next_year {
+    label: "Total Profit - 2021"
+    group_label: "Confidentiality Reports"
+    type: sum
+    sql: ${primary_profit_next_year} + ${jv_profit_next_year} + ${additional_jv_profit_next_year} ;;
+    value_format_name: usd
+  }
+
+  measure: profit_two_year {
+    label: "Total Profit - 2022"
+    group_label: "Confidentiality Reports"
+    type: sum
+    sql: ${primary_profit_2_years} + ${jv_profit_2_years} + ${additional_jv_profit_2_years} ;;
+    value_format_name: usd
+  }
 
   measure: count_of_opportunities {
     type: count
@@ -813,6 +860,147 @@ view: opportunities {
     group_label: "Other"
     type: average
     sql: DATEDIFF( day, ${creation_date},${close_date}) ;;
+  }
+
+  measure: pm_leader_max {
+    label: "PM Leader"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${pm_leader}) ;;
+  }
+
+  measure: additional_pm_max {
+    label: "Additional PMs"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${pm_bonus_list}) ;;
+  }
+
+  measure: ops_leader_max {
+    label: "Ops Leader"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${ops_leader}) ;;
+  }
+
+  measure: sales_lead_max {
+    label: "Sales Lead"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${lead_generator}) ;;
+  }
+
+  measure: job_number_max {
+    label: "Job No"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${job_number}) ;;
+  }
+
+  measure: city_max {
+    label: "City"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${city}) ;;
+  }
+
+  measure: state_max {
+    label: "State"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${state}) ;;
+  }
+
+  measure: primary_company_max {
+    label: "Company"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${company}) ;;
+  }
+
+  measure: jv_company_max {
+    label: "JV Company"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${jv_company}) ;;
+  }
+
+  measure: additional_jv_max {
+    label: "Additional JV Company"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${additional_jv_company}) ;;
+  }
+
+  measure: amount_max {
+    label: "Total Contract"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${amount}) ;;
+    value_format_name: usd
+  }
+
+  measure: total_weighted_amount_max {
+    label: "Total Weighted Contract"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${total_weighted_amount}) ;;
+    value_format_name: usd
+  }
+
+  measure: total_off_the_books_revenue_max {
+    label: "Toal Off the Books Revenue"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${off_the_books_closed_value}) ;;
+    value_format_name: usd
+  }
+
+  measure: total_off_the_books_profit_max {
+    label: "Total Off the Books Profit"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${off_the_books_closed_profit}) ;;
+    value_format_name: usd
+  }
+
+  measure: revenue_this_year_max {
+    label: "Total Revenue - 2020"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${total_revenue_this_year}) ;;
+    value_format_name: usd
+  }
+
+  measure: revenue_next_year_max {
+    label: "Total Revenue - 2021"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${total_revenue_next_year}) ;;
+    value_format_name: usd
+  }
+
+  measure: revenue_2_years_max {
+    label: "Total Revenue - 2022"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${total_revenue_2_years}) ;;
+  }
+
+  measure: actual_margin_max {
+    label: "Margin This Year"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${actual_margin}/100) ;;
+    value_format_name: percent_2
+  }
+
+  measure: profit_margin_max {
+    label: "Overall Margin"
+    group_label: "Confidentiality Reports"
+    type: number
+    sql: max(${overall_project_margin}/100) ;;
+    value_format_name: usd
   }
 
   set: opportunity_information {

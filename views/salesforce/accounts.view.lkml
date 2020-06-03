@@ -50,4 +50,11 @@ view: accounts {
   measure: count_of_accounts {
     type: count
   }
+
+  measure: account_name_max {
+    label: "Account Name"
+    group_label: "Confidentiality Reports"
+    type: string
+    sql: max(${TABLE}.NAME) ;;
+  }
 }
