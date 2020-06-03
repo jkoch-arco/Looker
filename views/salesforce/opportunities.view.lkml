@@ -288,8 +288,14 @@ view: opportunities {
     label: "Opportunity Name"
     group_label: "1 - Opportunity"
     link: {
-      label: "Salesforce record"
+      label: "Link to Salesforce"
       url: "https://arcomurray.lightning.force.com/lightning/r/Opportunity/{{id}}/view"
+      icon_url: "https://logo.clearbit.com/salesforce.com"
+    }
+    link: {
+      label: "Link to Procore"
+      url: "https://app.procore.com/{{procore_priority}}/project/home"
+      icon_url: "https://logo.clearbit.com/procore.com"
     }
     type: string
     sql: ${TABLE}.NAME ;;
