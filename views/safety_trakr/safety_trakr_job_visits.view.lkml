@@ -20,7 +20,6 @@ view: safety_trakr_job_visits {
     type: time
     timeframes: [
       raw,
-      time,
       date,
       week,
       month,
@@ -28,6 +27,8 @@ view: safety_trakr_job_visits {
       year
     ]
     sql: ${TABLE}.new_actualvisitdate ;;
+    convert_tz: no
+    datatype: datetime
   }
 
   dimension: additional_notes {
@@ -89,6 +90,7 @@ view: safety_trakr_job_visits {
       year
     ]
     sql: ${TABLE}.new_scheduledvisitdate ;;
+    convert_tz: no
   }
 
   dimension: scopes {
@@ -129,6 +131,13 @@ view: safety_trakr_job_visits {
   }
 
   measure: count {
+    label: "Count of Job Visits"
     type: count
   }
+
+  measure: latest_job_visit {
+    type: date
+    sql: MAX(${actual_visit_date}) ;;
+  }
+
 }

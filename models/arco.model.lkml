@@ -130,13 +130,14 @@ explore: ndt_jcop_job_months_prior {
   }
 }
 
-explore: safety_trakr_jobs {
+explore: safety_trakr {
+  from: safety_trakr_jobs
   group_label: "Safety Trakr"
 
   join: safety_trakr_job_visits {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${safety_trakr_jobs.primary_id} = ${safety_trakr_job_visits.primary_id} ;;
+    sql_on: ${safety_trakr.primary_id} = ${safety_trakr_job_visits.primary_id} ;;
   }
 
   join: safety_trakr_job_visit_reasons {
@@ -156,20 +157,20 @@ explore: safety_trakr_jobs {
     from: safety_trakr_company
     type: left_outer
     relationship: one_to_many
-    sql_on: ${safety_trakr_jobs.company_id} = ${company.company_id} ;;
+    sql_on: ${safety_trakr.company_id} = ${company.company_id} ;;
   }
 
   join: cr341_company {
     from: safety_trakr_company
     type: left_outer
     relationship: one_to_many
-    sql_on: ${safety_trakr_jobs.cr341_company_name} = ${cr341_company.company_id} ;;
+    sql_on: ${safety_trakr.cr341_company_name} = ${cr341_company.company_id} ;;
   }
 
   join: jv_company {
     from: safety_trakr_company
     type: left_outer
     relationship: one_to_many
-    sql_on: ${safety_trakr_jobs.jv_company_id} = ${jv_company.company_id} ;;
+    sql_on: ${safety_trakr.jv_company_id} = ${jv_company.company_id} ;;
   }
 }
