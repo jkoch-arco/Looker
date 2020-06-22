@@ -91,7 +91,7 @@ view: safety_trakr_job_visits {
     sql: ${TABLE}.new_scheduledvisitdate ;;
   }
 
-  dimension: new_scopes {
+  dimension: scopes {
     type: string
     sql: ${TABLE}.new_scopes ;;
   }
