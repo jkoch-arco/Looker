@@ -142,7 +142,7 @@ explore: safety_trakr {
 
   join: safety_trakr_job_visit_reasons {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_one
     sql_on: ${safety_trakr_job_visits.job_visit_reason_id} = ${safety_trakr_job_visit_reasons.job_visit_reason_id};;
   }
 
