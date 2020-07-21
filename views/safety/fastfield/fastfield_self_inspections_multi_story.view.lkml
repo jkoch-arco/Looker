@@ -1,4 +1,4 @@
-view: fastfield_self_inspection_multi_story {
+view: fastfield_self_inspections_multi_story {
   sql_table_name: dbo.Fastfield_WeeklySelfInspectionMultiStory ;;
 
   dimension: id {

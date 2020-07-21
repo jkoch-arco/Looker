@@ -47,7 +47,7 @@ explore: safetytrakr_jobs {
 #   }
 }
 
-explore: fastfield_self_inspection {}
+explore: fastfield_self_inspections {}
 explore: fastfield_toolbox_talk {}
 explore: procore_self_inspections {}
 explore: procore_toolbox_talks {}
