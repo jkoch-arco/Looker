@@ -1,4 +1,4 @@
-view: fastfield_toolbox_talk {
+view: fastfield_toolbox_talks {
   #sql_table_name: dbo.Fastfield_ToolBoxTalk ;;
   sql_table_name: (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY SubmissionID ORDER BY StartFormTimestamp DESC) as rank FROM dbo.Fastfield_ToolBoxTalk) as data WHERE rank = 1 ) ;;
 
@@ -129,7 +129,7 @@ view: fastfield_toolbox_talk {
   dimension: superintendent {
     group_label: "Toolbox Talk Session"
     type: string
-    sql: ${TABLE}.Superintendent ;;
+    sql: trim(${TABLE}.Superintendent) ;;
   }
 
   dimension: aerial_boom_lifts {
@@ -438,7 +438,7 @@ view: fastfield_toolbox_talk {
     sql: ${TABLE}.ScissorLifts ;;
   }
 
-  measure: count {
+  measure: count_of_toolbox_talks {
     type: count
   }
 }

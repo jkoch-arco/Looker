@@ -5,6 +5,13 @@ connection: "prod_arco_bidw_read_access"
 include: "/views/safety/fastfield/*.view.lkml"
 include: "/views/safety/procore/*.view.lkml"
 include: "/views/safety/safetytrakr/*.view.lkml"
+include: "/views/safety/*.view.lkml"
+
+datagroup: daily_refresh {
+  sql_trigger: SELECT CAST(GETDATE() as DATE) ;;
+}
+
+persist_with: daily_refresh
 
 explore: safetytrakr_jobs {
 
@@ -48,6 +55,7 @@ explore: safetytrakr_jobs {
 }
 
 explore: fastfield_self_inspections {}
-explore: fastfield_toolbox_talk {}
+explore: fastfield_toolbox_talks {}
 explore: procore_self_inspections {}
 explore: procore_toolbox_talks {}
+explore: l_safety_events_summary {}

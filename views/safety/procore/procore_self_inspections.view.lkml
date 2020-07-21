@@ -38,7 +38,7 @@ view: procore_self_inspections {
   dimension: created_by_name {
     group_label: "Inspection Information"
     type: string
-    sql: ${TABLE}.Created_by_Name ;;
+    sql: TRIM(${TABLE}.Created_by_Name) ;;
   }
 
   dimension: deficient_item_count {

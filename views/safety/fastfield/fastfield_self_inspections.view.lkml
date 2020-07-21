@@ -966,7 +966,7 @@ view: fastfield_self_inspections {
   dimension: supt {
     group_label: "Inspection Information"
     type: string
-    sql: ${TABLE}.Supt ;;
+    sql: trim(${TABLE}.Supt) ;;
   }
 
   dimension: wasallscaffoldingerectedbyacertifiedscaffolderector {
@@ -975,7 +975,7 @@ view: fastfield_self_inspections {
     sql: ${TABLE}.Wasallscaffoldingerectedbyacertifiedscaffolderector ;;
   }
 
-  measure: count {
+  measure: count_of_self_inspections {
     type: count
     drill_fields: [form_name, no_name]
   }
