@@ -2,6 +2,8 @@ connection: "prod_arco_bidw_read_access "
 
 include: "/views/safety_trakr/*.view.lkml"
 
+include: "/views/safety/fastfield/*.view.lkml"
+
 explore: safety_trakr {
   from: safety_trakr_jobs
   group_label: "Safety Trakr"
@@ -46,3 +48,5 @@ explore: safety_trakr {
     sql_on: ${safety_trakr.jv_company_id} = ${jv_company.company_id} ;;
   }
 }
+
+explore: fast_field_weekly_self_inspection {}
