@@ -56,5 +56,10 @@ view: l_safety_events_summary {
   }
   measure: count_of_events {
     type: count
+    drill_fields: [event_details*]
+  }
+
+  set: event_details {
+    fields: [source_system, submission_id, event_type, event_date, superintendent]
   }
 }
