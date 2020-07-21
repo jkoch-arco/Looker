@@ -209,6 +209,36 @@ view: procore_self_inspections {
 
   measure: count_of_self_inspections {
     type: count
+    drill_fields: [inspection_details*]
+  }
+
+  measure: count_of_projects {
+    type: count_distinct
+    sql: ${project_number} ;;
+    drill_fields: [inspection_details*]
+  }
+
+  measure: count_of_passing_inspections {
+    type: count
+    filters: [conforming_response: "Pass"]
+    drill_fields: [inspection_details*]
+  }
+
+  measure: count_of_safe_inspections {
+    type: count
+    filters: [conforming_response: "Safe"]
+    drill_fields: [inspection_details*]
+  }
+
+  measure: passing_percentage {
+    type: number
+    sql: 1.0 * ${count_of_passing_inspections} / nullif(${count_of_self_inspections},0) ;;
+    value_format_name: percent_2
+    drill_fields: [inspection_details*]
+  }
+
+  set: inspection_details {
+    fields: [created_by_name,inspection_date,project_number,project_name]
   }
 
 }
