@@ -34,9 +34,12 @@ view: job_visit {
     sql: ${TABLE}.new_safetymanagername ;;
   }
 
-  dimension: scheduled_visit_date {
-    type: string
-    sql: ${TABLE}.new_scheduledvisitdate ;;
+  dimension_group: scheduled_visit {
+    type: time
+    datatype: date
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    sql: CAST(${TABLE}.new_scheduledvisitdate as DATE) ;;
   }
 
   dimension: scopes {

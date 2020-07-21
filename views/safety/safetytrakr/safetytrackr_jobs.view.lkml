@@ -1,4 +1,4 @@
-view: jobs {
+view: safetytrakr_jobs {
   sql_table_name: safetytrakr.jobs ;;
 
   dimension: jobs_id {
