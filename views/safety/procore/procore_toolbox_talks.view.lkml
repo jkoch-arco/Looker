@@ -1,4 +1,4 @@
-view: toolbox_talks {
+view: procore_toolbox_talks {
   sql_table_name: procore.Toolbox_Talks ;;
 
   dimension: id {

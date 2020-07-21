@@ -4,8 +4,6 @@ connection: "preprod_arco_bidw_read_access"
 include: "/views/viewpoint/*.view.lkml"                # include all views in the views/ folder in this project
 include: "/views/reference/*.view.lkml"
 
-include: "/views/safety_trakr/*.view.lkml"
-
 datagroup: viewpoint_refresh {
   sql_trigger: Select COUNT(*) FROM viewpoint.bJCJM ;;
 }

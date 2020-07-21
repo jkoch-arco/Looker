@@ -3,7 +3,7 @@ view: fastfield_weekly_self_inspection {
 
   dimension: submission_id {
     primary_key: yes
-    group_label: "Submitter"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.SubmissionId ;;
   }
@@ -20,6 +20,10 @@ view: fastfield_weekly_self_inspection {
       when: {
         label: "No"
         sql:  ${TABLE}.AreHazardCommunicationprogramsavailablewithMaterialSafetyDataShe = -1 ;;
+      }
+      when: {
+        label: "Neutral"
+        sql:  ${TABLE}.AreHazardCommunicationprogramsavailablewithMaterialSafetyDataShe = 0 ;;
       }
       else: "N/A"
     }
@@ -625,25 +629,25 @@ view: fastfield_weekly_self_inspection {
   }
 
   dimension: filed_by {
-    group_label: "Submitter"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Filedby ;;
   }
 
   dimension: form_id {
-    group_label: "Form"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.FormId ;;
   }
 
   dimension: form_name {
-    group_label: "Form"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.FormName ;;
   }
 
   dimension: form_version {
-    group_label: "Form"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.FormVersion ;;
   }
@@ -907,25 +911,25 @@ view: fastfield_weekly_self_inspection {
   }
 
   dimension: inspection_description {
-    group_label: "Submitter"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.NoName1 ;;
   }
 
   dimension: project {
-    group_label: "Submitter"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Project ;;
   }
 
   dimension: signature {
-    group_label: "Submitter"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Signature ;;
   }
 
   dimension: submitted_email {
-    group_label: "Submitter"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.SubmittedBy ;;
   }
@@ -960,7 +964,7 @@ view: fastfield_weekly_self_inspection {
   }
 
   dimension: supt {
-    group_label: "Submitter"
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Supt ;;
   }

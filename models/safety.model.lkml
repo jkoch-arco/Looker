@@ -10,7 +10,7 @@ explore: safetytrakr_jobs {
 
   join: job_visit {
     type: left_outer
-    relationship: one_to_many
+    relationship: many_to_many
     sql_on: ${safetytrakr_jobs.job_number} = ${job_visit.job_number} ;;
   }
 
@@ -48,5 +48,6 @@ explore: safetytrakr_jobs {
 }
 
 explore: fastfield_weekly_self_inspection {}
-
 explore: fastfield_toolbox_talk {}
+explore: procore_self_inspections {}
+explore: procore_toolbox_talks {}

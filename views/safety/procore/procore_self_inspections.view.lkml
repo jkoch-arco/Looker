@@ -1,7 +1,8 @@
-view: self_inspections {
+view: procore_self_inspections {
   sql_table_name: procore.Self_Inspections ;;
 
-  dimension: id {
+  dimension: submission_id {
+    group_label: "Inspection Information"
     primary_key: yes
     type: string
     sql: ${TABLE}.id ;;
@@ -23,26 +24,31 @@ view: self_inspections {
   }
 
   dimension: conforming_response {
+    group_label: "Inspection Results"
     type: string
     sql: ${TABLE}.Conforming_Response ;;
   }
 
   dimension: created_by_email {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Created_by_Email ;;
   }
 
   dimension: created_by_name {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Created_by_Name ;;
   }
 
   dimension: deficient_item_count {
+    group_label: "Inspection Results"
     type: number
     sql: ${TABLE}.Deficient_Item_Count ;;
   }
 
   dimension: deficient_response {
+    group_label: "Inspection Results"
     type: string
     sql: ${TABLE}.Deficient_Response ;;
   }
@@ -78,16 +84,19 @@ view: self_inspections {
   }
 
   dimension: inspection_desc {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Inspection_Desc ;;
   }
 
   dimension: inspection_type {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Inspection_Type ;;
   }
 
   dimension_group: load_ts {
+    hidden: yes
     type: time
     timeframes: [
       raw,
@@ -102,86 +111,103 @@ view: self_inspections {
   }
 
   dimension: location_name {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Location_Name ;;
   }
 
   dimension: na_item_count {
+    group_label: "Inspection Results"
+    label: "N/A Item Count"
     type: number
     sql: ${TABLE}.NA_Item_Count ;;
   }
 
   dimension: neutral_item_count {
+    group_label: "Inspection Results"
     type: number
     sql: ${TABLE}.Neutral_Item_Count ;;
   }
 
   dimension: not_inspected_item_count {
+    group_label: "Inspection Results"
     type: number
     sql: ${TABLE}.Not_Inspected_Item_Count ;;
   }
 
   dimension: personal_flag {
-    type: string
-    sql: ${TABLE}.Personal_Flag ;;
+    group_label: "Inspection Information"
+    type: yesno
+    sql: ${TABLE}.Personal_Flag = 'true' ;;
   }
 
   dimension: project_id {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.ProjectID ;;
   }
 
   dimension: project_name {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Project_Name ;;
   }
 
   dimension: project_number {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Project_Number ;;
   }
 
   dimension: responsible_contractor_name {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Responsible_Contractor_Name ;;
   }
 
   dimension: responsible_party_email {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Responsible_Party_Email ;;
   }
 
   dimension: responsible_party_name {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Responsible_Party_Name ;;
   }
 
   dimension: status {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Status ;;
   }
 
   dimension: template_name {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.Template_Name ;;
   }
 
   dimension: total_item_count {
+    group_label: "Inspection Results"
     type: number
     sql: ${TABLE}.Total_Item_Count ;;
   }
 
   dimension: trade_name {
+    group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.trade_name ;;
   }
 
   dimension: yes_item_count {
+    group_label: "Inspection Results"
     type: number
     sql: ${TABLE}.Yes_Item_Count ;;
   }
 
-  measure: count {
+  measure: count_of_self_inspections {
     type: count
   }
 
