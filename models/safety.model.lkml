@@ -50,3 +50,4 @@ explore: safety_trakr {
 }
 
 explore: fast_field_weekly_self_inspection {}
+explore: fastfield_toolbox_talk {}
