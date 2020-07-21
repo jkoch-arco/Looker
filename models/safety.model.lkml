@@ -1,4 +1,4 @@
-connection: "prod_arco_bidw_read_access "
+connection: "prod_arco_bidw_read_access"
 
 include: "/views/safety_trakr/*.view.lkml"
 
