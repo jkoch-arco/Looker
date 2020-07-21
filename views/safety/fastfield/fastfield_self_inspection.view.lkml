@@ -1,4 +1,4 @@
-view: fastfield_weekly_self_inspection {
+view: fastfield_self_inspection {
   sql_table_name: dbo.FastField_WeeklySelfInspection ;;
 
   dimension: submission_id {
