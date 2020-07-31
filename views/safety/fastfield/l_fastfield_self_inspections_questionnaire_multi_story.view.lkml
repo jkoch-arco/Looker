@@ -8,7 +8,7 @@ view: l_fastfield_self_inspections_questionnaire_multi_story {
       CASE
       WHEN question = 'Arestateandfederallegalpostersandsafetysignsmounted' THEN 'Are state and federal legal posters and safety signs mounted?'
       WHEN question = 'Aresafetymeetingsbeingheldweeklyanddocumentedonsite' THEN 'Are safety meetings being held weekly and documented onsite?'
-      WHEN question = 'ArefirstaidkitsstockedAEDandemergencyeyewashavailable' THEN 'Are first aid kits stocked aed and emergency eye wash available?'
+      WHEN question = 'ArefirstaidkitsstockedAEDandemergencyeyewashavailable' THEN 'Are first aid kits stocked and emergency eye wash available?'
       WHEN question = 'Areemergencytelephonenumbersposted' THEN 'Are emergency telephone numbers posted?'
       WHEN question = 'Aresafetyprogramsavailablefromeachsubcontractor' THEN 'Are safety programs available from each subcontractor?'
       WHEN question = 'AreHazardCommunicationprogramsavailablewithMaterialSafetyDataSheets' THEN 'Are hazard communication programs available with material safety data sheets?'
@@ -40,7 +40,7 @@ view: l_fastfield_self_inspections_questionnaire_multi_story {
       WHEN question = 'Areoxygenbottlesstoredatleast20feetawayfromacetylenebottles' THEN 'Are oxygen bottles stored atleast 20 feet away from acetylene bottles?'
       WHEN question = 'Areprotectivevalvecapsinplaceonstoredcompressedgascylinders' THEN 'Are protective valve caps in place on stored compressed gas cylinders?'
       WHEN question = 'Aregascylindersbeingstoredinanuprightposition' THEN 'Are gas cylinders being stored in an upright position?'
-      WHEN question = 'Doabovegroundfuelingtankshavedikesbermsorcatchbasinsavailable' THEN 'Do aboveground fueling tanks have dikes berms or catch basins available?'
+      WHEN question = 'Doabovegroundfuelingtankshavedikesbermsorcatchbasinsavailable' THEN 'Do above ground fueling tanks have dikes berms or catch basins available?'
       WHEN question = 'AreallLPGbottlesbeingstoredoutsideofthebuilding' THEN 'Are all lpg bottles being stored outside of the building?'
       WHEN question = 'Isclearaccessavailabletofirehydrantsforemergencypersonnel' THEN 'Is clear access available to fire hydrants for emergency personnel?'
       WHEN question = 'Areallflammableliquidsbeingkeptinapprovedflameresistantmetalcontainers' THEN 'Are all flammable liquids being kept in approved flame resistant metal containers?'
@@ -83,7 +83,7 @@ view: l_fastfield_self_inspections_questionnaire_multi_story {
       WHEN question = 'Arescaffoldplanksnotcrackedordamagedtoimpedeuse' THEN 'Are scaffold planks not cracked or damaged to impede use?'
       WHEN question = 'Isthescaffoldworkingdeckfullyplankedtoblockpotentialfallhazards' THEN 'Is the scaffold working deck fully planked to block potential fall hazards?'
       WHEN question = 'Doscaffoldplanksextendatleast6inchespastsupports' THEN 'Do scaffold planks extend atleast 6 inches past supports?'
-      WHEN question = 'Wasallscaffoldingerectedbyacertifiedscaffolderector' THEN 'Was all scaffolding erected by a certified scaffold erect or?'
+      WHEN question = 'Wasallscaffoldingerectedbyacertifiedscaffolderector' THEN 'Was all scaffolding erected by a certified scaffold erect?'
       WHEN question = 'HasaLiftPlanbeensubmittedandreviewedforcontentandaccuracy' THEN 'Has a lift plan been submitted and reviewed for content and accuracy?'
       WHEN question = 'Areannualinspectionsuptodateandpostedonthecranehousing' THEN 'Are annual inspections up to date and posted on the crane housing?'
       WHEN question = 'AreoperatorCCOsandriggersignalpersonqualificationsavailableonsite' THEN 'Are operator c cos and rig ger signal person qualifications available onsite?'
@@ -306,60 +306,6 @@ view: l_fastfield_self_inspections_questionnaire_multi_story {
   dimension: raw_score {
     type: number
     sql: CAST(${TABLE}.score as int) ;;
-  }
-
-  dimension: score {
-    type: string
-    case: {
-      when: {
-        label: "Safe"
-        sql:  ${raw_score} = 1 ;;
-      }
-      when: {
-        label: "Deficient"
-        sql:  ${raw_score} =  -1 ;;
-      }
-      when: {
-        label: "Neutral"
-        sql:  ${raw_score} =  0 ;;
-      }
-      else: "N/A"
-    }
-  }
-
-  measure: number_of_scores {
-    type: count
-  }
-
-  measure: number_of_questions {
-    type: count_distinct
-    sql: ${question} ;;
-  }
-
-  measure: number_of_submissions {
-    type: count_distinct
-    sql: ${submission_id} ;;
-  }
-
-  measure: safe_scores {
-    type: count
-    filters: [score: "Safe"]
-  }
-
-  measure: neutral_scores {
-    type: count
-    filters: [score: "Neutral"]
-  }
-
-  measure: deficient_scores {
-    type: count
-    filters: [score: "Deficient"]
-  }
-
-  measure: na_scores {
-    label: "N/A Scores"
-    type: count
-    filters: [score: "N/A"]
   }
 
 }
