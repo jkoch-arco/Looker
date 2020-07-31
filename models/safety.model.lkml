@@ -67,3 +67,4 @@ explore: procore_toolbox_talks {}
 explore: l_safety_events_summary {
   label: "Consolidated Safety Events"
 }
+explore: l_fastfield_self_inspections_questionnaire_multi_story {}
