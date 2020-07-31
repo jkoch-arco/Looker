@@ -141,7 +141,7 @@ view: l_fastfield_self_inspections_questionnaire_multi_story {
       WHEN question = 'Ifwindowsillheightsarebelow39havefallprotectiontoprailsbeeninstalledat42abovethewalkingsurface' THEN 'If windowsill heights are below 39 have fall protection top rails been installed at 42 above the walking surface?'
       WHEN question = 'Areworkersonladdersandscaffoldsnearwindowopeningsadequatelyprotectedfromfallsgreaterthan6ieTieoffextrarailaboveTopRailetc' THEN 'Are workers on ladders and scaffolds near window openings adequately protected from falls greater than 6 ie tie off extra rail above top rail etc?'
       ELSE question END as question
-      FROM dbo.Fastfield_WeeklySelfInspectionMultiStory
+      FROM (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY SUBMISSIONID ORDER BY SubmittedOn DESC) as RANKING FROM dbo.Fastfield_WeeklySelfInspectionMultiStory) as DATA WHERE RANKING = 1) as DATA
       UNPIVOT
       (
         score
