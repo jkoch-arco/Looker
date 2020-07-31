@@ -2,7 +2,6 @@ view: l_union_fastfield_self_inspections {
 
   derived_table: {
     sql:
-
     SELECT 'Fastfield' as data_source, 'Self Inspection Questionnaire Multi Story' as questionnaire_type, Date,Commentslistsectionyouarereferencing,Filedby,FormName,FormVersion,Project,Signature,SubmissionId,SubmittedBy,Supt,SubmittedOn
     FROM ${fastfield_self_inspections_multi_story.SQL_TABLE_NAME} as data
     UNION

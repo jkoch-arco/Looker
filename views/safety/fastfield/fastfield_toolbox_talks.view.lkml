@@ -1,5 +1,4 @@
 view: fastfield_toolbox_talks {
-  #sql_table_name: dbo.Fastfield_ToolBoxTalk ;;
   sql_table_name: (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY SubmissionID ORDER BY StartFormTimestamp DESC) as rank FROM dbo.Fastfield_ToolBoxTalk) as data WHERE rank = 1 ) ;;
 
   dimension: id {

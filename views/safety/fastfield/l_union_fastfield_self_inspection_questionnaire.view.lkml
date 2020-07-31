@@ -4,16 +4,11 @@ view: l_union_fastfield_self_inspection_questionnaire {
     datagroup_trigger: daily_refresh
     indexes: ["SubmissionId"]
     sql:
-
     SELECT 'Fastfield' as data_source, 'Self Inspection Questionnaire Multi Story' as questionnaire_type, SubmissionId, score, question
     FROM ${l_fastfield_self_inspections_questionnaire_multi_story.SQL_TABLE_NAME}
-
     UNION
-
     SELECT 'Fastfield' as data_source, 'Self Inspection Questionnaire' as questionnaire_type, SubmissionId, score, question
-    FROM ${l_fastfield_self_inspections_questionnaire.SQL_TABLE_NAME}
-
-    ;;
+    FROM ${l_fastfield_self_inspections_questionnaire.SQL_TABLE_NAME};;
   }
 
   dimension: primary_key {
