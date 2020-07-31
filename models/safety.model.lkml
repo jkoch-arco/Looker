@@ -54,21 +54,13 @@ explore: safetytrakr_jobs {
 #   }
 }
 
-explore: fastfield_self_inspections {
-  join: l_fastfield_self_inspections_questionnaire {
-    type: inner
-    relationship: one_to_many
-    sql_on: ${fastfield_self_inspections.submission_id} = ${l_fastfield_self_inspections_questionnaire.submission_id} ;;
-  }
-}
 explore: fastfield_toolbox_talks {}
 explore: procore_self_inspections {}
 explore: procore_toolbox_talks {}
 explore: l_safety_events_summary {
   label: "Consolidated Safety Events"
 }
-explore: l_union_fastfield_self_inspection_questionnaire {}
-explore: fastfield_self_inspections_multi_story {}
+
 
 explore: l_union_fastfield_self_inspections {
   join: l_union_fastfield_self_inspection_questionnaire {

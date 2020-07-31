@@ -1,6 +1,6 @@
 view: l_fastfield_self_inspection_summary {
   derived_table: {
-    explore_source: fastfield_self_inspections {
+    explore_source: l_union_fastfield_self_inspections {
       column: submission_id {}
       column: supt {}
       column: inspection_date {}
