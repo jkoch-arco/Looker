@@ -1,8 +1,38 @@
-view: fastfield_self_inspections_multi_story {
-  sql_table_name: (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY SUBMISSIONID ORDER BY SubmittedOn DESC) as RANKING FROM dbo.Fastfield_WeeklySelfInspectionMultiStory) as DATA WHERE RANKING = 1) ;;
+view: l_union_fastfield_self_inspections {
+
+  derived_table: {
+    sql:
+
+    SELECT 'Fastfield' as data_source, 'Self Inspection Questionnaire Multi Story' as questionnaire_type, Date,Commentslistsectionyouarereferencing,Filedby,FormName,FormVersion,Project,Signature,SubmissionId,SubmittedBy,Supt,SubmittedOn
+    FROM ${fastfield_self_inspections_multi_story.SQL_TABLE_NAME} as data
+    UNION
+    SELECT 'Fastfield' as data_source, 'Self Inspection Questionnaire' as questionnaire_type, Date,Commentslistsectionyouarereferencing,Filedby,FormName,FormVersion,Project,Signature,SubmissionId,SubmittedBy,Supt,SubmittedOn
+    FROM ${fastfield_self_inspections.SQL_TABLE_NAME} as data
+    ;;
+  }
+
+  dimension: primary_key {
+    hidden: yes
+    primary_key: yes
+    type: string
+    sql: CONCAT( ${data_source} || ${type} || ${submission_id}) ;;
+  }
+
+  dimension: data_source {
+    #hidden: yes
+    group_label: "Inspection Information"
+    type: string
+    sql: ${TABLE}.data_source ;;
+  }
+
+  dimension: type {
+    #hidden: yes
+    group_label: "Inspection Information"
+    type: string
+    sql: ${TABLE}.questionnaire_type ;;
+  }
 
   dimension: submission_id {
-    primary_key: yes
     group_label: "Inspection Information"
     type: string
     sql: ${TABLE}.SubmissionId ;;

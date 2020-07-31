@@ -24,19 +24,19 @@ view: l_union_fastfield_self_inspection_questionnaire {
   }
 
   dimension: data_source {
-    #hidden: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.data_source ;;
   }
 
   dimension: submission_id {
-    #hidden: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.SubmissionId ;;
   }
 
   dimension: type {
-    #hidden: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.questionnaire_type ;;
   }

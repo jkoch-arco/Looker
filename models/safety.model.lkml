@@ -68,3 +68,16 @@ explore: l_safety_events_summary {
   label: "Consolidated Safety Events"
 }
 explore: l_union_fastfield_self_inspection_questionnaire {}
+explore: fastfield_self_inspections_multi_story {}
+
+explore: l_union_fastfield_self_inspections {
+  join: l_union_fastfield_self_inspection_questionnaire {
+    type: inner
+    relationship: one_to_many
+    sql_on: ${l_union_fastfield_self_inspections.submission_id} = ${l_union_fastfield_self_inspection_questionnaire.submission_id}
+    AND ${l_union_fastfield_self_inspections.data_source} = ${l_union_fastfield_self_inspection_questionnaire.data_source}
+    AND ${l_union_fastfield_self_inspections.type} = ${l_union_fastfield_self_inspection_questionnaire.type}
+    ;;
+
+  }
+}
