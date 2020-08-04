@@ -73,3 +73,5 @@ explore: l_union_fastfield_self_inspections {
 
   }
 }
+
+explore: l_self_inspections {}
