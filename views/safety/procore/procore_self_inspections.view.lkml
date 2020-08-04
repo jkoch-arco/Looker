@@ -1,5 +1,6 @@
 view: procore_self_inspections {
-  sql_table_name: procore.Self_Inspections ;;
+  #sql_table_name: procore.Self_Inspections ;;
+  sql_table_name: (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY inspection_date, Template_Name ORDER BY closed_date DESC) as RANKING FROM procore.Self_Inspections) as DATA WHERE RANKING = 1) ;;
 
   dimension: submission_id {
     group_label: "Inspection Information"
