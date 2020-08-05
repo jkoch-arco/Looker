@@ -25,7 +25,28 @@ explore: l_self_inspections {
 
 explore: l_toolbox_talks {}
 
-
+explore: l_safety_project_number {
+  view_label: "Safety Projects"
+  join: l_self_inspections {
+    view_label: "Self Inspections"
+    type: left_outer
+    sql_on: ${l_safety_project_number.project_number} = ${l_self_inspections.project_number} ;;
+    relationship: one_to_many
+  }
+  join: l_self_inspections_questionnaire {
+    view_label: "Self Inspections Questionnaire"
+    type: inner
+    relationship: one_to_many
+    sql_on: ${l_self_inspections.submission_id} = ${l_self_inspections_questionnaire.submission_id}
+      AND ${l_self_inspections.data_source} = ${l_self_inspections_questionnaire.data_source};;
+  }
+  join: l_toolbox_talks {
+    view_label: "Toolbox Talks"
+    type: left_outer
+    sql_on: ${l_safety_project_number.project_number} = ${l_toolbox_talks.project_number} ;;
+    relationship: one_to_many
+  }
+}
 
 
 

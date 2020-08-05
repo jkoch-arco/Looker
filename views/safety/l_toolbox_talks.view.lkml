@@ -1,13 +1,15 @@
 view: l_toolbox_talks {
 
   derived_table: {
+    datagroup_trigger: daily_refresh
+    indexes: ["project_number"]
     sql:
     SELECT
       id as submission_id,
       'Procore' as data_source,
       ProjectID,
-      Project_Number,
-      Project_Name,
+      COALESCE(UPPER(TRIM(Project_Number)),'~UNK~') as project_number,
+      UPPER(TRIM(Project_Name)) as Project_Name,
       Date_Updated,
       Description,
       Template_Name,
@@ -20,8 +22,8 @@ view: l_toolbox_talks {
       SubmissionId as submission_id,
       'Fastfield' as data_source,
       NULL as ProjectID,
-      JobNumber as Project_Number,
-      JobName as Project_Name,
+      COALESCE(UPPER(TRIM(JobNumber)),'~UNK~') as project_number,
+      UPPER(TRIM(JobName)) as Project_Name,
       SubmittedOn as Date_Updated,
       NULL as Description,
       ChooseaToolboxTalk as Template_Name,
@@ -56,7 +58,7 @@ view: l_toolbox_talks {
 
   dimension: project_number {
     type: string
-    sql: ${TABLE}.Project_Number ;;
+    sql: ${TABLE}.project_number ;;
   }
 
   dimension: project_name {

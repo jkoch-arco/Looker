@@ -2,15 +2,15 @@ view: l_self_inspections {
 
   derived_table: {
     datagroup_trigger: daily_refresh
-    indexes: ["submission_id"]
+    indexes: ["project_number"]
     sql:
     SELECT
        procore.data_source as data_source
       ,procore.questionnaire_type as questionnaire_type
       ,procore.submission_id as submission_id
       ,procore.project_id as project_id
-      ,procore.project_name as project_name
-      ,procore.project_number as project_number
+      ,UPPER(TRIM(procore.project_name)) as project_name
+      ,COALESCE(UPPER(TRIM(procore.project_number)),'~UNK~') as project_number
       ,procore.status as status
       ,procore.created_by_email as created_by_email
       ,procore.created_by_name as created_by_name
@@ -32,8 +32,8 @@ view: l_self_inspections {
       ,fastfield.questionnaire_type as questionnaire_type
       ,fastfield.submissionid as submission_id
       ,NULL as project_id
-      ,fastfield.Project as project_name
-      ,NULL as project_number
+      ,UPPER(TRIM(fastfield.Project)) as project_name
+      ,COALESCE(UPPER(TRIM(fastfield.Project)),'~UNK~') as project_number
       ,NULL as status
       ,fastfield.SubmittedBy as created_by_email
       ,fastfield.Supt as created_by_name

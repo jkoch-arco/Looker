@@ -5,6 +5,7 @@ view: l_self_inspections_questionnaire {
     sql:
       SELECT
          procore.data_source as data_source
+        ,NEWID() as unique_id
         ,procore.id as submission_id
         ,procore.question as question
         ,procore.score as score
@@ -12,6 +13,7 @@ view: l_self_inspections_questionnaire {
       UNION
       SELECT
          fastfield.data_source as data_source
+        ,NEWID() as unique_id
         ,fastfield.SubmissionId as submission_id
         ,fastfield.question as question
         ,fastfield.score as score
@@ -23,13 +25,19 @@ view: l_self_inspections_questionnaire {
     hidden: yes
     primary_key: yes
     type: string
-    sql: CONCAT( ${data_source} || ${submission_id} || ${question}) ;;
+    sql: CONCAT(${data_source},${unique_id}) ;;
   }
 
   dimension: data_source {
     hidden: yes
     type: string
     sql: ${TABLE}.data_source ;;
+  }
+
+  dimension: unique_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.unique_id ;;
   }
 
   dimension: submission_id {
