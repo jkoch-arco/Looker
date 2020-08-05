@@ -13,8 +13,23 @@ datagroup: daily_refresh {
 
 persist_with: daily_refresh
 
-explore: safetytrakr_jobs {
+explore: l_self_inspections {
+  join: l_self_inspections_questionnaire {
+    type: inner
+    relationship: one_to_many
+    sql_on: ${l_self_inspections.submission_id} = ${l_self_inspections_questionnaire.submission_id}
+      AND ${l_self_inspections.data_source} = ${l_self_inspections_questionnaire.data_source};;
+  }
+}
 
+
+
+
+
+
+
+explore: safetytrakr_jobs {
+  hidden: yes
   join: job_visit {
     type: left_outer
     relationship: many_to_many
@@ -54,15 +69,23 @@ explore: safetytrakr_jobs {
 #   }
 }
 
-explore: fastfield_toolbox_talks {}
-explore: procore_self_inspections {}
-explore: procore_toolbox_talks {}
+
+
+
+explore: fastfield_toolbox_talks {
+  hidden: yes
+}
+
+explore: procore_toolbox_talks {
+  hidden: yes
+}
+
 explore: l_safety_events_summary {
   label: "Consolidated Safety Events"
 }
 
-
 explore: l_union_fastfield_self_inspections {
+  hidden: yes
   join: l_union_fastfield_self_inspection_questionnaire {
     type: inner
     relationship: one_to_many
@@ -73,6 +96,7 @@ explore: l_union_fastfield_self_inspections {
 }
 
 explore: l_procore_self_inspections {
+  hidden: yes
   join: l_procore_self_inspections_questionnaire {
     type: inner
     relationship: one_to_many
@@ -81,12 +105,6 @@ explore: l_procore_self_inspections {
   }
 }
 
-
-explore: l_self_inspections {
-  join: l_self_inspections_questionnaire {
-    type: inner
-    relationship: one_to_many
-    sql_on: ${l_self_inspections.submission_id} = ${l_self_inspections_questionnaire.submission_id}
-    AND ${l_self_inspections.data_source} = ${l_self_inspections_questionnaire.data_source};;
-  }
+explore: procore_self_inspections {
+  hidden: yes
 }
