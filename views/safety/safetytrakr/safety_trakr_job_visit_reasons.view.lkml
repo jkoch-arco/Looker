@@ -1,5 +1,12 @@
-view: saftey_manager {
-  sql_table_name: safetytrakr.SafteyManager ;;
+view: safety_trakr_job_visit_reasons {
+  sql_table_name: safetytrakr.JobVisitReasons ;;
+  drill_fields: [new_job_visit_reasonid]
+
+  dimension: new_job_visit_reasonid {
+    primary_key: yes
+    type: string
+    sql: ${TABLE}.new_job_visit_reasonid ;;
+  }
 
   dimension: created_by {
     type: string
@@ -18,17 +25,17 @@ view: saftey_manager {
 
   dimension: description {
     type: string
-    sql: ${TABLE}.description ;;
-  }
-
-  dimension: email {
-    type: string
-    sql: ${TABLE}.email ;;
+    sql: ${TABLE}.Description ;;
   }
 
   dimension: import_sequence_number {
     type: string
     sql: ${TABLE}.importSequenceNumber ;;
+  }
+
+  dimension: main_reason {
+    type: string
+    sql: ${TABLE}.mainReason ;;
   }
 
   dimension: modified_by {
@@ -46,11 +53,6 @@ view: saftey_manager {
     sql: ${TABLE}.modifiedOn ;;
   }
 
-  dimension: new_safteymanagerid {
-    type: string
-    sql: ${TABLE}.new_safteymanagerid ;;
-  }
-
   dimension: owner {
     type: string
     sql: ${TABLE}.owner ;;
@@ -61,11 +63,6 @@ view: saftey_manager {
     sql: ${TABLE}.ownerType ;;
   }
 
-  dimension: phone_number {
-    type: string
-    sql: ${TABLE}.phoneNumber ;;
-  }
-
   dimension: primary_id {
     type: string
     sql: ${TABLE}.primaryId ;;
@@ -74,11 +71,6 @@ view: saftey_manager {
   dimension: record_created_on {
     type: string
     sql: ${TABLE}.recordCreatedOn ;;
-  }
-
-  dimension: safety_manager_name {
-    type: string
-    sql: ${TABLE}.safetyManagerName ;;
   }
 
   dimension: status_reason_value {
@@ -103,6 +95,6 @@ view: saftey_manager {
 
   measure: count {
     type: count
-    drill_fields: [safety_manager_name]
+    drill_fields: [new_job_visit_reasonid]
   }
 }

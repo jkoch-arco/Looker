@@ -14,17 +14,6 @@ datagroup: daily_refresh {
 
 persist_with: daily_refresh
 
-explore: l_self_inspections {
-  join: l_self_inspections_questionnaire {
-    type: inner
-    relationship: one_to_many
-    sql_on: ${l_self_inspections.submission_id} = ${l_self_inspections_questionnaire.submission_id}
-      AND ${l_self_inspections.data_source} = ${l_self_inspections_questionnaire.data_source};;
-  }
-}
-
-explore: l_toolbox_talks {}
-
 explore: l_safety_project_number {
   label: "Safety Projects"
   view_label: "Safety Projects"
@@ -49,15 +38,19 @@ explore: l_safety_project_number {
   }
 }
 
+explore: l_safety_events_summary {
+  label: "Consolidated Safety Events"
+}
 
 
 
-explore: safetytrakr_jobs {
+
+explore: safety_trakr_job {
   hidden: yes
-  join: job_visit {
+  join: safety_trakr_job_visit {
     type: left_outer
     relationship: many_to_many
-    sql_on: ${safetytrakr_jobs.job_number} = ${job_visit.job_number} ;;
+    sql_on: ${safety_trakr_job.job_number} = ${safety_trakr_job_visit.job_number} ;;
   }
 
 # Unable to join, this was based on old logic from pre-prod tables.
@@ -94,7 +87,13 @@ explore: safetytrakr_jobs {
 }
 
 
+explore: l_self_inspections {
+  hidden: yes
+}
 
+explore: l_toolbox_talks {
+  hidden: yes
+}
 
 explore: fastfield_toolbox_talks {
   hidden: yes
@@ -102,10 +101,6 @@ explore: fastfield_toolbox_talks {
 
 explore: procore_toolbox_talks {
   hidden: yes
-}
-
-explore: l_safety_events_summary {
-  label: "Consolidated Safety Events"
 }
 
 explore: l_union_fastfield_self_inspections {

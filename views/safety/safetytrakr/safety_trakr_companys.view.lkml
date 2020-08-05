@@ -1,5 +1,27 @@
-view: saftey_manager {
-  sql_table_name: safetytrakr.SafteyManager ;;
+view: safety_trakr_companys {
+  sql_table_name: safetytrakr.Companys ;;
+  drill_fields: [new_companyid]
+
+  dimension: new_companyid {
+    primary_key: yes
+    type: string
+    sql: ${TABLE}.new_companyid ;;
+  }
+
+  dimension: company_group_value {
+    type: string
+    sql: ${TABLE}.companyGroupValue ;;
+  }
+
+  dimension: company_name {
+    type: string
+    sql: ${TABLE}.companyName ;;
+  }
+
+  dimension: company_number {
+    type: string
+    sql: ${TABLE}.companyNumber ;;
+  }
 
   dimension: created_by {
     type: string
@@ -21,9 +43,9 @@ view: saftey_manager {
     sql: ${TABLE}.description ;;
   }
 
-  dimension: email {
+  dimension: full_company_name {
     type: string
-    sql: ${TABLE}.email ;;
+    sql: ${TABLE}.fullCompanyName ;;
   }
 
   dimension: import_sequence_number {
@@ -46,11 +68,6 @@ view: saftey_manager {
     sql: ${TABLE}.modifiedOn ;;
   }
 
-  dimension: new_safteymanagerid {
-    type: string
-    sql: ${TABLE}.new_safteymanagerid ;;
-  }
-
   dimension: owner {
     type: string
     sql: ${TABLE}.owner ;;
@@ -59,11 +76,6 @@ view: saftey_manager {
   dimension: owner_type {
     type: string
     sql: ${TABLE}.ownerType ;;
-  }
-
-  dimension: phone_number {
-    type: string
-    sql: ${TABLE}.phoneNumber ;;
   }
 
   dimension: primary_id {
@@ -76,11 +88,6 @@ view: saftey_manager {
     sql: ${TABLE}.recordCreatedOn ;;
   }
 
-  dimension: safety_manager_name {
-    type: string
-    sql: ${TABLE}.safetyManagerName ;;
-  }
-
   dimension: status_reason_value {
     type: string
     sql: ${TABLE}.statusReasonValue ;;
@@ -91,9 +98,9 @@ view: saftey_manager {
     sql: ${TABLE}.statusValue ;;
   }
 
-  dimension: timezone_rule_version_number {
+  dimension: time_zone_rule_version_number {
     type: string
-    sql: ${TABLE}.timezoneRuleVersionNumber ;;
+    sql: ${TABLE}.timeZoneRuleVersionNumber ;;
   }
 
   dimension: utc_conversion_time_zone_code {
@@ -103,6 +110,6 @@ view: saftey_manager {
 
   measure: count {
     type: count
-    drill_fields: [safety_manager_name]
+    drill_fields: [new_companyid, company_name, full_company_name, job.count]
   }
 }
