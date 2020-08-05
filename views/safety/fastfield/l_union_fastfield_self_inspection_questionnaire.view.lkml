@@ -4,10 +4,10 @@ view: l_union_fastfield_self_inspection_questionnaire {
     datagroup_trigger: daily_refresh
     indexes: ["SubmissionId"]
     sql:
-    SELECT 'Fastfield' as data_source, 'Self Inspection Questionnaire Multi Story' as questionnaire_type, SubmissionId, score, question
+    SELECT 'Fastfield' as data_source, SubmissionId, score, question
     FROM ${l_fastfield_self_inspections_questionnaire_multi_story.SQL_TABLE_NAME}
     UNION
-    SELECT 'Fastfield' as data_source, 'Self Inspection Questionnaire' as questionnaire_type, SubmissionId, score, question
+    SELECT 'Fastfield' as data_source, SubmissionId, score, question
     FROM ${l_fastfield_self_inspections_questionnaire.SQL_TABLE_NAME};;
   }
 
@@ -15,7 +15,7 @@ view: l_union_fastfield_self_inspection_questionnaire {
     hidden: yes
     primary_key: yes
     type: string
-    sql: CONCAT( ${data_source} || ${type} || ${submission_id} || ${question}) ;;
+    sql: CONCAT( ${data_source} || ${submission_id} || ${question}) ;;
   }
 
   dimension: data_source {
@@ -28,12 +28,6 @@ view: l_union_fastfield_self_inspection_questionnaire {
     hidden: yes
     type: string
     sql: ${TABLE}.SubmissionId ;;
-  }
-
-  dimension: type {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.questionnaire_type ;;
   }
 
   dimension: question {
