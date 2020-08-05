@@ -85,15 +85,22 @@ view: l_self_inspections_questionnaire {
     }
   }
 
+  measure: number_of_submissions {
+    type: count_distinct
+    sql: ${submission_id} ;;
+    drill_fields: [question_details*]
+  }
+
   measure: number_of_scores {
     type: sum
     sql: ${absolute_score} ;;
     drill_fields: [question_details*]
   }
 
-  measure: number_of_submissions {
-    type: count_distinct
-    sql: ${submission_id} ;;
+  measure: number_of_evaluated_scores {
+    type: sum
+    sql: ${absolute_score} ;;
+    filters: [score: "-N/A"]
     drill_fields: [question_details*]
   }
 
@@ -131,6 +138,12 @@ view: l_self_inspections_questionnaire {
     sql: ${absolute_score} ;;
     filters: [score: "Not Inspected"]
     drill_fields: [question_details*]
+  }
+
+  measure: passing_percentage {
+    type: number
+    sql: 1.0 * ${safe_scores} / nullif(${number_of_evaluated_scores},0) ;;
+    value_format_name: percent_1
   }
 
   set: question_details {

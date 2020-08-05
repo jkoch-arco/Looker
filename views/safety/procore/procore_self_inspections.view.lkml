@@ -175,16 +175,16 @@ view: procore_self_inspections {
     sql: ${TABLE}.Conforming_Response ;;
   }
 
-  dimension: deficient_item_count {
-    group_label: "Inspection Results"
-    type: number
-    sql: ${TABLE}.Deficient_Item_Count ;;
-  }
-
   dimension: deficient_response {
     group_label: "Inspection Results"
     type: string
     sql: ${TABLE}.Deficient_Response ;;
+  }
+
+  dimension: deficient_item_count {
+    group_label: "Inspection Results"
+    type: number
+    sql: ${TABLE}.Deficient_Item_Count ;;
   }
 
   dimension: na_item_count {
