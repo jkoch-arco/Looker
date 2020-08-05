@@ -34,7 +34,7 @@ view: l_self_inspections {
       ,NULL as project_id
       ,UPPER(TRIM(fastfield.Project)) as project_name
       ,COALESCE(UPPER(TRIM(fastfield.Project)),'~UNK~') as project_number
-      ,NULL as status
+      ,'Closed' as status
       ,fastfield.SubmittedBy as created_by_email
       ,fastfield.Supt as created_by_name
       ,NULL as responsible_party_email
