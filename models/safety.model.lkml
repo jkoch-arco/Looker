@@ -26,6 +26,7 @@ explore: l_self_inspections {
 explore: l_toolbox_talks {}
 
 explore: l_safety_project_number {
+  label: "Safety Projects"
   view_label: "Safety Projects"
   join: l_self_inspections {
     view_label: "Self Inspections"

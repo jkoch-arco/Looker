@@ -1,8 +1,8 @@
 view: l_fastfield_self_inspections_questionnaire {
   view_label: "Fastfield Self-Inspection Questionnaire"
   derived_table: {
-    datagroup_trigger: daily_refresh
-    indexes: ["SubmissionId"]
+#     datagroup_trigger: daily_refresh
+#     indexes: ["SubmissionId"]
     sql:
     SELECT SubmissionId, score,
     CASE
