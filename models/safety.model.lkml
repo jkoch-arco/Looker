@@ -5,6 +5,7 @@ connection: "prod_arco_bidw_read_access"
 include: "/views/safety/fastfield/*.view.lkml"
 include: "/views/safety/procore/*.view.lkml"
 include: "/views/safety/safetytrakr/*.view.lkml"
+include: "/views/safety/old_views/*.view.lkml"
 include: "/views/safety/*.view.lkml"
 
 datagroup: daily_refresh {
