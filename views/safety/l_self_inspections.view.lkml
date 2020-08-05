@@ -53,8 +53,9 @@ view: l_self_inspections {
   }
 
   dimension: primary_key {
+    primary_key: yes
     hidden: yes
-    sql: ${data_source} || ${submission_id} ;;
+    sql: CONCAT(${data_source},${submission_id}) ;;
   }
 
   dimension: data_source {

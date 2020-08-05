@@ -59,15 +59,15 @@ view: l_self_inspections_questionnaire {
     case: {
       when: {
         label: "Safe"
-        sql:  ${question} = 'Questions scored as Safe' OR ${raw_score} = 1 ;;
+        sql:  ${question} = 'Questions scored as Safe' OR (${data_source} = 'Fastfield' AND ${raw_score} = 1);;
       }
       when: {
         label: "Deficient"
-        sql:  ${question} =  'Questions scored as Deficient' OR ${raw_score} = -1 ;;
+        sql:  ${question} =  'Questions scored as Deficient' OR (${data_source} = 'Fastfield' AND ${raw_score} = -1) ;;
       }
       when: {
         label: "Neutral"
-        sql:  ${question} =  'Questions scored as Neutral' OR ${raw_score} = 0 ;;
+        sql:  ${question} =  'Questions scored as Neutral' OR (${data_source} = 'Fastfield' AND ${raw_score} = 0);;
       }
       when: {
         label: "Not Inspected"
@@ -80,29 +80,34 @@ view: l_self_inspections_questionnaire {
   measure: number_of_scores {
     type: sum
     sql: ${absolute_score} ;;
+    drill_fields: [question_details*]
   }
 
   measure: number_of_submissions {
     type: count_distinct
     sql: ${submission_id} ;;
+    drill_fields: [question_details*]
   }
 
   measure: safe_scores {
     type: sum
     sql: ${absolute_score} ;;
     filters: [score: "Safe"]
+    drill_fields: [question_details*]
   }
 
   measure: neutral_scores {
     type: sum
     sql: ${absolute_score} ;;
     filters: [score: "Neutral"]
+    drill_fields: [question_details*]
   }
 
   measure: deficient_scores {
     type: sum
     sql: ${absolute_score} ;;
     filters: [score: "Deficient"]
+    drill_fields: [question_details*]
   }
 
   measure: na_scores {
@@ -110,12 +115,18 @@ view: l_self_inspections_questionnaire {
     type: sum
     sql: ${absolute_score} ;;
     filters: [score: "N/A"]
+    drill_fields: [question_details*]
   }
 
   measure: not_inspected_scores {
     type: sum
     sql: ${absolute_score} ;;
     filters: [score: "Not Inspected"]
+    drill_fields: [question_details*]
+  }
+
+  set: question_details {
+    fields: [data_source, submission_id,l_self_inspections.project_name,question,score]
   }
 
 }
