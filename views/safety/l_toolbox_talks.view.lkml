@@ -38,7 +38,7 @@ view: l_toolbox_talks {
     primary_key: yes
     hidden: yes
     type: string
-    sql: CONCAT(${submission_id},${data_source}) ;;
+    sql: ${submission_id}+${data_source} ;;
   }
 
   dimension: submission_id {

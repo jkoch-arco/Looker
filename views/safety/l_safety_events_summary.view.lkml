@@ -11,7 +11,7 @@ view: l_safety_events_self_inspections {
   }
 }
 
-view: l_safety_events_toolbox_talk {
+view: l_safety_events_toolbox_talks {
   derived_table: {
     explore_source: l_safety_project_number {
       column: project_number {}
@@ -31,9 +31,9 @@ view: l_safety_events_summary {
     datagroup_trigger: daily_refresh
     indexes: ["project_number"]
     sql:
-    SELECT project_number, submission_id, data_source, created_by_name, event_date, event_type FROM ${l_safety_events_self_inspections.SQL_TABLE_NAME}
+    SELECT project_number, submission_id, data_source, created_by_name, event_date, event_type FROM ${l_safety_events_self_inspections.SQL_TABLE_NAME} as self_inspections
     UNION
-    SELECT project_number, submission_id, data_source, created_by_name, event_date, event_type FROM ${l_safety_events_toolbox_talk.SQL_TABLE_NAME}
+    SELECT project_number, submission_id, data_source, created_by_name, event_date, event_type FROM ${l_safety_events_toolbox_talks.SQL_TABLE_NAME} as toolbox_talks
     ;;
   }
 
