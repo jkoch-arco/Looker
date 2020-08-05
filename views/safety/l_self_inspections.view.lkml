@@ -209,4 +209,9 @@ view: l_self_inspections {
     type: count
   }
 
+  measure: count_of_projects {
+    type: count_distinct
+    sql: ${project_number} ;;
+  }
+
 }
