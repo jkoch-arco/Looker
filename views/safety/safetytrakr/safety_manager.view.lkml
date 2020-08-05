@@ -1,22 +1,33 @@
-view: saftey_manager {
+view: safety_manager {
   sql_table_name: safetytrakr.SafteyManager ;;
 
+  dimension: new_safteymanagerid {
+    hidden: yes
+    primary_key: yes
+    type: string
+    sql: ${TABLE}.new_safteymanagerid ;;
+  }
+
   dimension: created_by {
+    hidden: yes
     type: string
     sql: ${TABLE}.createdBy ;;
   }
 
   dimension: created_by_type {
+    hidden: yes
     type: string
     sql: ${TABLE}.createdByType ;;
   }
 
   dimension: created_on {
+    hidden: yes
     type: string
     sql: ${TABLE}.createdOn ;;
   }
 
   dimension: description {
+    hidden: yes
     type: string
     sql: ${TABLE}.description ;;
   }
@@ -27,36 +38,37 @@ view: saftey_manager {
   }
 
   dimension: import_sequence_number {
+    hidden: yes
     type: string
     sql: ${TABLE}.importSequenceNumber ;;
   }
 
   dimension: modified_by {
+    hidden: yes
     type: string
     sql: ${TABLE}.modifiedBy ;;
   }
 
   dimension: modified_by_type {
+    hidden: yes
     type: string
     sql: ${TABLE}.modifiedByType ;;
   }
 
   dimension: modified_on {
+    hidden: yes
     type: string
     sql: ${TABLE}.modifiedOn ;;
   }
 
-  dimension: new_safteymanagerid {
-    type: string
-    sql: ${TABLE}.new_safteymanagerid ;;
-  }
-
   dimension: owner {
+    hidden: yes
     type: string
     sql: ${TABLE}.owner ;;
   }
 
   dimension: owner_type {
+    hidden: yes
     type: string
     sql: ${TABLE}.ownerType ;;
   }
@@ -67,11 +79,13 @@ view: saftey_manager {
   }
 
   dimension: primary_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.primaryId ;;
   }
 
   dimension: record_created_on {
+    hidden: yes
     type: string
     sql: ${TABLE}.recordCreatedOn ;;
   }
@@ -82,27 +96,30 @@ view: saftey_manager {
   }
 
   dimension: status_reason_value {
+    hidden: yes
     type: string
     sql: ${TABLE}.statusReasonValue ;;
   }
 
   dimension: status_value {
+    hidden: yes
     type: string
     sql: ${TABLE}.statusValue ;;
   }
 
   dimension: timezone_rule_version_number {
+    hidden: yes
     type: string
     sql: ${TABLE}.timezoneRuleVersionNumber ;;
   }
 
   dimension: utc_conversion_time_zone_code {
+    hidden: yes
     type: string
     sql: ${TABLE}.utcConversionTimeZoneCode ;;
   }
 
-  measure: count {
+  measure: count_of_safety_managers {
     type: count
-    drill_fields: [safety_manager_name]
   }
 }

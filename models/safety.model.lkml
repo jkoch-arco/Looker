@@ -47,43 +47,58 @@ explore: l_safety_events_summary {
 
 explore: safety_trakr_job {
   hidden: yes
+
   join: safety_trakr_job_visit {
     type: left_outer
-    relationship: many_to_many
+    relationship: many_to_many #ideally should be one to many, just not true with the join below
     sql_on: ${safety_trakr_job.job_number} = ${safety_trakr_job_visit.job_number} ;;
   }
 
-# Unable to join, this was based on old logic from pre-prod tables.
-#   join: job_visit_reasons {
-#     type: left_outer
-#     relationship: many_to_one
-#     sql_on: ${safety_trakr_job_visits.job_visit_reason_id} = ${safety_trakr_job_visit_reasons.job_visit_reason_id};;
-#   }
-#   join: saftey_manager_on_job_visit {
-#     from: saftey_manager
-#     type: left_outer
-#     relationship: one_to_many
-#     sql_on: ${safety_trakr_job_visits.safety_manager_id} = ${saftey_manager_on_job_visit.safety_manager_id} ;;
-#   }
-#   join: company {
-#     type: left_outer
-#     relationship: one_to_many
-#     sql_on: ${safety_trakr.company_id} = ${company.company_id} ;;
-#   }
-#
-#   join: cr341_company {
-#     from: company
-#     type: left_outer
-#     relationship: one_to_many
-#     sql_on: ${safety_trakr.cr341_company_name} = ${cr341_company.company_id} ;;
-#   }
-#
-#   join: jv_company {
-#     from: company
-#     type: left_outer
-#     relationship: one_to_many
-#     sql_on: ${safety_trakr.jv_company_id} = ${jv_company.company_id} ;;
-#   }
+  join: safety_trakr_job_visit_reasons {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${safety_trakr_job_visit.job_visit_reason} = ${safety_trakr_job_visit_reasons.new_job_visit_reasonid};;
+  }
+
+  join: safety_manager {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${safety_trakr_job_visit.safety_manager} = ${safety_manager.new_safteymanagerid} ;;
+  }
+
+  join: primary_company {
+    from: safety_trakr_companys
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${safety_trakr_job.company_id} = ${primary_company.new_companyid}  ;;
+  }
+
+  join: jv_company {
+    from: safety_trakr_companys
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${safety_trakr_job.jv_company} = ${jv_company.new_companyid}  ;;
+  }
+
+  # join: company {
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${safety_trakr.company_id} = ${company.company_id} ;;
+  # }
+
+  # join: cr341_company {
+  #   from: company
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${safety_trakr.cr341_company_name} = ${cr341_company.company_id} ;;
+  # }
+
+  # join: jv_company {
+  #   from: company
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${safety_trakr.jv_company_id} = ${jv_company.company_id} ;;
+  # }
 }
 
 
