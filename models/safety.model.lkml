@@ -23,6 +23,7 @@ explore: l_self_inspections {
   }
 }
 
+explore: l_toolbox_talks {}
 
 
 
