@@ -1,7 +1,7 @@
 view: l_self_inspections_questionnaire {
   derived_table: {
-    # datagroup_trigger: daily_refresh
-    # indexes: ["submission_id"]
+    datagroup_trigger: daily_refresh
+    indexes: ["submission_id"]
     sql:
       SELECT
          procore.data_source as data_source
