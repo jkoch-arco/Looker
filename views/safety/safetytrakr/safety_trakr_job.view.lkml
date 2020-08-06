@@ -222,6 +222,11 @@ view: safety_trakr_job {
 
   measure: count_of_jobs {
     type: count
+    drill_fields: [job_information*]
+  }
+
+  set: job_information {
+    fields: [job_number, superintendent_name, job_name]
   }
 
 }

@@ -211,5 +211,10 @@ view: safety_trakr_job_visit {
 
   measure: count_of_job_visits {
     type: count
+    drill_fields: [job_visit_details*]
+  }
+
+  set: job_visit_details {
+    fields: [safety_manager.safety_manager_name,safety_trakr_job_visit_reasons.main_reason,safety_trakr_job.job_number,scheduled_visit_date,actual_visit_date,additional_notes]
   }
 }
