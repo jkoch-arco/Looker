@@ -19,6 +19,7 @@ explore: l_safety_events_summary {
 }
 
 explore: l_safety_project_number {
+  hidden: no
   label: "Safety Projects"
   view_label: "Safety Projects"
 
@@ -57,40 +58,35 @@ explore: l_safety_project_number {
 }
 
 explore: safety_trakr_job {
+  #This is extended up into the main explore
   hidden: yes
-
   join: safety_trakr_job_visit {
     type: left_outer
     relationship: many_to_many #ideally should be one to many, just not true with the join below
     sql_on: ${safety_trakr_job.job_number} = ${safety_trakr_job_visit.job_number} ;;
   }
-
   join: safety_trakr_job_visit_reasons {
     type: left_outer
     relationship: many_to_one
     sql_on: ${safety_trakr_job_visit.job_visit_reason} = ${safety_trakr_job_visit_reasons.new_job_visit_reasonid};;
   }
-
   join: safety_manager {
     type: left_outer
     relationship: many_to_one
     sql_on: ${safety_trakr_job_visit.safety_manager} = ${safety_manager.new_safteymanagerid} ;;
   }
-
   join: primary_company {
     from: safety_trakr_companys
     type: left_outer
     relationship: one_to_many
     sql_on: ${safety_trakr_job.company_id} = ${primary_company.new_companyid}  ;;
   }
-
   join: jv_company {
     from: safety_trakr_companys
     type: left_outer
     relationship: one_to_many
     sql_on: ${safety_trakr_job.jv_company} = ${jv_company.new_companyid}  ;;
   }
-
 }
 
 
