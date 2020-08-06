@@ -14,9 +14,15 @@ datagroup: daily_refresh {
 
 persist_with: daily_refresh
 
+explore: l_safety_events_summary {
+  label: "Consolidated Safety Events"
+}
+
 explore: l_safety_project_number {
   label: "Safety Projects"
   view_label: "Safety Projects"
+
+  #self inspections
   join: l_self_inspections {
     view_label: "Self Inspections"
     type: left_outer
@@ -30,20 +36,25 @@ explore: l_safety_project_number {
     sql_on: ${l_self_inspections.submission_id} = ${l_self_inspections_questionnaire.submission_id}
       AND ${l_self_inspections.data_source} = ${l_self_inspections_questionnaire.data_source};;
   }
+
+  #toolbox talks
   join: l_toolbox_talks {
     view_label: "Toolbox Talks"
     type: left_outer
     sql_on: ${l_safety_project_number.project_number} = ${l_toolbox_talks.project_number} ;;
     relationship: one_to_many
   }
+
+  #safety visits
+  extends: [safety_trakr_job]
+  join: safety_trakr_job {
+    type: left_outer
+    sql_on: ${l_safety_project_number.project_number} = ${safety_trakr_job.job_number} ;;
+    relationship: one_to_many
+  }
+
+
 }
-
-explore: l_safety_events_summary {
-  label: "Consolidated Safety Events"
-}
-
-
-
 
 explore: safety_trakr_job {
   hidden: yes
@@ -80,25 +91,6 @@ explore: safety_trakr_job {
     sql_on: ${safety_trakr_job.jv_company} = ${jv_company.new_companyid}  ;;
   }
 
-  # join: company {
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${safety_trakr.company_id} = ${company.company_id} ;;
-  # }
-
-  # join: cr341_company {
-  #   from: company
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${safety_trakr.cr341_company_name} = ${cr341_company.company_id} ;;
-  # }
-
-  # join: jv_company {
-  #   from: company
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${safety_trakr.jv_company_id} = ${jv_company.company_id} ;;
-  # }
 }
 
 

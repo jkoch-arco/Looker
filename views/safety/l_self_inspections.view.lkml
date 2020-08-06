@@ -207,11 +207,25 @@ view: l_self_inspections {
 
   measure: count_of_self_inspections {
     type: count
+    drill_fields: [questionnaire_results*]
   }
 
   measure: count_of_projects {
     type: count_distinct
     sql: ${project_number} ;;
+  }
+
+  set: questionnaire_results {
+    fields: [
+       submission_id
+      ,inspection_date
+      ,l_self_inspections_questionnaire.safe_scores
+      ,l_self_inspections_questionnaire.neutral_scores
+      ,l_self_inspections_questionnaire.deficient_scores
+      ,l_self_inspections_questionnaire.na_scores
+      ,l_self_inspections_questionnaire.not_inspected_scores
+      ,l_self_inspections_questionnaire.passing_percentage
+    ]
   }
 
 }

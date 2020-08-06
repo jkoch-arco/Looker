@@ -16,6 +16,15 @@ view: l_toolbox_talks_project_number {
   dimension: project_number {}
 }
 
+view: l_safety_trakr_project_number {
+  derived_table: {
+    explore_source: safety_trakr_job {
+      column: job_number {}
+    }
+  }
+  dimension: job_number {}
+}
+
 view: l_safety_project_number {
   derived_table: {
     datagroup_trigger: daily_refresh
@@ -26,6 +35,9 @@ view: l_safety_project_number {
     UNION
     SELECT project_number
     FROM ${l_toolbox_talks_project_number.SQL_TABLE_NAME} as toolbox_talks
+    UNION
+    SELECT job_number as project_number
+    FROM ${l_safety_trakr_project_number.SQL_TABLE_NAME} as toolbox_talks
     ;;
   }
   dimension: project_number {
