@@ -5,7 +5,6 @@ connection: "prod_arco_bidw_read_access"
 include: "/views/safety/fastfield/*.view.lkml"
 include: "/views/safety/procore/*.view.lkml"
 include: "/views/safety/safetytrakr/*.view.lkml"
-include: "/views/safety/old_views/*.view.lkml"
 include: "/views/safety/*.view.lkml"
 
 datagroup: daily_refresh {
@@ -53,8 +52,6 @@ explore: l_safety_project_number {
     sql_on: ${l_safety_project_number.project_number} = ${safety_trakr_job.job_number} ;;
     relationship: one_to_many
   }
-
-
 }
 
 explore: safety_trakr_job {
@@ -86,27 +83,6 @@ explore: safety_trakr_job {
     type: left_outer
     relationship: one_to_many
     sql_on: ${safety_trakr_job.jv_company} = ${jv_company.new_companyid}  ;;
-  }
-}
-
-explore: l_union_fastfield_self_inspections {
-  hidden: yes
-  join: l_union_fastfield_self_inspection_questionnaire {
-    type: inner
-    relationship: one_to_many
-    sql_on: ${l_union_fastfield_self_inspections.submission_id} = ${l_union_fastfield_self_inspection_questionnaire.submission_id}
-      AND ${l_union_fastfield_self_inspections.data_source} = ${l_union_fastfield_self_inspection_questionnaire.data_source};;
-
-  }
-}
-
-explore: l_procore_self_inspections {
-  hidden: yes
-  join: l_procore_self_inspections_questionnaire {
-    type: inner
-    relationship: one_to_many
-    sql_on: ${l_procore_self_inspections.submission_id} = ${l_procore_self_inspections_questionnaire.submission_id}
-      AND ${l_procore_self_inspections.data_source} = ${l_procore_self_inspections_questionnaire.data_source} ;;
   }
 }
 
