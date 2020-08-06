@@ -15,6 +15,7 @@ view: safety_trakr_companys {
   }
 
   dimension: company_name {
+    label: "{{_view._name | capitalize}} Name"
     type: string
     sql: ${TABLE}.companyName ;;
   }
@@ -50,6 +51,7 @@ view: safety_trakr_companys {
   }
 
   dimension: full_company_name {
+    label: "{{_view._name | capitalize}} Full Name"
     type: string
     sql: ${TABLE}.fullCompanyName ;;
   }
