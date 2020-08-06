@@ -129,6 +129,7 @@ view: safety_trakr_companys {
   }
 
   measure: count_of_company {
+    label: "Count of {{_view._name | capitalize}} Company"
     type: count
   }
 }
