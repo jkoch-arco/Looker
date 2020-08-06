@@ -1,8 +1,6 @@
 view: l_union_fastfield_self_inspection_questionnaire {
 
   derived_table: {
-#     datagroup_trigger: daily_refresh
-#     indexes: ["SubmissionId"]
     sql:
     SELECT 'Fastfield' as data_source, SubmissionId, score, question
     FROM ${l_fastfield_self_inspections_questionnaire_multi_story.SQL_TABLE_NAME}
