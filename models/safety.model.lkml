@@ -24,13 +24,13 @@ explore: l_safety_project_number {
 
   #self inspections
   join: l_self_inspections {
-    view_label: "1 - Self Inspections"
+    view_label: "1 - Inspections"
     type: left_outer
     sql_on: ${l_safety_project_number.project_number} = ${l_self_inspections.project_number} ;;
     relationship: one_to_many
   }
   join: l_self_inspections_questionnaire {
-    view_label: "1 - Self Inspections - Questionnaire"
+    view_label: "1 - Inspections - Questionnaire"
     type: inner
     relationship: one_to_many
     sql_on: ${l_self_inspections.submission_id} = ${l_self_inspections_questionnaire.submission_id}

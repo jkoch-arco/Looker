@@ -85,6 +85,8 @@ view: l_toolbox_talks {
   }
 
   dimension: template_name {
+    label: "Toolbox Talk Session"
+    description: "Covers a specific topic for people to attend"
     type: string
     sql: ${TABLE}.Template_Name ;;
   }
