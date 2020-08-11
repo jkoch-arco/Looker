@@ -620,14 +620,6 @@ view: opportunities {
     group_label: "Morgan Dashboard"
     case: {
       when: {
-        sql: ${division} = "Multifamily" ;;
-        label: "Multifamily"
-      }
-      when: {
-        sql: ${division} = "Industrial" ;;
-        label: "Industrial"
-      }
-      when: {
         sql: ${division} = "Chicago" ;;
         label: "Tenant Solutions"
       }
