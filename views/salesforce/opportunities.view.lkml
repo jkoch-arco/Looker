@@ -615,7 +615,7 @@ view: opportunities {
     sql: CONCAT(${division},' : ', ${stage_name}) ;;
   }
 
-  measure: company_division {
+  dimension: company_division {
     label: "Division"
     group_label: "Morgan Dashboard"
     case: {
@@ -636,7 +636,7 @@ view: opportunities {
         label: "Tenant Solutions"
       }
       when: {
-        sql: ${division} = "National" ;;
+        sql: ${division} = "National/Multi-site" ;;
         label: "Tenant Solutions"
       }
     }
