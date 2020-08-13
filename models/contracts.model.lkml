@@ -1,4 +1,4 @@
-connection: "preprod_arco_bidw_read_access"
+connection: "prod_arco_bidw_read_access"
 
 include: "/views/contracts/bidw_job_data_vw.view.lkml"                # include all views in the views/ folder in this project
 # include: "/**/view.lkml"                   # include all views in this project
