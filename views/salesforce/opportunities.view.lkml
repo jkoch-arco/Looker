@@ -615,6 +615,33 @@ view: opportunities {
     sql: CONCAT(${division},' : ', ${stage_name}) ;;
   }
 
+  measure: company_division {
+    label: "Division"
+    group_label: "Morgan Dashboard"
+    case: {
+      when: {
+        sql: ${division} = "Multifamily" ;;
+        label: "Multifamily"
+      }
+      when: {
+        sql: ${division} = "Industrial" ;;
+        label: "Industrial"
+      }
+      when: {
+        sql: ${division} = "Chicago" ;;
+        label: "Tenant Solutions"
+      }
+      when: {
+        sql: ${division} = "Suburban" ;;
+        label: "Tenant Solutions"
+      }
+      when: {
+        sql: ${division} = "National" ;;
+        label: "Tenant Solutions"
+      }
+    }
+  }
+
   measure: link_to_procore {
     label: "Link to Procore Project"
     group_label: "Confidentiality Reports"
@@ -1009,6 +1036,7 @@ view: opportunities {
     sql: max(${overall_project_margin}/100) ;;
     value_format_name: percent_2
   }
+
 
   set: opportunity_information {
     fields: [id,name,total_contract_amount]
