@@ -23,10 +23,14 @@ view: bidw_job_data_vw {
       label: "Construction Type"
       value: "construction_type"
     }
-    # allowed_value: {
-    #   label: "Company Group"
-    #   value: "company_group"
-    # }
+    allowed_value: {
+      label: "Company Group"
+      value: "company_group"
+    }
+    allowed_value: {
+      label: "Entity"
+      value: "entity"
+    }
   }
 
   dimension: dynamic_dimension {
@@ -35,24 +39,8 @@ view: bidw_job_data_vw {
     sql: {% if view_by_selector._parameter_value == "industry_type" %} ${industry_type}
            {% elsif view_by_selector._parameter_value == "contract_type" %} ${contract_type}
            {% elsif view_by_selector._parameter_value == "construction_type" %} ${construction_type}
-          {% else %} ${industry_type} {% endif %};;
-  }
-
-  parameter: show_accounting_type {
-    type: unquoted
-    default_value: "all_values"
-    allowed_value: {
-      label: "All Values"
-      value: "all_values"
-    }
-    allowed_value: {
-      label: "Standard"
-      value: "standard"
-    }
-    allowed_value: {
-      label: "Over and Above"
-      value: "over_and_above"
-    }
+          {% elsif view_by_selector._parameter_value == "company_group" %} ${company.company_group}
+          {% else %} ${entity_name} {% endif %};;
   }
 
   dimension: actual_cost {
@@ -97,6 +85,7 @@ view: bidw_job_data_vw {
   }
 
   dimension: contract_value {
+    hidden: yes
     type: number
     sql: ${TABLE}.Contract_Value ;;
   }
@@ -148,23 +137,41 @@ view: bidw_job_data_vw {
   }
 
   dimension: job_number_ar {
+    group_label: "Job Numbers by Origin"
     type: string
     sql: ${TABLE}.Job_Number_AR ;;
   }
 
   dimension: job_number_cm {
+    group_label: "Job Numbers by Origin"
     type: string
     sql: ${TABLE}.Job_Number_CM ;;
   }
 
   dimension: job_number_vp {
+    group_label: "Job Numbers by Origin"
     type: string
     sql: ${TABLE}.Job_Number_VP ;;
   }
 
   dimension: job_number_combined {
+    label: "Job Number"
     type: string
     sql: coalesce(${job_number_cm}, ${job_number_vp}, ${job_number_ar});;
+  }
+
+  dimension: job_number_ends_with_JV {
+    group_label: "Job Number Suffix (Y/N) Flags"
+    label: "Job Number Ends With -JV"
+    type: yesno
+    sql: right(${job_number_combined},2) = 'JV'  ;;
+  }
+
+  dimension: job_number_ends_with_alpha_characters {
+    group_label: "Job Number Suffix (Y/N) Flags"
+    label: "Job Number Ends With [A-Z]"
+    type: yesno
+    sql: right(${job_number_combined},1) NOT LIKE '[0-9]'  ;;
   }
 
   dimension: job_state {
@@ -277,6 +284,7 @@ view: bidw_job_data_vw {
   dimension: total_cost {
     type: number
     sql: ${TABLE}.Total_Cost ;;
+    hidden: yes
   }
 
   dimension: total_sq_ft_ar {
@@ -309,48 +317,21 @@ view: bidw_job_data_vw {
   }
 
   dimension: vp_job_number_cm {
+    hidden: yes
     type: string
     sql: ${TABLE}.VP_Job_Number_CM ;;
   }
 
   dimension: vp_job_number_vp {
+    hidden: yes
     type: string
     sql: ${TABLE}.VP_Job_Number_VP ;;
   }
 
   dimension: vp_job_number_combined {
-    label: "Job # Full"
+    hidden: yes
     type: string
     sql: coalesce(${vp_job_number_cm}, ${vp_job_number_vp});;
-  }
-
-  dimension: vp_job_number_suffix {
-    label: "Job # Suffix"
-    type: string
-    sql: case when charindex('-', ${vp_job_number_combined}) != 0 and charindex('-', ${vp_job_number_combined}) != len(${vp_job_number_combined})
-    then right(${vp_job_number_combined}, len(${vp_job_number_combined}) - charindex('-', ${vp_job_number_combined}))
-    else null
-    end ;;
-  }
-
-  dimension: is_over_and_above_accounting_type {
-    type: yesno
-    sql: ${vp_job_number_suffix} is not null ;;
-  }
-
-  dimension: is_standard_accounting_type {
-    type: yesno
-    sql: ${vp_job_number_suffix} is null ;;
-  }
-
-  dimension: vp_job_number_base {
-    label: "Job # Base"
-    type: string
-    sql: case when charindex('-', ${vp_job_number_combined}) = 0 then ${vp_job_number_combined}
-    when charindex('-', ${vp_job_number_combined}) > 0
-    then left(${vp_job_number_combined}, charindex('-', ${vp_job_number_combined})-1)
-    else null
-    end  ;;
   }
 
   dimension: waiver_type {
@@ -365,6 +346,7 @@ view: bidw_job_data_vw {
     value_format: "[>=1000000000]0.0,,,\"B\";[>=1000000]0.0,,\"M\";#,##0"
     drill_fields: [construction_details*]
   }
+
   measure: sum_contract_value {
     label: "Total Contract Value"
     type: sum
@@ -372,14 +354,27 @@ view: bidw_job_data_vw {
     value_format: "[>=1000000000]$0.0,,,\"B\";[>=1000000]$0.0,,\"M\";$#,##0"
     drill_fields: [construction_details*]
   }
+
+  measure: count_distinct_job_number_combined {
+    label: "Number of Distinct Jobs"
+    description: "Distinct job number count (ignoring jobs that end in -JV)"
+    type: count_distinct
+    sql: ${job_number_combined} ;;
+    filters: [
+      job_number_ends_with_alpha_characters: "No"
+    ]
+  }
+
   measure: sum_total_cost {
     label: "Total Cost"
+    hidden: yes
     type: sum
     sql: ${total_cost} ;;
     value_format_name: usd_0
   }
   measure: sum_actual_cost {
     label: "Total Actual Cost"
+    hidden: yes
     type: sum
     sql: ${actual_cost} ;;
     value_format_name: usd_0
@@ -389,10 +384,10 @@ view: bidw_job_data_vw {
     fields: [project_city
       , project_state
       , project_zip
-      , vp_job_number_combined
+      , job_number_combined
       , intake_date
-      , attorney
-      , paralegal
+      , industry_type
+      , construction_type
       , sum_contract_value
       , sum_total_sq_ft
       ]

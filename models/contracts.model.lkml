@@ -1,15 +1,14 @@
 connection: "prod_arco_bidw_read_access"
 
-include: "/views/contracts/bidw_job_data_vw.view.lkml"                # include all views in the views/ folder in this project
-# include: "/**/view.lkml"                   # include all views in this project
-# include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
+include: "/views/contracts/bidw_job_data_vw.view.lkml"
+include: "/views/reference/company.view.lkml"
 
 explore: bidw_job_data_vw {
   label: "Contracts"
 
-  sql_always_where: {% if bidw_job_data_vw.show_accounting_type._parameter_value == "standard" %} ${is_standard_accounting_type}
-  {% elsif bidw_job_data_vw.show_accounting_type._parameter_value == "over_and_above" %} ${is_over_and_above_accounting_type}
-  {% elsif bidw_job_data_vw.show_accounting_type._parameter_value == "all_values" %} 1=1
-  {% else %} 1=1 {% endif %}
-  ;;
+  join: company {
+    type: full_outer
+    sql_on: ${bidw_job_data_vw.entity_name} = ${company.company_full_name} ;;
+    relationship: many_to_one
+  }
 }
