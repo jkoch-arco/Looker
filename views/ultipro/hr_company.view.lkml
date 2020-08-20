@@ -1,3 +1,4 @@
+explore: hr_company {}
 view: hr_company {
   derived_table: {
     datagroup_trigger:daily
