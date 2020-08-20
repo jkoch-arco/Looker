@@ -32,6 +32,12 @@ view: arco_bonus_worksheet {
     sql: ${TABLE}.PercentComplete ;;
   }
 
+  dimension: year {
+    group_label: "Contract Information"
+    type: string
+    sql: CAST(${TABLE}.Year as NCHAR) ;;
+  }
+
   dimension: employee_number {
     group_label: "Employee Information"
     type: number
@@ -207,17 +213,16 @@ view: arco_bonus_worksheet {
     sql: ${TABLE}.Rate ;;
   }
 
-  dimension: year {
-    group_label: "Contract Information"
-    type: string
-    sql: CAST(${TABLE}.Year as NCHAR) ;;
-  }
-
   dimension: ytd_oh_pm {
     group_label: "Other"
     label: "YTD OH PM"
     type: number
     sql: ${TABLE}.YTDOHPM ;;
+  }
+
+  measure: total_estimated_revenue {
+    type: sum_distinct
+    sql: ${est_revenue} ;;
   }
 
   measure: count {
