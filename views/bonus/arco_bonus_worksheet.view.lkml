@@ -8,6 +8,11 @@ view: arco_bonus_worksheet {
     sql: CONCAT(${year}, ${contract}, ${employee_number}) ;;
   }
 
+  dimension: bonus_quarter {
+    type: string
+    sql: ${TABLE}.Qtr ;;
+  }
+
   dimension: contract {
     group_label: "Contract Information"
     type: string
@@ -30,6 +35,7 @@ view: arco_bonus_worksheet {
     group_label: "Contract Information"
     type: number
     sql: ${TABLE}.PercentComplete ;;
+    value_format_name: percent_1
   }
 
   dimension: year {
@@ -124,7 +130,7 @@ view: arco_bonus_worksheet {
     group_label: "Contract Numbers"
     label: "YTD OH Sales"
     type: number
-    sql: ${TABLE}.YTDOHSales ;;
+    sql: ${TABLE}.YTDOH ;;
   }
 
   dimension: other_bonuses {
@@ -143,6 +149,7 @@ view: arco_bonus_worksheet {
     group_label: "Contract Bonuses"
     type: number
     sql: ${TABLE}.BonusRate ;;
+    value_format_name: percent_1
   }
 
   dimension: assistant_bonus {
