@@ -362,7 +362,7 @@ view: bidw_job_data_vw {
 
   measure: count_distinct_job_number_combined {
     label: "Number of Distinct Jobs"
-    description: "Distinct job number count (ignoring jobs that end in -JV)"
+    description: "Distinct job number count (ignoring jobs that end in -JV or A-Z)"
     type: count_distinct
     sql: ${job_number_combined} ;;
     filters: [
