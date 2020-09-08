@@ -59,7 +59,7 @@ view: l_self_inspections_questionnaire {
   dimension: absolute_score {
     hidden: yes
     type: number
-    sql: ABS(${raw_score}) ;;
+    sql: ABS(case when ${raw_score} = 0 then 1 else ${raw_score} end) ;;
   }
 
   dimension: score {
