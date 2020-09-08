@@ -25,7 +25,7 @@ view: l_self_inspections_questionnaire {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${data_source}+${unique_id} ;;
+    sql: CONCAT(${data_source},${unique_id}) ;;
   }
 
   dimension: data_source {
