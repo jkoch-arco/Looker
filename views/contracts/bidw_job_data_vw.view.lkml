@@ -180,6 +180,11 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Job_State ;;
   }
 
+  dimension: job_status {
+    type: string
+    sql: ${TABLE}.Job_Status ;;
+  }
+
   dimension: job_zip {
     group_label: "Job Location"
     type: string
@@ -357,12 +362,13 @@ view: bidw_job_data_vw {
 
   measure: count_distinct_job_number_combined {
     label: "Number of Distinct Jobs"
-    description: "Distinct job number count (ignoring jobs that end in -JV)"
+    description: "Distinct job number count (ignoring jobs that end in -JV or A-Z)"
     type: count_distinct
     sql: ${job_number_combined} ;;
     filters: [
       job_number_ends_with_alpha_characters: "No"
     ]
+    drill_fields: [construction_details*]
   }
 
   measure: sum_total_cost {
@@ -385,6 +391,7 @@ view: bidw_job_data_vw {
       , project_state
       , project_zip
       , job_number_combined
+      , job_status
       , intake_date
       , industry_type
       , construction_type
