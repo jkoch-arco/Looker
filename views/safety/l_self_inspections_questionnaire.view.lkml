@@ -25,7 +25,7 @@ view: l_self_inspections_questionnaire {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${data_source}+${unique_id} ;;
+    sql: CONCAT(${data_source},${unique_id}) ;;
   }
 
   dimension: data_source {
@@ -59,7 +59,7 @@ view: l_self_inspections_questionnaire {
   dimension: absolute_score {
     hidden: yes
     type: number
-    sql: ABS(${raw_score}) ;;
+    sql: ABS(case when ${raw_score} = 0 then 1 else ${raw_score} end) ;;
   }
 
   dimension: score {

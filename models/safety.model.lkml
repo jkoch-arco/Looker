@@ -15,6 +15,7 @@ persist_with: daily_refresh
 
 explore: l_safety_events_summary {
   label: "Consolidated Safety Events"
+  hidden: yes
 }
 
 explore: l_safety_project_number {
@@ -31,7 +32,7 @@ explore: l_safety_project_number {
   }
   join: l_self_inspections_questionnaire {
     view_label: "1 - Inspections - Questionnaire"
-    type: inner
+    type: left_outer
     relationship: one_to_many
     sql_on: ${l_self_inspections.submission_id} = ${l_self_inspections_questionnaire.submission_id}
       AND ${l_self_inspections.data_source} = ${l_self_inspections_questionnaire.data_source};;
