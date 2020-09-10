@@ -1,11 +1,11 @@
 view: bidw_job_data_vw {
-  sql_table_name: (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY VP_Job_Number_CM, VP_Job_Number_VP, Job_Number_CM, Job_Number_VP, Job_Number_AR  ORDER BY Intake_Date DESC) as RANKING FROM arco.BIDW_JOB_DATA_vw) as DATA WHERE RANKING = 1) ;;
+  sql_table_name: (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY Job_Number_CM, Job_Number_VP, Job_Number_AR  ORDER BY Intake_Date DESC) as RANKING FROM arco.BIDW_JOB_DATA_vw) as DATA WHERE RANKING = 1) ;;
 
   dimension: composite_primary_key {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${vp_job_number_cm}, ${vp_job_number_vp}, ${job_number_cm}, ${job_number_vp}, ${job_number_ar}) ;;
+    sql: concat(${job_number_cm}, ${job_number_vp}, ${job_number_ar}) ;;
   }
 
   parameter: view_by_selector {
@@ -28,8 +28,8 @@ view: bidw_job_data_vw {
       value: "company_group"
     }
     allowed_value: {
-      label: "Entity"
-      value: "entity"
+      label: "Company Name"
+      value: "company_name"
     }
   }
 
@@ -40,7 +40,7 @@ view: bidw_job_data_vw {
            {% elsif view_by_selector._parameter_value == "contract_type" %} ${contract_type}
            {% elsif view_by_selector._parameter_value == "construction_type" %} ${construction_type}
           {% elsif view_by_selector._parameter_value == "company_group" %} ${company.company_group}
-          {% else %} ${entity_name} {% endif %};;
+          {% else %} ${company_name} {% endif %};;
   }
 
   dimension: actual_cost {
@@ -69,6 +69,46 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Client_Name ;;
   }
 
+  dimension: client_name_cm {
+    type: string
+    sql: ${TABLE}.Client_Name_cm ;;
+  }
+
+  dimension: client_name_vp {
+    type: string
+    sql: ${TABLE}.Client_Name_vp ;;
+  }
+
+  dimension: company_number {
+    type: number
+    sql: ${TABLE}.company_number ;;
+  }
+
+  dimension: company_number_cm {
+    type: number
+    sql: ${TABLE}.company_number_cm ;;
+  }
+
+  dimension: company_number_vp {
+    type: number
+    sql: ${TABLE}.company_number_vp ;;
+  }
+
+  dimension: company_name {
+    type: string
+    sql: ${TABLE}.company_name ;;
+  }
+
+  dimension: company_name_cm {
+    type: string
+    sql: ${TABLE}.company_name_cm ;;
+  }
+
+  dimension: company_name_vp {
+    type: string
+    sql: ${TABLE}.company_name_vp ;;
+  }
+
   dimension: compensation_type {
     type: string
     sql: ${TABLE}.CompensationType ;;
@@ -79,6 +119,20 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.ConstructionType ;;
   }
 
+  dimension_group: contract {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.Contract_Date ;;
+  }
+
   dimension: contract_type {
     type: string
     sql: ${TABLE}.ContractType ;;
@@ -87,7 +141,19 @@ view: bidw_job_data_vw {
   dimension: contract_value {
     hidden: yes
     type: number
-    sql: ${TABLE}.Contract_Value ;;
+    sql: ${TABLE}.ContractValue ;;
+  }
+
+  dimension: contract_value_cm {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ContractValue_CM ;;
+  }
+
+  dimension: contract_value_VP {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ContractValue_VP ;;
   }
 
   dimension: controller {
@@ -100,10 +166,10 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Customer_Name ;;
   }
 
-  dimension: entity_name {
-    type: string
-    sql: ${TABLE}.Entity_Name ;;
-  }
+#   dimension: entity_name {
+#     type: string
+#     sql: ${TABLE}.EntityName ;;
+#   }
 
   dimension: industry_type {
     type: string
@@ -124,6 +190,20 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Intake_Date ;;
   }
 
+  dimension_group: issue {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.Issue_Date ;;
+  }
+
   dimension: job_address {
     group_label: "Job Location"
     type: string
@@ -134,6 +214,21 @@ view: bidw_job_data_vw {
     group_label: "Job Location"
     type: string
     sql: ${TABLE}.Job_City ;;
+  }
+
+  dimension: job_desc {
+    type: string
+    sql: ${TABLE}.job_desc ;;
+  }
+
+  dimension: job_name {
+    type: string
+    sql: ${TABLE}.Job_Name ;;
+  }
+
+  dimension: job_number {
+    type: string
+    sql: ${TABLE}.job_number ;;
   }
 
   dimension: job_number_ar {
@@ -155,7 +250,7 @@ view: bidw_job_data_vw {
   }
 
   dimension: job_number_combined {
-    label: "Job Number"
+    label: "Job Number - combined"
     type: string
     sql: coalesce(${job_number_cm}, ${job_number_vp}, ${job_number_ar});;
   }
@@ -206,7 +301,17 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Matter_Address ;;
   }
 
+  dimension: matter_address_cm {
+    type: string
+    sql: ${TABLE}.Matter_Address_cm ;;
+  }
+
   dimension: matter_desc {
+    type: string
+    sql: ${TABLE}.Matter_Desc ;;
+  }
+
+  dimension: matter_desc_cm {
     type: string
     sql: ${TABLE}.Matter_Desc ;;
   }
@@ -216,9 +321,19 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Matter_Name ;;
   }
 
+  dimension: matter_name_cm {
+    type: string
+    sql: ${TABLE}.Matter_Name_CM ;;
+  }
+
   dimension: paralegal {
     type: string
     sql: ${TABLE}.Paralegal ;;
+  }
+
+  dimension: pay_terms {
+    type: string
+    sql: ${TABLE}.PayTerms ;;
   }
 
   dimension: pay_terms_cm {
@@ -247,6 +362,12 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Project_City ;;
   }
 
+  dimension: project_city_cm {
+    group_label: "Project Location"
+    type: string
+    sql: ${TABLE}.Project_City_CM ;;
+  }
+
   dimension: project_county {
     group_label: "Project Location"
     type: string
@@ -265,10 +386,23 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Project_State ;;
   }
 
+  dimension: project_state_cm {
+    map_layer_name: us_states
+    group_label: "Project Location"
+    type: string
+    sql: ${TABLE}.Project_State_CM ;;
+  }
+
   dimension: project_zip {
     group_label: "Project Location"
     type: zipcode
     sql: ${TABLE}.Project_Zip ;;
+  }
+
+  dimension: project_zip_cm {
+    group_label: "Project Location"
+    type: zipcode
+    sql: ${TABLE}.Project_Zip_CM ;;
   }
 
   dimension: regional_manager {
@@ -286,6 +420,11 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Superintendent ;;
   }
 
+  dimension: title {
+    type: string
+    sql: ${TABLE}.Title ;;
+  }
+
   dimension: total_cost {
     type: number
     sql: ${TABLE}.Total_Cost ;;
@@ -295,7 +434,8 @@ view: bidw_job_data_vw {
   dimension: total_sq_ft_ar {
     hidden: yes
     type: number
-    sql: CAST(REPLACE(REPLACE(${TABLE}.TotalSqFt_AR, ',', ''), 'N/A', '') AS INT);;
+    sql: ${TABLE}.TotalSqFt_ar ;;
+#     sql: CAST(REPLACE(REPLACE(${TABLE}.TotalSqFt_AR, ',', ''), 'N/A', '') AS INT);;
   }
 
   dimension: total_sq_ft_cm {
@@ -320,24 +460,24 @@ view: bidw_job_data_vw {
     type: string
     sql: ${TABLE}.UnionFlag ;;
   }
-
-  dimension: vp_job_number_cm {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.VP_Job_Number_CM ;;
-  }
-
-  dimension: vp_job_number_vp {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.VP_Job_Number_VP ;;
-  }
-
-  dimension: vp_job_number_combined {
-    hidden: yes
-    type: string
-    sql: coalesce(${vp_job_number_cm}, ${vp_job_number_vp});;
-  }
+#
+#   dimension: vp_job_number_cm {
+#     hidden: yes
+#     type: string
+#     sql: ${TABLE}.VP_Job_Number_CM ;;
+#   }
+#
+#   dimension: vp_job_number_vp {
+#     hidden: yes
+#     type: string
+#     sql: ${TABLE}.VP_Job_Number_VP ;;
+#   }
+#
+#   dimension: vp_job_number_combined {
+#     hidden: yes
+#     type: string
+#     sql: coalesce(${vp_job_number_cm}, ${vp_job_number_vp});;
+#   }
 
   dimension: waiver_type {
     type: string

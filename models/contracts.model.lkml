@@ -8,7 +8,7 @@ explore: bidw_job_data_vw {
 
   join: company {
     type: full_outer
-    sql_on: ${bidw_job_data_vw.entity_name} = ${company.company_full_name} ;;
+    sql_on: ${bidw_job_data_vw.company_number} = ${company.company_number} ;;
     relationship: many_to_one
   }
 }
