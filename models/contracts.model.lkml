@@ -5,6 +5,7 @@ include: "/views/reference/company.view.lkml"
 
 explore: bidw_job_data_vw {
   label: "Contracts"
+  view_label: "Job Contracts"
 
   join: company {
     type: full_outer
