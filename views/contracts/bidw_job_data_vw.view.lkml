@@ -1,11 +1,11 @@
 view: bidw_job_data_vw {
-  sql_table_name: (SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY Job_Number_CM, Job_Number_VP, Job_Number_AR  ORDER BY Intake_Date DESC) as RANKING FROM arco.BIDW_JOB_DATA_vw) as DATA WHERE RANKING = 1) ;;
+  sql_table_name: arco.BIDW_JOB_DATA_vw ;;
 
   dimension: composite_primary_key {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${job_number_cm}, ${job_number_vp}, ${job_number_ar}) ;;
+    sql: concat(${job_number_cm}, ${job_number_vp}, ${job_number_ar}, ${company_number}) ;;
   }
 
   parameter: view_by_selector {
@@ -89,39 +89,6 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.company_number ;;
   }
 
-  dimension: company_number_cm {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.company_number_cm ;;
-  }
-
-  dimension: company_number_vp {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.company_number_vp ;;
-  }
-
-  dimension: company_name {
-    type: string
-    sql: ${TABLE}.company_name ;;
-  }
-
-  dimension: company_name_cm {
-    hidden: yes
-    group_label: "Company Name by Source"
-    group_item_label: "Lawbase"
-    type: string
-    sql: ${TABLE}.company_name_cm ;;
-  }
-
-  dimension: company_name_vp {
-    hidden: yes
-    group_label: "Company Name by Source"
-    group_item_label: "Viewpoint"
-    type: string
-    sql: ${TABLE}.company_name_vp ;;
-  }
-
   dimension: compensation_type {
     type: string
     sql: ${TABLE}.CompensationType ;;
@@ -179,11 +146,6 @@ view: bidw_job_data_vw {
     sql: ${TABLE}.Customer_Name ;;
   }
 
-#   dimension: entity_name {
-#     type: string
-#     sql: ${TABLE}.EntityName ;;
-#   }
-
   dimension: industry_type {
     type: string
     sql: ${TABLE}.IndustryType ;;
@@ -230,6 +192,7 @@ view: bidw_job_data_vw {
   }
 
   dimension: job_desc {
+    label: "Job Description"
     type: string
     sql: ${TABLE}.job_desc ;;
   }
@@ -246,18 +209,21 @@ view: bidw_job_data_vw {
 
   dimension: job_number_ar {
     group_label: "Job Numbers by Origin"
+    label: "Job Number (ARMAP)"
     type: string
     sql: ${TABLE}.Job_Number_AR ;;
   }
 
   dimension: job_number_cm {
     group_label: "Job Numbers by Origin"
+    label: "Job Number (LawBase)"
     type: string
     sql: ${TABLE}.Job_Number_CM ;;
   }
 
   dimension: job_number_vp {
     group_label: "Job Numbers by Origin"
+    label: "Job Number (Viewpoint)"
     type: string
     sql: ${TABLE}.Job_Number_VP ;;
   }
@@ -265,6 +231,7 @@ view: bidw_job_data_vw {
   dimension: job_number_ends_with_JV {
     group_label: "Job Number Suffix (Y/N) Flags"
     label: "Job Number Ends With -JV"
+    description: "A flag that returns Yes if the job number ends with -JV"
     type: yesno
     sql: right(${job_number},2) = 'JV'  ;;
   }
@@ -272,6 +239,7 @@ view: bidw_job_data_vw {
   dimension: job_number_ends_with_alpha_characters {
     group_label: "Job Number Suffix (Y/N) Flags"
     label: "Job Number Ends With [A-Z]"
+    description: "A flag that returns Yes if the job number ends with a letter A-Z (including jobs that end with -JV)"
     type: yesno
     sql: right(${job_number},1) NOT LIKE '[0-9]'  ;;
   }
@@ -404,6 +372,7 @@ view: bidw_job_data_vw {
   dimension: project_state_cm {
     map_layer_name: us_states
     group_label: "Project Location"
+    hidden: yes
     type: string
     sql: ${TABLE}.Project_State_CM ;;
   }
@@ -416,6 +385,7 @@ view: bidw_job_data_vw {
 
   dimension: project_zip_cm {
     group_label: "Project Location"
+    hidden: yes
     type: zipcode
     sql: ${TABLE}.Project_Zip_CM ;;
   }
@@ -428,6 +398,12 @@ view: bidw_job_data_vw {
   dimension: retention_pct {
     type: number
     sql: ${TABLE}.RetentionPct ;;
+  }
+
+  dimension: source {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.Source ;;
   }
 
   dimension: superintendent {
@@ -449,22 +425,30 @@ view: bidw_job_data_vw {
   dimension: total_sq_ft_ar {
     hidden: yes
     type: number
-    sql: ${TABLE}.TotalSqFt_ar ;;
+    sql: CASE WHEN ${TABLE}.TotalSqFt_ar = 0 THEN NULL ELSE ${TABLE}.TotalSqFt_ar END ;;
   }
 
   dimension: total_sq_ft_cm {
     hidden: yes
     type: number
-    sql: ${TABLE}.TotalSqFt_CM ;;
+    sql: CASE WHEN ${TABLE}.TotalSqFt_CM = 0 THEN NULL ELSE ${TABLE}.TotalSqFt_CM END ;;
   }
 
   dimension: total_sq_ft_vp {
     hidden: yes
     type: number
-    sql: ${TABLE}.TotalSqFt_VP ;;
+    sql: CASE WHEN ${TABLE}.TotalSqFt_VP = 0 THEN NULL ELSE ${TABLE}.TotalSqFt_VP END;;
+  }
+
+  dimension: total_sq_ft_original {
+    description: "Total Sq Ft coming from the view"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.totalsqft ;;
   }
 
   dimension: total_sq_ft {
+    description: "Total Sq Ft calculated based on what's in LawBase, Viewpoint and ARMAP"
     hidden: yes
     type: number
     sql: coalesce(${total_sq_ft_cm}, ${total_sq_ft_vp}, ${total_sq_ft_ar}) ;;
@@ -482,6 +466,7 @@ view: bidw_job_data_vw {
 
   measure: sum_total_sq_ft {
     label: "Total Sq Ft"
+    description: "The sum of the total sq ft across job numbers. If a non-null, non-zero value in Lawbase exists, it's used. Otherwise, if a non-null, non-zero value in ViewPoint exists, it's used. Otherwise the value in ARMAP is used"
     type: sum
     sql: ${total_sq_ft} ;;
     value_format: "[>=1000000000]0.0,,,\"B\";[>=1000000]0.0,,\"M\";#,##0"
