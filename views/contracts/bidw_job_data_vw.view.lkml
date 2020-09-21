@@ -440,18 +440,11 @@ view: bidw_job_data_vw {
     sql: CASE WHEN ${TABLE}.TotalSqFt_VP = 0 THEN NULL ELSE ${TABLE}.TotalSqFt_VP END;;
   }
 
-  dimension: total_sq_ft_original {
-    description: "Total Sq Ft coming from the view"
+  dimension: total_sq_ft {
+    description: "Total Sq Ft consolidated from what's in LawBase, Viewpoint and ARMAP"
     hidden: yes
     type: number
     sql: ${TABLE}.totalsqft ;;
-  }
-
-  dimension: total_sq_ft {
-    description: "Total Sq Ft calculated based on what's in LawBase, Viewpoint and ARMAP"
-    hidden: yes
-    type: number
-    sql: coalesce(${total_sq_ft_cm}, ${total_sq_ft_vp}, ${total_sq_ft_ar}) ;;
   }
 
   dimension: union_flag {
